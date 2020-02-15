@@ -485,7 +485,7 @@ void G_CheckBotSpawn( void ) {
 		ClientBegin( botSpawnQueue[n].clientNum );
 		botSpawnQueue[n].spawnTime = 0;
 
-		if( g_gametype.integer == GT_SINGLE_PLAYER ) {
+		if( g_gametype.integer == GT_SINGLE_PLAYER || g_gametype.integer == GT_SINGLE_PLAYER_TEAM || g_gametype.integer == GT_SINGLE_PLAYER_CTF ) {
 			trap_GetUserinfo( botSpawnQueue[n].clientNum, userinfo, sizeof(userinfo) );
 			PlayerIntroSound( Info_ValueForKey (userinfo, "model") );
 		}
@@ -962,6 +962,7 @@ G_InitBots
 void G_InitBots( qboolean restart ) {
 	int			fragLimit;
 	int			timeLimit;
+	int			capturelimit;
 	const char	*arenainfo;
 	char		*strValue;
 	int			basedelay;
@@ -973,7 +974,7 @@ void G_InitBots( qboolean restart ) {
 
 	trap_Cvar_Register( &bot_minplayers, "bot_minplayers", "0", CVAR_SERVERINFO );
 
-	if( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if( g_gametype.integer == GT_SINGLE_PLAYER || g_gametype.integer == GT_SINGLE_PLAYER_TEAM || g_gametype.integer == GT_SINGLE_PLAYER_CTF ) {
 		trap_GetServerinfo( serverinfo, sizeof(serverinfo) );
 		Q_strncpyz( map, Info_ValueForKey( serverinfo, "mapname" ), sizeof(map) );
 		arenainfo = G_GetArenaInfoByMap( map );
@@ -999,9 +1000,19 @@ void G_InitBots( qboolean restart ) {
 			trap_Cvar_Set( "timelimit", "0" );
 		}
 
-		if ( !fragLimit && !timeLimit ) {
+		strValue = Info_ValueForKey(arenainfo, "capturelimit");
+		timeLimit = atoi(strValue);
+		if (timeLimit) {
+			trap_Cvar_Set("capturelimit", strValue);
+		}
+		else {
+			trap_Cvar_Set("capturelimit", "0");
+		}
+
+		if ( !fragLimit && !timeLimit && !capturelimit) {
 			trap_Cvar_Set( "fraglimit", "10" );
 			trap_Cvar_Set( "timelimit", "0" );
+			trap_Cvar_Set( "capturelimit", "5");
 		}
 
 		basedelay = BOT_BEGIN_DELAY_BASE;

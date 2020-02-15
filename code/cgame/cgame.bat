@@ -4,6 +4,9 @@ set INCLUDE=
 
 mkdir vm
 cd vm
+
+copy /Y "../../../bin" .
+
 set cc="../../../bin/lcc" -DQ3_VM -DCGAME -S -Wf-target=bytecode -Wf-g -I..\..\cgame -I..\..\game -I..\..\ui %1
 
 %cc% ../../game/bg_misc.c
@@ -58,6 +61,6 @@ set cc="../../../bin/lcc" -DQ3_VM -DCGAME -S -Wf-target=bytecode -Wf-g -I..\..\c
 
 
 
-q3asm -f ../cgame
+"../../../bin/q3asm" -f ../cgame
 :quit
 cd ..

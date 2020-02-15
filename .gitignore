@@ -1,3 +1,4 @@
+code/.vs
 
 code/.vs/q3spenhanced/v16/Browse.VC.db
 
@@ -8,3 +9,16 @@ code/.vs/q3spenhanced/v16/Solution.VC.db
 code/.vs/q3spenhanced/v16/Solution.VC.db-shm
 
 code/.vs/q3spenhanced/v16/Solution.VC.db-wal
+
+code/cgame/.vs
+
+code/cgame/vm
+
+code/game/.vs
+
+code/game/vm
+
+code/q3_ui/.vs
+
+code/q3_ui/vm
+

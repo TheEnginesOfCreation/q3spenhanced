@@ -177,6 +177,8 @@ void TeamMain_MenuInit( void ) {
 	default:
 	case GT_TEAM:
 	case GT_CTF:
+	case GT_SINGLE_PLAYER_TEAM:
+	case GT_SINGLE_PLAYER_CTF:
 		s_teammain.joingame.generic.flags |= QMF_GRAYED;
 		break;
 	}

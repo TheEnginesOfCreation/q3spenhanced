@@ -2217,7 +2217,7 @@ static void CG_DrawIntermission( void ) {
 	//	return;
 	//}
 #else
-	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
+	if ( cgs.gametype == GT_SINGLE_PLAYER || cgs.gametype == GT_SINGLE_PLAYER_TEAM || cgs.gametype == GT_SINGLE_PLAYER_CTF ) {
 		CG_DrawCenterString();
 		return;
 	}

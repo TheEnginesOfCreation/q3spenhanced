@@ -5,6 +5,8 @@ set INCLUDE=
 mkdir vm
 cd vm
 
+copy /Y "../../../bin" .
+
 set cc="../../../bin/lcc" -DQ3_VM -S -Wf-target=bytecode -Wf-g -I..\..\cgame -I..\..\game -I..\..\q3_ui %1
 
 "../../../bin/lcc" -DQ3_VM -S -Wf-target=bytecode -Wf-g -I..\..\cgame -I..\..\game -I..\..\q3_ui ../ui_main.c
@@ -94,7 +96,6 @@ rem @if errorlevel 1 goto quit
 "../../../bin/lcc" -DQ3_VM -S -Wf-target=bytecode -Wf-g -I..\..\cgame -I..\..\game -I..\..\q3_ui ../ui_mods.c
 @if errorlevel 1 goto quit
 
-
-q3asm -f ../q3_ui
+"../../../bin/q3asm" -f ../q3_ui
 :quit
 cd ..

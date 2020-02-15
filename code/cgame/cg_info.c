@@ -130,7 +130,7 @@ void CG_LoadingClient( int clientNum ) {
 	Q_strncpyz( personality, Info_ValueForKey( info, "n" ), sizeof(personality) );
 	Q_CleanStr( personality );
 
-	if( cgs.gametype == GT_SINGLE_PLAYER ) {
+	if( cgs.gametype == GT_SINGLE_PLAYER || cgs.gametype == GT_SINGLE_PLAYER_TEAM || cgs.gametype == GT_SINGLE_PLAYER_CTF) {
 		trap_S_RegisterSound( va( "sound/player/announce/%s.wav", personality ), qtrue );
 	}
 
@@ -240,6 +240,12 @@ void CG_DrawInformation( void ) {
 		break;
 	case GT_SINGLE_PLAYER:
 		s = "Single Player";
+		break;
+	case GT_SINGLE_PLAYER_TEAM:
+		s = "Single Player TDM";
+		break;
+	case GT_SINGLE_PLAYER_CTF:
+		s = "Single Player CTF";
 		break;
 	case GT_TOURNAMENT:
 		s = "Tournament";

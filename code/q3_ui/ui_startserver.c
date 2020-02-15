@@ -138,8 +138,18 @@ static int GametypeBits( char *string ) {
 			continue;
 		}
 
-		if( Q_stricmp( token, "single" ) == 0 ) {
+		if( Q_stricmp( token, "spf" ) == 0 ) {
 			bits |= 1 << GT_SINGLE_PLAYER;
+			continue;
+		}
+
+		if (Q_stricmp(token, "spt") == 0) {
+			bits |= 1 << GT_SINGLE_PLAYER_TEAM;
+			continue;
+		}
+
+		if (Q_stricmp(token, "spc") == 0) {
+			bits |= 1 << GT_SINGLE_PLAYER_CTF;
 			continue;
 		}
 
@@ -258,7 +268,7 @@ static void StartServer_GametypeEvent( void* ptr, int event ) {
 	s_startserver.nummaps = 0;
 	matchbits = 1 << gametype_remap[s_startserver.gametype.curvalue];
 	if( gametype_remap[s_startserver.gametype.curvalue] == GT_FFA ) {
-		matchbits |= ( 1 << GT_SINGLE_PLAYER );
+		matchbits |= ( 1 << GT_SINGLE_PLAYER );	//ERAESR: What to do here?
 	}
 	for( i = 0; i < count; i++ ) {
 		info = UI_GetArenaInfoByNumber( i );

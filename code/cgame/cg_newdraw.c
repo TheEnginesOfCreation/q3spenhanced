@@ -1084,7 +1084,7 @@ qboolean CG_OwnerDrawVisible(int flags) {
 	}
 
 	if (flags & CG_SHOW_SINGLEPLAYER) {
-		if( cgs.gametype == GT_SINGLE_PLAYER ) {
+		if( cgs.gametype == GT_SINGLE_PLAYER || cgs.gametype == GT_SINGLE_PLAYER_TEAM || cgs.gametype == GT_SINGLE_PLAYER_CTF ) {
 			return qtrue;
 		}
 	}

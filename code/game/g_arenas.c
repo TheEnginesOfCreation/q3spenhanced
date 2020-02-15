@@ -365,7 +365,7 @@ Svcmd_AbortPodium_f
 ===============
 */
 void Svcmd_AbortPodium_f( void ) {
-	if( g_gametype.integer != GT_SINGLE_PLAYER ) {
+	if( g_gametype.integer != GT_SINGLE_PLAYER && g_gametype.integer != GT_SINGLE_PLAYER_TEAM && g_gametype.integer != GT_SINGLE_PLAYER_CTF ) {
 		return;
 	}
 

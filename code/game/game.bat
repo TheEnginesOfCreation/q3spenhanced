@@ -4,6 +4,9 @@ set INCLUDE=
 
 mkdir vm
 cd vm
+
+copy /Y "../../../bin" .
+
 set cc="../../../bin/lcc" -DQ3_VM -S -Wf-target=bytecode -Wf-g -I..\..\cgame -I..\..\game -I..\..\ui %1
 
 %cc%  ../g_main.c
@@ -80,6 +83,6 @@ set cc="../../../bin/lcc" -DQ3_VM -S -Wf-target=bytecode -Wf-g -I..\..\cgame -I.
 @if errorlevel 1 goto quit
 
 
-q3asm -f ../game
+"../../../bin/q3asm" -f ../game
 :quit
 cd ..
