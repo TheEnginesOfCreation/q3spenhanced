@@ -128,7 +128,7 @@ BotCTFCarryingFlag
 ==================
 */
 int BotCTFCarryingFlag(bot_state_t *bs) {
-	if (gametype != GT_CTF) return CTF_FLAG_NONE;
+	if (gametype != GT_CTF && gametype != GT_SINGLE_PLAYER_CTF) return CTF_FLAG_NONE;
 
 	if (bs->inventory[INVENTORY_REDFLAG] > 0) return CTF_FLAG_RED;
 	else if (bs->inventory[INVENTORY_BLUEFLAG] > 0) return CTF_FLAG_BLUE;
@@ -423,7 +423,7 @@ BotSetLastOrderedTask
 */
 int BotSetLastOrderedTask(bot_state_t *bs) {
 
-	if (gametype == GT_CTF) {
+	if (gametype == GT_CTF || gametype == GT_SINGLE_PLAYER_CTF) {
 		// don't go back to returning the flag if it's at the base
 		if ( bs->lastgoal_ltgtype == LTG_RETURNFLAG ) {
 			if ( BotTeam(bs) == TEAM_RED ) {
@@ -448,7 +448,7 @@ int BotSetLastOrderedTask(bot_state_t *bs) {
 		bs->teamgoal_time = FloatTime() + 300;
 		BotSetTeamStatus(bs);
 		//
-		if ( gametype == GT_CTF ) {
+		if ( gametype == GT_CTF || gametype == GT_SINGLE_PLAYER_CTF) {
 			if ( bs->ltgtype == LTG_GETFLAG ) {
 				bot_goal_t *tb, *eb;
 				int tt, et;
@@ -1326,7 +1326,7 @@ BotTeamGoals
 void BotTeamGoals(bot_state_t *bs, int retreat) {
 
 	if ( retreat ) {
-		if (gametype == GT_CTF) {
+		if (gametype == GT_CTF || gametype == GT_SINGLE_PLAYER_CTF) {
 			BotCTFRetreatGoals(bs);
 		}
 #ifdef MISSIONPACK
@@ -1342,7 +1342,7 @@ void BotTeamGoals(bot_state_t *bs, int retreat) {
 #endif
 	}
 	else {
-		if (gametype == GT_CTF) {
+		if (gametype == GT_CTF || gametype == GT_SINGLE_PLAYER_CTF) {
 			//decide what to do in CTF mode
 			BotCTFSeekGoals(bs);
 		}
@@ -1537,7 +1537,7 @@ int BotSynonymContext(bot_state_t *bs) {
 
 	context = CONTEXT_NORMAL|CONTEXT_NEARBYITEM|CONTEXT_NAMES;
 	//
-	if (gametype == GT_CTF
+	if (gametype == GT_CTF || gametype == GT_SINGLE_PLAYER_CTF
 #ifdef MISSIONPACK
 		|| gametype == GT_1FCTF
 #endif
@@ -2268,7 +2268,7 @@ BotWantsToRetreat
 int BotWantsToRetreat(bot_state_t *bs) {
 	aas_entityinfo_t entinfo;
 
-	if (gametype == GT_CTF) {
+	if (gametype == GT_CTF || gametype == GT_SINGLE_PLAYER_CTF) {
 		//always retreat when carrying a CTF flag
 		if (BotCTFCarryingFlag(bs))
 			return qtrue;
@@ -2321,7 +2321,7 @@ BotWantsToChase
 int BotWantsToChase(bot_state_t *bs) {
 	aas_entityinfo_t entinfo;
 
-	if (gametype == GT_CTF) {
+	if (gametype == GT_CTF || gametype == GT_SINGLE_PLAYER_CTF) {
 		//never chase when carrying a CTF flag
 		if (BotCTFCarryingFlag(bs))
 			return qfalse;
@@ -4865,7 +4865,7 @@ void BotCheckEvents(bot_state_t *bs, entityState_t *state) {
 		}
 		case EV_GLOBAL_TEAM_SOUND:
 		{
-			if (gametype == GT_CTF) {
+			if (gametype == GT_CTF || gametype == GT_SINGLE_PLAYER_CTF) {
 				switch(state->eventParm) {
 					case GTS_RED_CAPTURE:
 						bs->blueflagstatus = 0;
@@ -5402,7 +5402,7 @@ void BotSetupDeathmatchAI(void) {
 	trap_Cvar_Register(&bot_predictobstacles, "bot_predictobstacles", "1", 0);
 	trap_Cvar_Register(&g_spSkill, "g_spSkill", "2", 0);
 	//
-	if (gametype == GT_CTF) {
+	if (gametype == GT_CTF || gametype == GT_SINGLE_PLAYER_CTF) {
 		if (trap_BotGetLevelItemGoal(-1, "Red Flag", &ctf_redflag) < 0)
 			BotAI_Print(PRT_WARNING, "CTF without Red Flag\n");
 		if (trap_BotGetLevelItemGoal(-1, "Blue Flag", &ctf_blueflag) < 0)

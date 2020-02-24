@@ -27,10 +27,11 @@ void UI_SPArena_Start( const char *arenaInfo ) {
 	int		level;
 	int		n;
 	char	*txt;
+	char	*type;
 
 	n = (int)trap_Cvar_VariableValue( "sv_maxclients" );
-	if ( n < 8 ) {
-		trap_Cvar_SetValue( "sv_maxclients", 8 );
+	if ( n < 10 ) {
+		trap_Cvar_SetValue( "sv_maxclients", 10 );
 	}
 
 	level = atoi( Info_ValueForKey( arenaInfo, "num" ) );
@@ -46,5 +47,23 @@ void UI_SPArena_Start( const char *arenaInfo ) {
 	trap_Cvar_SetValue( "ui_spSelection", level );
 
 	map = Info_ValueForKey( arenaInfo, "map" );
-	trap_Cmd_ExecuteText( EXEC_APPEND, va( "spmap %s\n", map ) );
+
+	type = Info_ValueForKey(arenaInfo, "type");
+
+	if (strstr(type, "spf")) {
+		trap_Cvar_SetValue("g_gametype", GT_SINGLE_PLAYER);
+	}
+	else if (strstr(type, "spt")) {
+		trap_Cvar_SetValue("g_gametype", GT_SINGLE_PLAYER_TEAM);
+	}
+	else if (strstr(type, "spc")) {
+		trap_Cvar_SetValue("g_gametype", GT_SINGLE_PLAYER_CTF);
+	}
+	else {
+		//trap_Print(va("%s\n", arenaInfo));
+		trap_Print("^2No SP gametype found in arenaInfo!\n");
+		return;
+	}
+
+	trap_Cmd_ExecuteText( EXEC_APPEND, va( "map %s\n", map ) );
 }

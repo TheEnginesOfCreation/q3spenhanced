@@ -1086,7 +1086,7 @@ static float CG_DrawScores( float y ) {
 		}
 		CG_DrawBigString( x + 4, y, s, 1.0F);
 
-		if ( cgs.gametype == GT_CTF ) {
+		if ( cgs.gametype == GT_CTF || cgs.gametype == GT_SINGLE_PLAYER_CTF ) {
 			// Display flag status
 			item = BG_FindItemForPowerup( PW_BLUEFLAG );
 
@@ -1110,7 +1110,7 @@ static float CG_DrawScores( float y ) {
 		}
 		CG_DrawBigString( x + 4, y, s, 1.0F);
 
-		if ( cgs.gametype == GT_CTF ) {
+		if ( cgs.gametype == GT_CTF || cgs.gametype == GT_SINGLE_PLAYER_CTF ) {
 			// Display flag status
 			item = BG_FindItemForPowerup( PW_REDFLAG );
 
@@ -1135,7 +1135,7 @@ static float CG_DrawScores( float y ) {
 			}
 		}
 #endif
-		if ( cgs.gametype >= GT_CTF ) {
+		if ( cgs.gametype >= GT_CTF && cgs.gametype != GT_SINGLE_PLAYER_TEAM ) {
 			v = cgs.capturelimit;
 		} else {
 			v = cgs.fraglimit;

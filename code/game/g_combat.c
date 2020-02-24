@@ -363,7 +363,7 @@ void CheckAlmostCapture( gentity_t *self, gentity_t *attacker ) {
 		self->client->ps.powerups[PW_BLUEFLAG] ||
 		self->client->ps.powerups[PW_NEUTRALFLAG] ) {
 		// get the goal flag this player should have been going for
-		if ( g_gametype.integer == GT_CTF ) {
+		if ( g_gametype.integer == GT_CTF || g_gametype.integer == GT_SINGLE_PLAYER_CTF) {
 			if ( self->client->sess.sessionTeam == TEAM_BLUE ) {
 				classname = "team_CTF_blueflag";
 			}
@@ -1031,7 +1031,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 #ifdef MISSIONPACK
 	if( g_gametype.integer == GT_CTF || g_gametype.integer == GT_1FCTF ) {
 #else	
-	if( g_gametype.integer == GT_CTF) {
+	if( g_gametype.integer == GT_CTF || g_gametype.integer == GT_SINGLE_PLAYER_CTF) {
 #endif
 		Team_CheckHurtCarrier(targ, attacker);
 	}

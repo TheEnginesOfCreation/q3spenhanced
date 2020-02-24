@@ -283,7 +283,7 @@ void BotReportStatus(bot_state_t *bs) {
 	else leader = " ";
 
 	strcpy(flagstatus, "  ");
-	if (gametype == GT_CTF) {
+	if (gametype == GT_CTF || gametype == GT_SINGLE_PLAYER_CTF) {
 		if (BotCTFCarryingFlag(bs)) {
 			if (BotTeam(bs) == TEAM_RED) strcpy(flagstatus, S_COLOR_RED"F ");
 			else strcpy(flagstatus, S_COLOR_BLUE"F ");
@@ -433,7 +433,7 @@ void BotSetInfoConfigString(bot_state_t *bs) {
 	else leader = " ";
 
 	strcpy(carrying, "  ");
-	if (gametype == GT_CTF) {
+	if (gametype == GT_CTF || gametype == GT_SINGLE_PLAYER_CTF) {
 		if (BotCTFCarryingFlag(bs)) {
 			strcpy(carrying, "F ");
 		}

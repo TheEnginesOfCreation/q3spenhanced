@@ -583,7 +583,7 @@ static void CG_RegisterSounds( void ) {
 		cgs.media.takenYourTeamSound = trap_S_RegisterSound( "sound/teamplay/flagtaken_yourteam.wav", qtrue );
 		cgs.media.takenOpponentSound = trap_S_RegisterSound( "sound/teamplay/flagtaken_opponent.wav", qtrue );
 
-		if ( cgs.gametype == GT_CTF || cg_buildScript.integer ) {
+		if ( cgs.gametype == GT_CTF || cgs.gametype == GT_SINGLE_PLAYER_CTF || cg_buildScript.integer ) {
 			cgs.media.redFlagReturnedSound = trap_S_RegisterSound( "sound/teamplay/voc_red_returned.wav", qtrue );
 			cgs.media.blueFlagReturnedSound = trap_S_RegisterSound( "sound/teamplay/voc_blue_returned.wav", qtrue );
 			cgs.media.enemyTookYourFlagSound = trap_S_RegisterSound( "sound/teamplay/voc_enemy_flag.wav", qtrue );
@@ -806,10 +806,10 @@ CG_RegisterGraphics
 This function may execute for a couple of minutes with a slow disk.
 =================
 */
-static void CG_RegisterGraphics( void ) {
+static void CG_RegisterGraphics(void) {
 	int			i;
-	char		items[MAX_ITEMS+1];
-	static char		*sb_nums[11] = {
+	char		items[MAX_ITEMS + 1];
+	static char* sb_nums[11] = {
 		"gfx/2d/numbers/zero_32b",
 		"gfx/2d/numbers/one_32b",
 		"gfx/2d/numbers/two_32b",
@@ -824,83 +824,83 @@ static void CG_RegisterGraphics( void ) {
 	};
 
 	// clear any references to old media
-	memset( &cg.refdef, 0, sizeof( cg.refdef ) );
+	memset(&cg.refdef, 0, sizeof(cg.refdef));
 	trap_R_ClearScene();
 
-	CG_LoadingString( cgs.mapname );
+	CG_LoadingString(cgs.mapname);
 
-	trap_R_LoadWorldMap( cgs.mapname );
+	trap_R_LoadWorldMap(cgs.mapname);
 
 	// precache status bar pics
-	CG_LoadingString( "game media" );
+	CG_LoadingString("game media");
 
-	for ( i=0 ; i<11 ; i++) {
-		cgs.media.numberShaders[i] = trap_R_RegisterShader( sb_nums[i] );
+	for (i = 0; i < 11; i++) {
+		cgs.media.numberShaders[i] = trap_R_RegisterShader(sb_nums[i]);
 	}
 
-	cgs.media.botSkillShaders[0] = trap_R_RegisterShader( "menu/art/skill1.tga" );
-	cgs.media.botSkillShaders[1] = trap_R_RegisterShader( "menu/art/skill2.tga" );
-	cgs.media.botSkillShaders[2] = trap_R_RegisterShader( "menu/art/skill3.tga" );
-	cgs.media.botSkillShaders[3] = trap_R_RegisterShader( "menu/art/skill4.tga" );
-	cgs.media.botSkillShaders[4] = trap_R_RegisterShader( "menu/art/skill5.tga" );
+	cgs.media.botSkillShaders[0] = trap_R_RegisterShader("menu/art/skill1.tga");
+	cgs.media.botSkillShaders[1] = trap_R_RegisterShader("menu/art/skill2.tga");
+	cgs.media.botSkillShaders[2] = trap_R_RegisterShader("menu/art/skill3.tga");
+	cgs.media.botSkillShaders[3] = trap_R_RegisterShader("menu/art/skill4.tga");
+	cgs.media.botSkillShaders[4] = trap_R_RegisterShader("menu/art/skill5.tga");
 
-	cgs.media.viewBloodShader = trap_R_RegisterShader( "viewBloodBlend" );
+	cgs.media.viewBloodShader = trap_R_RegisterShader("viewBloodBlend");
 
-	cgs.media.deferShader = trap_R_RegisterShaderNoMip( "gfx/2d/defer.tga" );
+	cgs.media.deferShader = trap_R_RegisterShaderNoMip("gfx/2d/defer.tga");
 
-	cgs.media.scoreboardName = trap_R_RegisterShaderNoMip( "menu/tab/name.tga" );
-	cgs.media.scoreboardPing = trap_R_RegisterShaderNoMip( "menu/tab/ping.tga" );
-	cgs.media.scoreboardScore = trap_R_RegisterShaderNoMip( "menu/tab/score.tga" );
-	cgs.media.scoreboardTime = trap_R_RegisterShaderNoMip( "menu/tab/time.tga" );
+	cgs.media.scoreboardName = trap_R_RegisterShaderNoMip("menu/tab/name.tga");
+	cgs.media.scoreboardPing = trap_R_RegisterShaderNoMip("menu/tab/ping.tga");
+	cgs.media.scoreboardScore = trap_R_RegisterShaderNoMip("menu/tab/score.tga");
+	cgs.media.scoreboardTime = trap_R_RegisterShaderNoMip("menu/tab/time.tga");
 
-	cgs.media.smokePuffShader = trap_R_RegisterShader( "smokePuff" );
-	cgs.media.smokePuffRageProShader = trap_R_RegisterShader( "smokePuffRagePro" );
-	cgs.media.shotgunSmokePuffShader = trap_R_RegisterShader( "shotgunSmokePuff" );
+	cgs.media.smokePuffShader = trap_R_RegisterShader("smokePuff");
+	cgs.media.smokePuffRageProShader = trap_R_RegisterShader("smokePuffRagePro");
+	cgs.media.shotgunSmokePuffShader = trap_R_RegisterShader("shotgunSmokePuff");
 #ifdef MISSIONPACK
-	cgs.media.nailPuffShader = trap_R_RegisterShader( "nailtrail" );
-	cgs.media.blueProxMine = trap_R_RegisterModel( "models/weaphits/proxmineb.md3" );
+	cgs.media.nailPuffShader = trap_R_RegisterShader("nailtrail");
+	cgs.media.blueProxMine = trap_R_RegisterModel("models/weaphits/proxmineb.md3");
 #endif
-	cgs.media.plasmaBallShader = trap_R_RegisterShader( "sprites/plasma1" );
-	cgs.media.bloodTrailShader = trap_R_RegisterShader( "bloodTrail" );
-	cgs.media.lagometerShader = trap_R_RegisterShader("lagometer" );
-	cgs.media.connectionShader = trap_R_RegisterShader( "disconnected" );
+	cgs.media.plasmaBallShader = trap_R_RegisterShader("sprites/plasma1");
+	cgs.media.bloodTrailShader = trap_R_RegisterShader("bloodTrail");
+	cgs.media.lagometerShader = trap_R_RegisterShader("lagometer");
+	cgs.media.connectionShader = trap_R_RegisterShader("disconnected");
 
-	cgs.media.waterBubbleShader = trap_R_RegisterShader( "waterBubble" );
+	cgs.media.waterBubbleShader = trap_R_RegisterShader("waterBubble");
 
-	cgs.media.tracerShader = trap_R_RegisterShader( "gfx/misc/tracer" );
-	cgs.media.selectShader = trap_R_RegisterShader( "gfx/2d/select" );
+	cgs.media.tracerShader = trap_R_RegisterShader("gfx/misc/tracer");
+	cgs.media.selectShader = trap_R_RegisterShader("gfx/2d/select");
 
-	for ( i = 0 ; i < NUM_CROSSHAIRS ; i++ ) {
-		cgs.media.crosshairShader[i] = trap_R_RegisterShader( va("gfx/2d/crosshair%c", 'a'+i) );
+	for (i = 0; i < NUM_CROSSHAIRS; i++) {
+		cgs.media.crosshairShader[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%c", 'a' + i));
 	}
 
-	cgs.media.backTileShader = trap_R_RegisterShader( "gfx/2d/backtile" );
-	cgs.media.noammoShader = trap_R_RegisterShader( "icons/noammo" );
+	cgs.media.backTileShader = trap_R_RegisterShader("gfx/2d/backtile");
+	cgs.media.noammoShader = trap_R_RegisterShader("icons/noammo");
 
 	// powerup shaders
-	cgs.media.quadShader = trap_R_RegisterShader("powerups/quad" );
-	cgs.media.quadWeaponShader = trap_R_RegisterShader("powerups/quadWeapon" );
-	cgs.media.battleSuitShader = trap_R_RegisterShader("powerups/battleSuit" );
-	cgs.media.battleWeaponShader = trap_R_RegisterShader("powerups/battleWeapon" );
-	cgs.media.invisShader = trap_R_RegisterShader("powerups/invisibility" );
-	cgs.media.regenShader = trap_R_RegisterShader("powerups/regen" );
-	cgs.media.hastePuffShader = trap_R_RegisterShader("hasteSmokePuff" );
+	cgs.media.quadShader = trap_R_RegisterShader("powerups/quad");
+	cgs.media.quadWeaponShader = trap_R_RegisterShader("powerups/quadWeapon");
+	cgs.media.battleSuitShader = trap_R_RegisterShader("powerups/battleSuit");
+	cgs.media.battleWeaponShader = trap_R_RegisterShader("powerups/battleWeapon");
+	cgs.media.invisShader = trap_R_RegisterShader("powerups/invisibility");
+	cgs.media.regenShader = trap_R_RegisterShader("powerups/regen");
+	cgs.media.hastePuffShader = trap_R_RegisterShader("hasteSmokePuff");
 
 #ifdef MISSIONPACK
-	if ( cgs.gametype == GT_CTF || cgs.gametype == GT_1FCTF || cgs.gametype == GT_HARVESTER || cg_buildScript.integer ) {
+	if (cgs.gametype == GT_CTF || cgs.gametype == GT_1FCTF || cgs.gametype == GT_HARVESTER || cg_buildScript.integer) {
 #else
-	if ( cgs.gametype == GT_CTF || cg_buildScript.integer ) {
+	if (cgs.gametype == GT_CTF || cgs.gametype == GT_SINGLE_PLAYER_CTF || cg_buildScript.integer) {
 #endif
-		cgs.media.redCubeModel = trap_R_RegisterModel( "models/powerups/orb/r_orb.md3" );
-		cgs.media.blueCubeModel = trap_R_RegisterModel( "models/powerups/orb/b_orb.md3" );
-		cgs.media.redCubeIcon = trap_R_RegisterShader( "icons/skull_red" );
-		cgs.media.blueCubeIcon = trap_R_RegisterShader( "icons/skull_blue" );
+		cgs.media.redCubeModel = trap_R_RegisterModel("models/powerups/orb/r_orb.md3");
+		cgs.media.blueCubeModel = trap_R_RegisterModel("models/powerups/orb/b_orb.md3");
+		cgs.media.redCubeIcon = trap_R_RegisterShader("icons/skull_red");
+		cgs.media.blueCubeIcon = trap_R_RegisterShader("icons/skull_blue");
 	}
 
 #ifdef MISSIONPACK
-	if ( cgs.gametype == GT_CTF || cgs.gametype == GT_1FCTF || cgs.gametype == GT_HARVESTER || cg_buildScript.integer ) {
+	if (cgs.gametype == GT_CTF || cgs.gametype == GT_1FCTF || cgs.gametype == GT_HARVESTER || cg_buildScript.integer) {
 #else
-	if ( cgs.gametype == GT_CTF || cg_buildScript.integer ) {
+	if (cgs.gametype == GT_CTF || cgs.gametype == GT_SINGLE_PLAYER_CTF || cg_buildScript.integer) {
 #endif
 		cgs.media.redFlagModel = trap_R_RegisterModel( "models/flags/r_flag.md3" );
 		cgs.media.blueFlagModel = trap_R_RegisterModel( "models/flags/b_flag.md3" );

@@ -205,7 +205,7 @@ void CG_SetConfigValues( void ) {
 	cgs.scores1 = atoi( CG_ConfigString( CS_SCORES1 ) );
 	cgs.scores2 = atoi( CG_ConfigString( CS_SCORES2 ) );
 	cgs.levelStartTime = atoi( CG_ConfigString( CS_LEVEL_START_TIME ) );
-	if( cgs.gametype == GT_CTF ) {
+	if( cgs.gametype == GT_CTF || cgs.gametype == GT_SINGLE_PLAYER_CTF ) {
 		s = CG_ConfigString( CS_FLAGSTATUS );
 		cgs.redflag = s[0] - '0';
 		cgs.blueflag = s[1] - '0';
@@ -331,7 +331,7 @@ static void CG_ConfigStringModified( void ) {
 		CG_NewClientInfo( num - CS_PLAYERS );
 		CG_BuildSpectatorString();
 	} else if ( num == CS_FLAGSTATUS ) {
-		if( cgs.gametype == GT_CTF ) {
+		if( cgs.gametype == GT_CTF || cgs.gametype == GT_SINGLE_PLAYER_CTF ) {
 			// format is rb where its red/blue, 0 is at base, 1 is taken, 2 is dropped
 			cgs.redflag = str[0] - '0';
 			cgs.blueflag = str[1] - '0';

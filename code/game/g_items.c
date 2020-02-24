@@ -586,7 +586,7 @@ gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity ) {
 #ifdef MISSIONPACK
 	if ((g_gametype.integer == GT_CTF || g_gametype.integer == GT_1FCTF)			&& item->giType == IT_TEAM) { // Special case for CTF flags
 #else
-	if (g_gametype.integer == GT_CTF && item->giType == IT_TEAM) { // Special case for CTF flags
+	if ((g_gametype.integer == GT_CTF || g_gametype.integer == GT_SINGLE_PLAYER_CTF) && item->giType == IT_TEAM) { // Special case for CTF flags
 #endif
 		dropped->think = Team_DroppedFlagThink;
 		dropped->nextthink = level.time + 30000;

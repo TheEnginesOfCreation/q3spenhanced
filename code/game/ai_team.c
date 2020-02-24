@@ -131,7 +131,7 @@ int BotSortTeamMatesByBaseTravelTime(bot_state_t *bs, int *teammates, int maxtea
 	int traveltimes[MAX_CLIENTS];
 	bot_goal_t *goal = NULL;
 
-	if (gametype == GT_CTF || gametype == GT_1FCTF) {
+	if (gametype == GT_CTF || gametype == GT_SINGLE_PLAYER_CTF || gametype == GT_1FCTF) {
 		if (BotTeam(bs) == TEAM_RED)
 			goal = &ctf_redflag;
 		else
@@ -1992,6 +1992,7 @@ void BotTeamAI(bot_state_t *bs) {
 			break;
 		}
 		case GT_CTF:
+		case GT_SINGLE_PLAYER_CTF:
 		{
 			//if the number of team mates changed or the flag status changed
 			//or someone wants to know what to do

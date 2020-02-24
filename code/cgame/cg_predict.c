@@ -289,7 +289,7 @@ static void CG_TouchItem( centity_t *cent ) {
 	}
 	if( cgs.gametype == GT_CTF || cgs.gametype == GT_HARVESTER ) {
 #else
-	if( cgs.gametype == GT_CTF ) {
+	if( cgs.gametype == GT_CTF || cgs.gametype == GT_SINGLE_PLAYER_CTF ) {
 #endif
 		if (cg.predictedPlayerState.persistant[PERS_TEAM] == TEAM_RED &&
 			item->giTag == PW_REDFLAG)

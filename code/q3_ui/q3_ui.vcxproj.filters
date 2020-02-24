@@ -54,9 +54,6 @@
     <ClCompile Include="ui_display.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ui_epmenu.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ui_gameinfo.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -76,9 +73,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ui_mods.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ui_mutators.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ui_network.c">
@@ -106,9 +100,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ui_saveconfig.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ui_scores.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ui_serverinfo.c">

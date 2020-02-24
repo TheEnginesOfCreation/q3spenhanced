@@ -56,7 +56,7 @@ void CG_SetPrintString(int type, const char *p) {
 }
 
 void CG_CheckOrderPending() {
-	if (cgs.gametype < GT_CTF) {
+	if (cgs.gametype < GT_CTF || cgs.gametype == GT_SINGLE_PLAYER_TEAM) {
 		return;
 	}
 	if (cgs.orderPending) {
@@ -651,7 +651,7 @@ static void CG_DrawBlueFlagName(rectDef_t *rect, float scale, vec4_t color, int 
 }
 
 static void CG_DrawBlueFlagStatus(rectDef_t *rect, qhandle_t shader) {
-	if (cgs.gametype != GT_CTF && cgs.gametype != GT_1FCTF) {
+	if (cgs.gametype != GT_CTF && cgs.gametype != GT_1FCTF && cgs.gametype != GT_SINGLE_PLAYER_CTF) {
 		if (cgs.gametype == GT_HARVESTER) {
 		  vec4_t color = {0, 0, 1, 1};
 		  trap_R_SetColor(color);
@@ -701,7 +701,7 @@ static void CG_DrawRedFlagName(rectDef_t *rect, float scale, vec4_t color, int t
 }
 
 static void CG_DrawRedFlagStatus(rectDef_t *rect, qhandle_t shader) {
-	if (cgs.gametype != GT_CTF && cgs.gametype != GT_1FCTF) {
+	if (cgs.gametype != GT_CTF && cgs.gametype != GT_1FCTF && cgs.gametype != GT_SINGLE_PLAYER_CTF) {
 		if (cgs.gametype == GT_HARVESTER) {
 		  vec4_t color = {1, 0, 0, 1};
 		  trap_R_SetColor(color);
@@ -811,7 +811,7 @@ static void CG_OneFlagStatus(rectDef_t *rect) {
 static void CG_DrawCTFPowerUp(rectDef_t *rect) {
 	int		value;
 
-	if (cgs.gametype < GT_CTF) {
+	if (cgs.gametype < GT_CTF || cgs.gametype == GT_SINGLE_PLAYER_TEAM) {
 		return;
 	}
 	value = cg.snap->ps.stats[STAT_PERSISTANT_POWERUP];
@@ -953,7 +953,7 @@ float CG_GetValue(int ownerDraw) {
 }
 
 qboolean CG_OtherTeamHasFlag() {
-	if (cgs.gametype == GT_CTF || cgs.gametype == GT_1FCTF) {
+	if (cgs.gametype == GT_CTF || cgs.gametype == GT_1FCTF || cgs.gametype == GT_SINGLE_PLAYER_CTF) {
 		int team = cg.snap->ps.persistant[PERS_TEAM];
 		if (cgs.gametype == GT_1FCTF) {
 			if (team == TEAM_RED && cgs.flagStatus == FLAG_TAKEN_BLUE) {
@@ -977,7 +977,7 @@ qboolean CG_OtherTeamHasFlag() {
 }
 
 qboolean CG_YourTeamHasFlag() {
-	if (cgs.gametype == GT_CTF || cgs.gametype == GT_1FCTF) {
+	if (cgs.gametype == GT_CTF || cgs.gametype == GT_1FCTF || cgs.gametype == GT_SINGLE_PLAYER_CTF) {
 		int team = cg.snap->ps.persistant[PERS_TEAM];
 		if (cgs.gametype == GT_1FCTF) {
 			if (team == TEAM_RED && cgs.flagStatus == FLAG_TAKEN_RED) {
@@ -1058,7 +1058,7 @@ qboolean CG_OwnerDrawVisible(int flags) {
 	}
 
 	if (flags & CG_SHOW_CTF) {
-		if( cgs.gametype == GT_CTF ) {
+		if( cgs.gametype == GT_CTF || cgs.gametype == GT_SINGLE_PLAYER_CTF) {
 			return qtrue;
 		}
 	}
@@ -1151,7 +1151,7 @@ static void CG_DrawKiller(rectDef_t *rect, float scale, vec4_t color, qhandle_t 
 
 
 static void CG_DrawCapFragLimit(rectDef_t *rect, float scale, vec4_t color, qhandle_t shader, int textStyle) {
-	int limit = (cgs.gametype >= GT_CTF) ? cgs.capturelimit : cgs.fraglimit;
+	int limit = (cgs.gametype >= GT_CTF && cgs.gametype != GT_SINGLE_PLAYER_TEAM) ? cgs.capturelimit : cgs.fraglimit;
 	CG_Text_Paint(rect->x, rect->y, scale, color, va("%2i", limit),0, 0, textStyle); 
 }
 
@@ -1202,6 +1202,10 @@ const char *CG_GameTypeString() {
 		return "Overload";
 	} else if ( cgs.gametype == GT_HARVESTER ) {
 		return "Harvester";
+	} else if (cgs.gametype == GT_SINGLE_PLAYER_TEAM) {
+		return "Single player TDM";
+	} else if (cgs.gametype == GT_SINGLE_PLAYER_CTF) {
+		return "Single Player CTF";
 	}
 	return "";
 }

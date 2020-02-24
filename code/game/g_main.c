@@ -1334,7 +1334,7 @@ void CheckExitRules( void ) {
 		return;
 	}
 
-	if ( g_gametype.integer < GT_CTF && g_fraglimit.integer ) {
+	if ( (g_gametype.integer < GT_CTF || g_gametype.integer == GT_SINGLE_PLAYER_TEAM) && g_fraglimit.integer ) {
 		if ( level.teamScores[TEAM_RED] >= g_fraglimit.integer ) {
 			trap_SendServerCommand( -1, "print \"Red hit the fraglimit.\n\"" );
 			LogExit( "Fraglimit hit." );
@@ -1365,7 +1365,7 @@ void CheckExitRules( void ) {
 		}
 	}
 
-	if ( g_gametype.integer >= GT_CTF && g_capturelimit.integer ) {
+	if ( g_gametype.integer >= GT_CTF && g_gametype.integer != GT_SINGLE_PLAYER_TEAM && g_capturelimit.integer ) {
 
 		if ( level.teamScores[TEAM_RED] >= g_capturelimit.integer ) {
 			trap_SendServerCommand( -1, "print \"Red hit the capturelimit.\n\"" );

@@ -71,7 +71,7 @@ BotVoiceChat_GetFlag
 */
 void BotVoiceChat_GetFlag(bot_state_t *bs, int client, int mode) {
 	//
-	if (gametype == GT_CTF) {
+	if (gametype == GT_CTF || gametype == GT_SINGLE_PLAYER_CTF) {
 		if (!ctf_redflag.areanum || !ctf_blueflag.areanum)
 			return;
 	}
@@ -95,7 +95,7 @@ void BotVoiceChat_GetFlag(bot_state_t *bs, int client, int mode) {
 	//set the team goal time
 	bs->teamgoal_time = FloatTime() + CTF_GETFLAG_TIME;
 	// get an alternate route in ctf
-	if (gametype == GT_CTF) {
+	if (gametype == GT_CTF || gametype == GT_SINGLE_PLAYER_CTF) {
 		//get an alternative route goal towards the enemy base
 		BotGetAlternateRouteGoal(bs, BotOppositeTeam(bs));
 	}
@@ -114,7 +114,7 @@ BotVoiceChat_Offense
 ==================
 */
 void BotVoiceChat_Offense(bot_state_t *bs, int client, int mode) {
-	if ( gametype == GT_CTF
+	if ( gametype == GT_CTF || gametype == GT_SINGLE_PLAYER_CTF
 #ifdef MISSIONPACK
 		|| gametype == GT_1FCTF
 #endif
@@ -181,7 +181,7 @@ void BotVoiceChat_Defend(bot_state_t *bs, int client, int mode) {
 	}
 	else
 #endif
-		if (gametype == GT_CTF
+		if (gametype == GT_CTF || gametype == GT_SINGLE_PLAYER_CTF
 #ifdef MISSIONPACK
 			|| gametype == GT_1FCTF
 #endif
@@ -383,7 +383,7 @@ BotVoiceChat_ReturnFlag
 void BotVoiceChat_ReturnFlag(bot_state_t *bs, int client, int mode) {
 	//if not in CTF mode
 	if (
-		gametype != GT_CTF
+		gametype != GT_CTF && gametype != GT_SINGLE_PLAYER_CTF
 #ifdef MISSIONPACK
 		&& gametype != GT_1FCTF
 #endif

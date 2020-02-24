@@ -784,7 +784,7 @@ static void CG_TeamBase( centity_t *cent ) {
 
 	if ( cgs.gametype == GT_CTF || cgs.gametype == GT_1FCTF ) {
 #else
-	if ( cgs.gametype == GT_CTF) {
+	if ( cgs.gametype == GT_CTF || GT_SINGLE_PLAYER_CTF ) {
 #endif
 		// show the flag base
 		memset(&model, 0, sizeof(model));

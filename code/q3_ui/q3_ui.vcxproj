@@ -375,7 +375,6 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release TA|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <ClCompile Include="ui_epmenu.c" />
     <ClCompile Include="ui_gameinfo.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug TA|Win32'">true</ExcludedFromBuild>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug TA|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -434,7 +433,6 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release TA|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <ClCompile Include="ui_mutators.c" />
     <ClCompile Include="ui_network.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug TA|Win32'">true</ExcludedFromBuild>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug TA|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -509,7 +507,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <ClCompile Include="ui_scores.c" />
     <ClCompile Include="ui_serverinfo.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug TA|Win32'">true</ExcludedFromBuild>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug TA|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
