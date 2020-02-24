@@ -1977,6 +1977,7 @@ void BotTeamAI(bot_state_t *bs) {
 	//give orders
 	switch(gametype) {
 		case GT_TEAM:
+		case GT_SINGLE_PLAYER_TEAM:
 		{
 			if (bs->numteammates != numteammates || bs->forceorders) {
 				bs->teamgiveorders_time = FloatTime();

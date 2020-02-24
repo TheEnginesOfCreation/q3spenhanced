@@ -1203,7 +1203,7 @@ const char *CG_GameTypeString() {
 	} else if ( cgs.gametype == GT_HARVESTER ) {
 		return "Harvester";
 	} else if (cgs.gametype == GT_SINGLE_PLAYER_TEAM) {
-		return "Single player TDM";
+		return "Single Player TDM";
 	} else if (cgs.gametype == GT_SINGLE_PLAYER_CTF) {
 		return "Single Player CTF";
 	}

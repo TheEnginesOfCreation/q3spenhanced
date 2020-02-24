@@ -232,40 +232,43 @@ int Pickup_Ammo (gentity_t *ent, gentity_t *other)
 //======================================================================
 
 
-int Pickup_Weapon (gentity_t *ent, gentity_t *other) {
+int Pickup_Weapon(gentity_t* ent, gentity_t* other) {
 	int		quantity;
 
-	if ( ent->count < 0 ) {
+	if (ent->count < 0) {
 		quantity = 0; // None for you, sir!
-	} else {
-		if ( ent->count ) {
+	}
+	else {
+		if (ent->count) {
 			quantity = ent->count;
-		} else {
+		}
+		else {
 			quantity = ent->item->quantity;
 		}
 
 		// dropped items and teamplay weapons always have full ammo
-		if ( ! (ent->flags & FL_DROPPED_ITEM) && g_gametype.integer != GT_TEAM ) {
+		if (!(ent->flags & FL_DROPPED_ITEM) && g_gametype.integer != GT_TEAM && g_gametype.integer != GT_SINGLE_PLAYER_TEAM) {
 			// respawning rules
 			// drop the quantity if the already have over the minimum
-			if ( other->client->ps.ammo[ ent->item->giTag ] < quantity ) {
-				quantity = quantity - other->client->ps.ammo[ ent->item->giTag ];
-			} else {
+			if (other->client->ps.ammo[ent->item->giTag] < quantity) {
+				quantity = quantity - other->client->ps.ammo[ent->item->giTag];
+			}
+			else {
 				quantity = 1;		// only add a single shot
 			}
 		}
 	}
 
 	// add the weapon
-	other->client->ps.stats[STAT_WEAPONS] |= ( 1 << ent->item->giTag );
+	other->client->ps.stats[STAT_WEAPONS] |= (1 << ent->item->giTag);
 
-	Add_Ammo( other, ent->item->giTag, quantity );
+	Add_Ammo(other, ent->item->giTag, quantity);
 
 	if (ent->item->giTag == WP_GRAPPLING_HOOK)
 		other->client->ps.ammo[ent->item->giTag] = -1; // unlimited ammo
 
 	// team deathmatch has slow weapon respawns
-	if ( g_gametype.integer == GT_TEAM ) {
+	if (g_gametype.integer == GT_TEAM || g_gametype.integer == GT_SINGLE_PLAYER_TEAM) {
 		return g_weaponTeamRespawn.integer;
 	}
 

@@ -1177,7 +1177,7 @@ void ClientSpawn(gentity_t *ent) {
 	client->ps.clientNum = index;
 
 	client->ps.stats[STAT_WEAPONS] = ( 1 << WP_MACHINEGUN );
-	if ( g_gametype.integer == GT_TEAM ) {
+	if ( g_gametype.integer == GT_TEAM || g_gametype.integer == GT_SINGLE_PLAYER_TEAM ) {
 		client->ps.ammo[WP_MACHINEGUN] = 50;
 	} else {
 		client->ps.ammo[WP_MACHINEGUN] = 100;
