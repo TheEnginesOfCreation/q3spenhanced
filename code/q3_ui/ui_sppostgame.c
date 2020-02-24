@@ -67,9 +67,9 @@ typedef struct {
 	int				numClients;
 	int				won;
 	int				numAwards;
-	int				awardsEarned[6];
-	int				awardsLevels[6];
-	qboolean		playedSound[6];
+	int				awardsEarned[MAX_AWARD_TYPE];
+	int				awardsLevels[MAX_AWARD_TYPE];
+	qboolean		playedSound[MAX_AWARD_TYPE];
 	int				lastTier;
 	sfxHandle_t		winnerSound;
 } postgameMenuInfo_t;
@@ -84,7 +84,10 @@ char	*ui_medalPicNames[] = {
 	"menu/medals/medal_excellent",
 	"menu/medals/medal_gauntlet",
 	"menu/medals/medal_frags",
-	"menu/medals/medal_victory"
+	"menu/medals/medal_victory",
+	"menu/medals/medal_capture",
+	"menu/medals/medal_assist",
+	"menu/medals/medal_defend"
 };
 char	*ui_medalSounds[] = {
 	"sound/feedback/accuracy.wav",
@@ -92,7 +95,10 @@ char	*ui_medalSounds[] = {
 	"sound/feedback/excellent_a.wav",
 	"sound/feedback/gauntlet.wav",
 	"sound/feedback/frags.wav",
-	"sound/feedback/perfect.wav"
+	"sound/feedback/perfect.wav",
+	"sound/teamplay/flagcapture_yourteam.wav",
+	"sound/feedback/assist.wav",
+	"sound/feedback/defense.wav"
 };
 
 
@@ -506,7 +512,7 @@ void UI_SPPostgameMenu_f( void ) {
 	int			n;
 	int			oldFrags, newFrags;
 	const char	*arena;
-	int			awardValues[6];
+	int			awardValues[MAX_AWARD_TYPE];
 	char		map[MAX_QPATH];
 	char		info[MAX_INFO_STRING];
 
@@ -552,6 +558,9 @@ void UI_SPPostgameMenu_f( void ) {
 	awardValues[AWARD_GAUNTLET] = atoi( UI_Argv( 6 ) );
 	awardValues[AWARD_FRAGS] = atoi( UI_Argv( 7 ) );
 	awardValues[AWARD_PERFECT] = atoi( UI_Argv( 8 ) );
+	awardValues[AWARD_CAPTURE] = atoi( UI_Argv( 9 ) );
+	awardValues[AWARD_ASSIST] = atoi( UI_Argv( 10 ) );
+	awardValues[AWARD_DEFENSE] = atoi(UI_Argv(10));
 
 	postgameMenuInfo.numAwards = 0;
 
@@ -596,6 +605,27 @@ void UI_SPPostgameMenu_f( void ) {
 		UI_LogAwardData( AWARD_PERFECT, 1 );
 		postgameMenuInfo.awardsEarned[postgameMenuInfo.numAwards] = AWARD_PERFECT;
 		postgameMenuInfo.awardsLevels[postgameMenuInfo.numAwards] = 1;
+		postgameMenuInfo.numAwards++;
+	}
+
+	if ( awardValues[AWARD_CAPTURE] ) {
+		UI_LogAwardData(AWARD_CAPTURE, awardValues[AWARD_CAPTURE]);
+		postgameMenuInfo.awardsEarned[postgameMenuInfo.numAwards] = AWARD_CAPTURE;
+		postgameMenuInfo.awardsLevels[postgameMenuInfo.numAwards] = awardValues[AWARD_CAPTURE];
+		postgameMenuInfo.numAwards++;
+	}
+
+	if (awardValues[AWARD_ASSIST]) {
+		UI_LogAwardData(AWARD_ASSIST, awardValues[AWARD_ASSIST]);
+		postgameMenuInfo.awardsEarned[postgameMenuInfo.numAwards] = AWARD_ASSIST;
+		postgameMenuInfo.awardsLevels[postgameMenuInfo.numAwards] = awardValues[AWARD_ASSIST];
+		postgameMenuInfo.numAwards++;
+	}
+
+	if (awardValues[AWARD_DEFENSE]) {
+		UI_LogAwardData(AWARD_DEFENSE, awardValues[AWARD_DEFENSE]);
+		postgameMenuInfo.awardsEarned[postgameMenuInfo.numAwards] = AWARD_DEFENSE;
+		postgameMenuInfo.awardsLevels[postgameMenuInfo.numAwards] = awardValues[AWARD_DEFENSE];
 		postgameMenuInfo.numAwards++;
 	}
 

@@ -1057,7 +1057,11 @@ typedef enum {
 	AWARD_EXCELLENT,
 	AWARD_GAUNTLET,
 	AWARD_FRAGS,
-	AWARD_PERFECT
+	AWARD_PERFECT,
+	AWARD_CAPTURE,
+	AWARD_ASSIST,
+	AWARD_DEFENSE,
+	MAX_AWARD_TYPE
 } awardType_t;
 
 const char *UI_GetArenaInfoByNumber( int num );

@@ -526,7 +526,7 @@ void UI_LogAwardData( int award, int data ) {
 		return;
 	}
 
-	if( award > AWARD_PERFECT ) {
+	if( award >= MAX_AWARD_TYPE) {
 		trap_Print( va( S_COLOR_RED "Bad award %i in UI_LogAwardData\n", award ) );
 		return;
 	}
@@ -789,7 +789,7 @@ void UI_SPUnlockMedals_f( void ) {
 
 	trap_Cvar_VariableStringBuffer( "g_spAwards", awardData, MAX_INFO_VALUE );
 
-	for( n = 0; n < 6; n++ ) {
+	for( n = 0; n < MAX_AWARD_TYPE; n++ ) {
 		Com_sprintf( key, sizeof(key), "a%i", n );
 		Info_SetValueForKey( awardData, key, "100" );
 	}
