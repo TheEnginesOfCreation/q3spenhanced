@@ -601,6 +601,7 @@ void UI_SPLevelMenu_ReInit( void );
 // ui_spArena.c
 //
 void UI_SPArena_Start( const char *arenaInfo );
+void UI_Emulate_SPMap(gametype_t gameType, const char* map);
 
 //
 // ui_spPostgame.c
