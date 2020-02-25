@@ -73,10 +73,12 @@ static void UI_CDKeyMenu_Event( void *ptr, int event ) {
 		if( cdkeyMenuInfo.cdkey.field.buffer[0] ) {
 			trap_SetCDKey( cdkeyMenuInfo.cdkey.field.buffer );
 		}
+		trap_Cvar_SetValue("ui_cdkeychecked", 1);
 		UI_PopMenu();
 		break;
 
 	case ID_BACK:
+		trap_Cvar_SetValue("ui_cdkeychecked", 0);
 		UI_PopMenu();
 		break;
 	}
