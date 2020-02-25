@@ -40,16 +40,22 @@ SINGLE PLAYER POSTGAME MENU
 #define ART_REPLAY1		"menu/art/replay_1"
 #define ART_NEXT0		"menu/art/next_0"
 #define ART_NEXT1		"menu/art/next_1"
+#define ART_BLUEFLAG	"menu/art/blueflag"
+#define ART_REDFLAG		"menu/art/redflag"
 
 #define ID_AGAIN		10
 #define ID_NEXT			11
 #define ID_MENU			12
+#define ID_BLUEFLAG		15
+#define ID_REDFLAG		16
 
 typedef struct {
 	menuframework_s	menu;
 	menubitmap_s	item_again;
 	menubitmap_s	item_next;
 	menubitmap_s	item_menu;
+	menubitmap_s	blueflag;
+	menubitmap_s	redflag;
 
 	int				phase;
 	int				ignoreKeysTime;
@@ -72,6 +78,9 @@ typedef struct {
 	qboolean		playedSound[MAX_AWARD_TYPE];
 	int				lastTier;
 	sfxHandle_t		winnerSound;
+	int				gametype;
+	int				blueScore;
+	int				redScore;
 } postgameMenuInfo_t;
 
 static postgameMenuInfo_t	postgameMenuInfo;
@@ -397,6 +406,11 @@ static void UI_SPPostgameMenu_MenuDraw( void ) {
 	UI_SPPostgameMenu_MenuDrawScoreLine( n, 0 );
 	UI_SPPostgameMenu_MenuDrawScoreLine( n + 1, 0 + SMALLCHAR_HEIGHT );
 	UI_SPPostgameMenu_MenuDrawScoreLine( n + 2, 0 + 2 * SMALLCHAR_HEIGHT );
+
+	if (postgameMenuInfo.gametype == GT_SINGLE_PLAYER_TEAM || postgameMenuInfo.gametype == GT_SINGLE_PLAYER_CTF) {
+		UI_DrawString(128, 320, va("%i", postgameMenuInfo.blueScore), UI_CENTER, colorYellow);
+		UI_DrawString(640 - 128, 320, va("%i", postgameMenuInfo.redScore), UI_CENTER, colorYellow);
+	}
 }
 
 
@@ -479,6 +493,29 @@ static void UI_SPPostgameMenu_Init( void ) {
 	Menu_AddItem( &postgameMenuInfo.menu, ( void * )&postgameMenuInfo.item_menu );
 	Menu_AddItem( &postgameMenuInfo.menu, ( void * )&postgameMenuInfo.item_again );
 	Menu_AddItem( &postgameMenuInfo.menu, ( void * )&postgameMenuInfo.item_next );
+	
+	if (postgameMenuInfo.gametype == GT_SINGLE_PLAYER_TEAM || postgameMenuInfo.gametype == GT_SINGLE_PLAYER_CTF) {
+		postgameMenuInfo.blueflag.generic.type = MTYPE_BITMAP;
+		postgameMenuInfo.blueflag.generic.name = ART_BLUEFLAG;
+		postgameMenuInfo.blueflag.generic.flags = QMF_INACTIVE;
+		postgameMenuInfo.blueflag.generic.x = 64;
+		postgameMenuInfo.blueflag.generic.y = 64;
+		postgameMenuInfo.blueflag.generic.id = ID_BLUEFLAG;
+		postgameMenuInfo.blueflag.width = 128;
+		postgameMenuInfo.blueflag.height = 256;
+
+		postgameMenuInfo.redflag.generic.type = MTYPE_BITMAP;
+		postgameMenuInfo.redflag.generic.name = ART_REDFLAG;
+		postgameMenuInfo.redflag.generic.flags = QMF_RIGHT_JUSTIFY | QMF_INACTIVE;
+		postgameMenuInfo.redflag.generic.x = 640 - 64;
+		postgameMenuInfo.redflag.generic.y = 64;
+		postgameMenuInfo.redflag.generic.id = ID_REDFLAG;
+		postgameMenuInfo.redflag.width = 128;
+		postgameMenuInfo.redflag.height = 256;
+
+		Menu_AddItem(&postgameMenuInfo.menu, (void*)&postgameMenuInfo.blueflag);
+		Menu_AddItem(&postgameMenuInfo.menu, (void*)&postgameMenuInfo.redflag);
+	}
 }
 
 
@@ -515,11 +552,13 @@ void UI_SPPostgameMenu_f( void ) {
 	int			awardValues[MAX_AWARD_TYPE];
 	char		map[MAX_QPATH];
 	char		info[MAX_INFO_STRING];
+	int			gametype;
 
 	memset( &postgameMenuInfo, 0, sizeof(postgameMenuInfo) );
 
 	trap_GetConfigString( CS_SYSTEMINFO, info, sizeof(info) );
 	postgameMenuInfo.serverId = atoi( Info_ValueForKey( info, "sv_serverid" ) );
+	gametype = atoi(UI_Argv(15));
 
 	trap_GetConfigString( CS_SERVERINFO, info, sizeof(info) );
 	Q_strncpyz( map, Info_ValueForKey( info, "mapname" ), sizeof(map) );
@@ -539,14 +578,18 @@ void UI_SPPostgameMenu_f( void ) {
 		postgameMenuInfo.numClients = MAX_SCOREBOARD_CLIENTS;
 	}
 
-	for( n = 0; n < postgameMenuInfo.numClients; n++ ) {
+	for ( n = 0; n < postgameMenuInfo.numClients; n++ ) {
 		postgameMenuInfo.clientNums[n] = atoi( UI_Argv( 8 + n * 3 + 1 ) );
 		postgameMenuInfo.ranks[n] = atoi( UI_Argv( 8 + n * 3 + 2 ) );
 		postgameMenuInfo.scores[n] = atoi( UI_Argv( 8 + n * 3 + 3 ) );
 
-		if( postgameMenuInfo.clientNums[n] == playerClientNum ) {
+		if( gametype == GT_SINGLE_PLAYER && postgameMenuInfo.clientNums[n] == playerClientNum ) {
 			playerGameRank = (postgameMenuInfo.ranks[n] & ~RANK_TIED_FLAG) + 1;
 		}
+	}
+
+	if (gametype == GT_SINGLE_PLAYER_TEAM || gametype == GT_SINGLE_PLAYER_CTF) {
+		playerGameRank = (atoi(UI_Argv(14)) == 1 ? 1 : 2);
 	}
 
 	UI_SetBestScore( postgameMenuInfo.level, playerGameRank );
@@ -560,7 +603,7 @@ void UI_SPPostgameMenu_f( void ) {
 	awardValues[AWARD_PERFECT] = atoi( UI_Argv( 8 ) );
 	awardValues[AWARD_CAPTURE] = atoi( UI_Argv( 9 ) );
 	awardValues[AWARD_ASSIST] = atoi( UI_Argv( 10 ) );
-	awardValues[AWARD_DEFENSE] = atoi(UI_Argv(10));
+	awardValues[AWARD_DEFENSE] = atoi(UI_Argv(11));
 
 	postgameMenuInfo.numAwards = 0;
 
@@ -641,7 +684,10 @@ void UI_SPPostgameMenu_f( void ) {
 
 	trap_Key_SetCatcher( KEYCATCH_UI );
 	uis.menusp = 0;
-
+	
+	postgameMenuInfo.gametype = gametype;
+	postgameMenuInfo.blueScore = atoi(UI_Argv(12));
+	postgameMenuInfo.redScore = atoi(UI_Argv(13));
 	UI_SPPostgameMenu_Init();
 	UI_PushMenu( &postgameMenuInfo.menu );
 
@@ -652,17 +698,30 @@ void UI_SPPostgameMenu_f( void ) {
 		Menu_SetCursorToItem( &postgameMenuInfo.menu, &postgameMenuInfo.item_again );
 	}
 
-	Prepname( 0 );
-	Prepname( 1 );
-	Prepname( 2 );
+	if (gametype == GT_SINGLE_PLAYER) {
+		Prepname(0);
+		Prepname(1);
+		Prepname(2);
+	}
 
-	if ( playerGameRank != 1 ) {
-		postgameMenuInfo.winnerSound = trap_S_RegisterSound( va( "sound/player/announce/%s_wins.wav", postgameMenuInfo.placeNames[0] ), qfalse );
-		trap_Cmd_ExecuteText( EXEC_APPEND, "music music/loss\n" );
+	if (gametype == GT_SINGLE_PLAYER) {
+		if (playerGameRank != 1) {
+			postgameMenuInfo.winnerSound = trap_S_RegisterSound(va("sound/player/announce/%s_wins.wav", postgameMenuInfo.placeNames[0]), qfalse);
+			trap_Cmd_ExecuteText(EXEC_APPEND, "music music/loss\n");
+		}
+		else {
+			postgameMenuInfo.winnerSound = trap_S_RegisterSound("sound/player/announce/youwin.wav", qfalse);
+			trap_Cmd_ExecuteText(EXEC_APPEND, "music music/win\n");
+		}
 	}
 	else {
-		postgameMenuInfo.winnerSound = trap_S_RegisterSound( "sound/player/announce/youwin.wav", qfalse );
-		trap_Cmd_ExecuteText( EXEC_APPEND, "music music/win\n" );
+		//ERAESR: custom "red wins/blue wins" sound effects?
+		if (playerGameRank != 1) {
+			trap_Cmd_ExecuteText(EXEC_APPEND, "music music/loss\n");
+		} else {
+			postgameMenuInfo.winnerSound = trap_S_RegisterSound("sound/player/announce/youwin.wav", qfalse);
+			trap_Cmd_ExecuteText(EXEC_APPEND, "music music/win\n");
+		}
 	}
 
 	postgameMenuInfo.phase = 1;

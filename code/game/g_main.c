@@ -985,10 +985,13 @@ void BeginIntermission( void ) {
 	}
 #else
 	// if single player game
-	//ERAESR: HANDLE PODIUM STUFF
-	if ( g_gametype.integer == GT_SINGLE_PLAYER) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
 		UpdateTournamentInfo();
 		SpawnModelsOnVictoryPads();
+	}
+	else if (g_gametype.integer == GT_SINGLE_PLAYER_TEAM || g_gametype.integer == GT_SINGLE_PLAYER_CTF) {
+		//ERAESR: How to deal with podium in team games?
+		UpdateTournamentInfo();
 	}
 #endif
 

@@ -708,7 +708,7 @@ void UI_DrawString( int x, int y, const char* str, int style, vec4_t color )
 	vec4_t	lowlight;
 	float	*drawcolor;
 	vec4_t	dropcolor;
-
+	
 	if( !str ) {
 		return;
 	}

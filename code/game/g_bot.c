@@ -409,7 +409,7 @@ void G_CheckMinimumPlayers( void ) {
 	minplayers = bot_minplayers.integer;
 	if (minplayers <= 0) return;
 
-	if (g_gametype.integer >= GT_TEAM) {
+	if (g_gametype.integer >= GT_TEAM && g_gametype.integer != GT_SINGLE_PLAYER_TEAM && g_gametype.integer != GT_SINGLE_PLAYER_CTF) {
 		if (minplayers >= g_maxclients.integer / 2) {
 			minplayers = (g_maxclients.integer / 2) -1;
 		}
@@ -1001,8 +1001,8 @@ void G_InitBots( qboolean restart ) {
 		}
 
 		strValue = Info_ValueForKey(arenainfo, "capturelimit");
-		timeLimit = atoi(strValue);
-		if (timeLimit) {
+		capturelimit = atoi(strValue);
+		if (capturelimit) {
 			trap_Cvar_Set("capturelimit", strValue);
 		}
 		else {
