@@ -40,22 +40,18 @@ SINGLE PLAYER POSTGAME MENU
 #define ART_REPLAY1		"menu/art/replay_1"
 #define ART_NEXT0		"menu/art/next_0"
 #define ART_NEXT1		"menu/art/next_1"
-#define ART_BLUEFLAG	"menu/art/blueflag"
 #define ART_REDFLAG		"menu/art/redflag"
+#define ART_BLUEFLAG	"menu/art/blueflag"
 
 #define ID_AGAIN		10
 #define ID_NEXT			11
 #define ID_MENU			12
-#define ID_BLUEFLAG		15
-#define ID_REDFLAG		16
 
 typedef struct {
 	menuframework_s	menu;
 	menubitmap_s	item_again;
 	menubitmap_s	item_next;
 	menubitmap_s	item_menu;
-	menubitmap_s	blueflag;
-	menubitmap_s	redflag;
 
 	int				phase;
 	int				ignoreKeysTime;
@@ -81,12 +77,13 @@ typedef struct {
 	int				gametype;
 	int				blueScore;
 	int				redScore;
+	int				nextLevelStartTime;
 } postgameMenuInfo_t;
 
 static postgameMenuInfo_t	postgameMenuInfo;
 static char					arenainfo[MAX_INFO_VALUE];
 
-char	*ui_medalNames[] = {"Accuracy", "Impressive", "Excellent", "Gauntlet", "Frags", "Perfect"};
+char	*ui_medalNames[] = {"Accuracy", "Impressive", "Excellent", "Gauntlet", "Frags", "Perfect", "Capture", "Assist", "Defense"};
 char	*ui_medalPicNames[] = {
 	"menu/medals/medal_accuracy",
 	"menu/medals/medal_impressive",
@@ -132,19 +129,25 @@ UI_SPPostgameMenu_NextEvent
 =================
 */
 static void UI_SPPostgameMenu_NextEvent( void* ptr, int event ) {
+	if (event != QM_ACTIVATED) {
+		return;
+	}
+
+	trap_Cmd_ExecuteText(EXEC_APPEND, "kick allbots\n");
+	postgameMenuInfo.nextLevelStartTime = uis.realtime;
+}
+
+static void UI_SPPostgameMenu_GotoNextLevel() {
 	int			currentSet;
 	int			levelSet;
 	int			level;
 	int			currentLevel;
-	const char	*arenaInfo;
+	const char* arenaInfo;
 
-	if (event != QM_ACTIVATED) {
-		return;
-	}
 	UI_PopMenu();
 
 	// handle specially if we just won the training map
-	if( postgameMenuInfo.won == 0 ) {
+	if (postgameMenuInfo.won == 0) {
 		level = 0;
 	}
 	else {
@@ -153,23 +156,22 @@ static void UI_SPPostgameMenu_NextEvent( void* ptr, int event ) {
 	levelSet = level / ARENAS_PER_TIER;
 
 	currentLevel = UI_GetCurrentGame();
-	if( currentLevel == -1 ) {
+	if (currentLevel == -1) {
 		currentLevel = postgameMenuInfo.level;
 	}
 	currentSet = currentLevel / ARENAS_PER_TIER;
 
-	if( levelSet > currentSet || levelSet == UI_GetNumSPTiers() ) {
+	if (levelSet > currentSet || levelSet == UI_GetNumSPTiers()) {
 		level = currentLevel;
 	}
 
-	arenaInfo = UI_GetArenaInfoByNumber( level );
-	if ( !arenaInfo ) {
+	arenaInfo = UI_GetArenaInfoByNumber(level);
+	if (!arenaInfo) {
 		return;
 	}
 
-	UI_SPArena_Start( arenaInfo );
+	UI_SPArena_Start(arenaInfo);
 }
-
 
 /*
 =================
@@ -227,10 +229,21 @@ static void UI_SPPostgameMenu_DrawAwardsMedals( int max ) {
 	int		amount;
 	int		x, y;
 	char	buf[16];
-
+	
+	y = -24;
 	for( n = 0; n < max; n++ ) {
-		x = medalLocations[n];
-		y = 64;
+		if (postgameMenuInfo.gametype == GT_SINGLE_PLAYER) {
+			x = medalLocations[n];
+			y = 64;
+		} else {
+			if (n % 2 > 0) {
+				x = 328;
+			}
+			else {
+				x = 264;
+				y += 72;
+			}
+		}
 		medal = postgameMenuInfo.awardsEarned[n];
 		amount = postgameMenuInfo.awardsLevels[n];
 
@@ -255,13 +268,20 @@ static void UI_SPPostgameMenu_DrawAwardsPresentation( int timer ) {
 	int		awardNum;
 	int		atimer;
 	vec4_t	color;
+	int		y;
+
+	if (postgameMenuInfo.gametype == GT_SINGLE_PLAYER) {
+		y = 64;
+	} else {
+		y = 16;
+	}
 
 	awardNum = timer / AWARD_PRESENTATION_TIME;
 	atimer = timer % AWARD_PRESENTATION_TIME;
 
 	color[0] = color[1] = color[2] = 1.0f;
 	color[3] = (float)( AWARD_PRESENTATION_TIME - atimer ) / (float)AWARD_PRESENTATION_TIME;
-	UI_DrawProportionalString( 320, 64, ui_medalNames[postgameMenuInfo.awardsEarned[awardNum]], UI_CENTER, color );
+	UI_DrawProportionalString( 320, y, ui_medalNames[postgameMenuInfo.awardsEarned[awardNum]], UI_CENTER, color );
 
 	UI_SPPostgameMenu_DrawAwardsMedals( awardNum + 1 );
 
@@ -313,12 +333,33 @@ static void UI_SPPostgameMenu_MenuDraw( void ) {
 	int		serverId;
 	int		n;
 	char	info[MAX_INFO_STRING];
+	int		spNextLevelDelay;
 
 	trap_GetConfigString( CS_SYSTEMINFO, info, sizeof(info) );
 	serverId = atoi( Info_ValueForKey( info, "sv_serverid" ) );
 	if( serverId != postgameMenuInfo.serverId ) {
 		UI_PopMenu();
 		return;
+	}
+
+
+	//draw flags and team scores
+	if (postgameMenuInfo.gametype == GT_SINGLE_PLAYER_TEAM || postgameMenuInfo.gametype == GT_SINGLE_PLAYER_CTF) {
+		UI_DrawNamedPic(64, 64, 128, 256, ART_REDFLAG);
+		UI_DrawNamedPic(640 - 64 - 128, 64, 128, 256, ART_BLUEFLAG);
+		UI_DrawString(128, 328, va("%i", postgameMenuInfo.redScore), UI_CENTER | UI_GIANTFONT, colorYellow);
+		UI_DrawString(640 - 128, 328, va("%i", postgameMenuInfo.blueScore), UI_CENTER | UI_GIANTFONT, colorYellow);
+	}
+
+	//check for nextlevel event
+	if (postgameMenuInfo.nextLevelStartTime > -1) {
+		spNextLevelDelay = trap_Cvar_VariableValue("g_spNextLevelDelay");
+		if (spNextLevelDelay < 0) {
+			spNextLevelDelay = 0;
+		}
+		if (postgameMenuInfo.nextLevelStartTime > -1 && uis.realtime - postgameMenuInfo.nextLevelStartTime > spNextLevelDelay) {
+			UI_SPPostgameMenu_GotoNextLevel();
+		}
 	}
 
 	// phase 1
@@ -406,11 +447,6 @@ static void UI_SPPostgameMenu_MenuDraw( void ) {
 	UI_SPPostgameMenu_MenuDrawScoreLine( n, 0 );
 	UI_SPPostgameMenu_MenuDrawScoreLine( n + 1, 0 + SMALLCHAR_HEIGHT );
 	UI_SPPostgameMenu_MenuDrawScoreLine( n + 2, 0 + 2 * SMALLCHAR_HEIGHT );
-
-	if (postgameMenuInfo.gametype == GT_SINGLE_PLAYER_TEAM || postgameMenuInfo.gametype == GT_SINGLE_PLAYER_CTF) {
-		UI_DrawString(128, 320, va("%i", postgameMenuInfo.blueScore), UI_CENTER, colorYellow);
-		UI_DrawString(640 - 128, 320, va("%i", postgameMenuInfo.redScore), UI_CENTER, colorYellow);
-	}
 }
 
 
@@ -431,6 +467,8 @@ void UI_SPPostgameMenu_Cache( void ) {
 	trap_R_RegisterShaderNoMip( ART_REPLAY1 );
 	trap_R_RegisterShaderNoMip( ART_NEXT0 );
 	trap_R_RegisterShaderNoMip( ART_NEXT1 );
+	trap_R_RegisterShaderNoMip( ART_REDFLAG );
+	trap_R_RegisterShaderNoMip( ART_BLUEFLAG );
 	for( n = 0; n < 6; n++ ) {
 		trap_R_RegisterShaderNoMip( ui_medalPicNames[n] );
 		trap_S_RegisterSound( ui_medalSounds[n], qfalse );
@@ -493,29 +531,6 @@ static void UI_SPPostgameMenu_Init( void ) {
 	Menu_AddItem( &postgameMenuInfo.menu, ( void * )&postgameMenuInfo.item_menu );
 	Menu_AddItem( &postgameMenuInfo.menu, ( void * )&postgameMenuInfo.item_again );
 	Menu_AddItem( &postgameMenuInfo.menu, ( void * )&postgameMenuInfo.item_next );
-	
-	if (postgameMenuInfo.gametype == GT_SINGLE_PLAYER_TEAM || postgameMenuInfo.gametype == GT_SINGLE_PLAYER_CTF) {
-		postgameMenuInfo.blueflag.generic.type = MTYPE_BITMAP;
-		postgameMenuInfo.blueflag.generic.name = ART_BLUEFLAG;
-		postgameMenuInfo.blueflag.generic.flags = QMF_INACTIVE;
-		postgameMenuInfo.blueflag.generic.x = 64;
-		postgameMenuInfo.blueflag.generic.y = 64;
-		postgameMenuInfo.blueflag.generic.id = ID_BLUEFLAG;
-		postgameMenuInfo.blueflag.width = 128;
-		postgameMenuInfo.blueflag.height = 256;
-
-		postgameMenuInfo.redflag.generic.type = MTYPE_BITMAP;
-		postgameMenuInfo.redflag.generic.name = ART_REDFLAG;
-		postgameMenuInfo.redflag.generic.flags = QMF_RIGHT_JUSTIFY | QMF_INACTIVE;
-		postgameMenuInfo.redflag.generic.x = 640 - 64;
-		postgameMenuInfo.redflag.generic.y = 64;
-		postgameMenuInfo.redflag.generic.id = ID_REDFLAG;
-		postgameMenuInfo.redflag.width = 128;
-		postgameMenuInfo.redflag.height = 256;
-
-		Menu_AddItem(&postgameMenuInfo.menu, (void*)&postgameMenuInfo.blueflag);
-		Menu_AddItem(&postgameMenuInfo.menu, (void*)&postgameMenuInfo.redflag);
-	}
 }
 
 
@@ -555,6 +570,8 @@ void UI_SPPostgameMenu_f( void ) {
 	int			gametype;
 
 	memset( &postgameMenuInfo, 0, sizeof(postgameMenuInfo) );
+
+	postgameMenuInfo.nextLevelStartTime = -1;
 
 	trap_GetConfigString( CS_SYSTEMINFO, info, sizeof(info) );
 	postgameMenuInfo.serverId = atoi( Info_ValueForKey( info, "sv_serverid" ) );
@@ -603,7 +620,8 @@ void UI_SPPostgameMenu_f( void ) {
 	awardValues[AWARD_PERFECT] = atoi( UI_Argv( 8 ) );
 	awardValues[AWARD_CAPTURE] = atoi( UI_Argv( 9 ) );
 	awardValues[AWARD_ASSIST] = atoi( UI_Argv( 10 ) );
-	awardValues[AWARD_DEFENSE] = atoi(UI_Argv(11));
+	awardValues[AWARD_DEFENSE] = atoi( UI_Argv( 11 ) );
+
 
 	postgameMenuInfo.numAwards = 0;
 
