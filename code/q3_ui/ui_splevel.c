@@ -49,8 +49,8 @@ SINGLE PLAYER LEVEL SELECT MENU
 #define ART_RESET1					"menu/art/reset_1"	
 #define ART_CUSTOM0					"menu/art/skirmish_0"
 #define ART_CUSTOM1					"menu/art/skirmish_1"
-#define ART_BLUEFLAG				"menu/art/blueflag"
-#define ART_REDFLAG 				"menu/art/redflag"
+#define ART_BLUEFLAG				"menu/art/blueteam"
+#define ART_REDFLAG 				"menu/art/redteam"
 
 #define BLUE_FLAG_MODEL				"models/flags/b_flag.md3"
 #define RED_FLAG_MODEL				"models/flags/r_flag.md3"
@@ -734,23 +734,23 @@ static void UI_SPLevelMenu_DrawCaptureTheFlagIcons() {
 	trap_R_ClearScene();
 
 	// add the models
-	xOffset = 920;
+	xOffset = 940;
 
 	for (num = 0; num < 4; num++) {
 		if (levelMenuInfo.levelGametypes[num] == GT_SINGLE_PLAYER_CTF) {
 			originRed[0] = 2000;	//z-axis (bigger is further away)
 			originRed[1] = xOffset;	//x-axis (bigger is left)
-			originRed[2] = 187;		//y-axis (bigger is up)
+			originRed[2] = 200;		//y-axis (bigger is up)
 
 			originBlue[0] = 2000;
-			originBlue[1] = xOffset - 20;
-			originBlue[2] = 187;
+			originBlue[1] = xOffset - 40;
+			originBlue[2] = 200;
 
 			memset(&entRed, 0, sizeof(entRed));
 			memset(&entBlue, 0, sizeof(entBlue));
 
 			//red flag
-			VectorSet(anglesRed, -15 - 30, 270, 0);
+			VectorSet(anglesRed, 0, 270, 0);
 			AnglesToAxis(anglesRed, entRed.axis);
 			entRed.hModel = levelMenuInfo.redFlagModel;
 			VectorCopy(originRed, entRed.origin);
@@ -759,7 +759,7 @@ static void UI_SPLevelMenu_DrawCaptureTheFlagIcons() {
 			VectorCopy(entRed.origin, entRed.oldorigin);
 
 			//blue flag
-			VectorSet(anglesBlue, -15 + 30, 90, 0);
+			VectorSet(anglesBlue, 0, 90, 0);
 			AnglesToAxis(anglesBlue, entBlue.axis);
 			entBlue.hModel = levelMenuInfo.blueFlagModel;
 			VectorCopy(originBlue, entBlue.origin);
