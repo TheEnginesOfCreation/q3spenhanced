@@ -49,6 +49,11 @@ SINGLE PLAYER LEVEL SELECT MENU
 #define ART_RESET1					"menu/art/reset_1"	
 #define ART_CUSTOM0					"menu/art/skirmish_0"
 #define ART_CUSTOM1					"menu/art/skirmish_1"
+#define ART_BLUEFLAG				"menu/art/blueflag"
+#define ART_REDFLAG 				"menu/art/redflag"
+
+#define BLUE_FLAG_MODEL				"models/flags/b_flag.md3"
+#define RED_FLAG_MODEL				"models/flags/r_flag.md3"
 
 #define ID_LEFTARROW		10
 #define ID_PICTURE0			11
@@ -96,6 +101,7 @@ typedef struct {
 	char			levelNames[4][16];
 	int				levelScores[4];
 	int				levelScoresSkill[4];
+	int				levelGametypes[4];
 	qhandle_t		levelSelectedPic;
 	qhandle_t		levelFocusPic;
 	qhandle_t		levelCompletePic[5];
@@ -108,6 +114,9 @@ typedef struct {
 	int				numBots;
 	qhandle_t		botPics[7];
 	char			botNames[7][10];
+
+	qhandle_t		blueFlagModel;
+	qhandle_t		redFlagModel;
 } levelMenuInfo_t;
 
 static levelMenuInfo_t	levelMenuInfo;
@@ -222,11 +231,21 @@ UI_SPLevelMenu_SetMenuItems
 */
 static void UI_SPLevelMenu_SetMenuArena( int n, int level, const char *arenaInfo ) {
 	char		map[MAX_QPATH];
+	char	    type[MAX_INFO_VALUE];
 
 	Q_strncpyz( map, Info_ValueForKey( arenaInfo, "map" ), sizeof(map) );
 
 	Q_strncpyz( levelMenuInfo.levelNames[n], map, sizeof(levelMenuInfo.levelNames[n]) );
 	Q_strupr( levelMenuInfo.levelNames[n] );
+
+	Q_strncpyz(type, Info_ValueForKey(arenaInfo, "type"), sizeof(type));
+	if (strstr(type, "spf")) {
+		levelMenuInfo.levelGametypes[n] = GT_SINGLE_PLAYER;
+	} else if (strstr(type, "spt")) {
+		levelMenuInfo.levelGametypes[n] = GT_SINGLE_PLAYER_TEAM;
+	} else if (strstr(type, "spc")) {
+		levelMenuInfo.levelGametypes[n] = GT_SINGLE_PLAYER_CTF;
+	}
 
 	UI_GetBestScore( level, &levelMenuInfo.levelScores[n], &levelMenuInfo.levelScoresSkill[n] );
 	if( levelMenuInfo.levelScores[n] > 8 ) {
@@ -637,7 +656,12 @@ static void UI_SPLevelMenu_MenuDraw( void ) {
 			UI_DrawHandlePic( x-31, y-30, 256, 256-27, levelMenuInfo.levelFocusPic); 
 			trap_R_SetColor( NULL );
 		}
+
+		//draw team deathmatch icons
+		UI_SPLevelMenu_DrawTeamDeathmatchIcons(n, x, y);
 	}
+
+	UI_SPLevelMenu_DrawCaptureTheFlagIcons();
 
 	// show map name and long name of selected level
 	y = 192;
@@ -665,6 +689,93 @@ static void UI_SPLevelMenu_MenuDraw( void ) {
 	}
 }
 
+static void UI_SPLevelMenu_DrawTeamDeathmatchIcons(int num, int x, int y) {
+	char* type;
+	x += 2;
+	y -= 2;
+
+	if ( levelMenuInfo.levelGametypes[num] == GT_SINGLE_PLAYER_TEAM ) {
+		UI_DrawNamedPic(x, y, 16, 32, ART_REDFLAG);
+		UI_DrawNamedPic(x + 18, y, 16, 32, ART_BLUEFLAG);
+	}
+}
+
+static void UI_SPLevelMenu_DrawCaptureTheFlagIcons() {
+	refdef_t		refdef;
+	refEntity_t		entBlue, entRed;
+	vec3_t			originBlue, originRed;
+	vec3_t			anglesBlue, anglesRed;
+	float			x, y, w, h;
+	int				num, xOffset;
+
+	// setup the refdef
+
+	memset(&refdef, 0, sizeof(refdef));
+
+	refdef.rdflags = RDF_NOWORLDMODEL;
+
+	AxisClear(refdef.viewaxis);
+	
+	x = 0;
+	y = 0;
+	w = 640;
+	h = 480;
+	UI_AdjustFrom640(&x, &y, &w, &h);
+	refdef.x = x;
+	refdef.y = y;
+	refdef.width = w;
+	refdef.height = h;
+
+	refdef.fov_x = 60;
+	refdef.fov_y = 19.6875;
+
+	refdef.time = uis.realtime;
+
+	trap_R_ClearScene();
+
+	// add the models
+	xOffset = 920;
+
+	for (num = 0; num < 4; num++) {
+		if (levelMenuInfo.levelGametypes[num] == GT_SINGLE_PLAYER_CTF) {
+			originRed[0] = 2000;	//z-axis (bigger is further away)
+			originRed[1] = xOffset;	//x-axis (bigger is left)
+			originRed[2] = 187;		//y-axis (bigger is up)
+
+			originBlue[0] = 2000;
+			originBlue[1] = xOffset - 20;
+			originBlue[2] = 187;
+
+			memset(&entRed, 0, sizeof(entRed));
+			memset(&entBlue, 0, sizeof(entBlue));
+
+			//red flag
+			VectorSet(anglesRed, -15 - 30, 270, 0);
+			AnglesToAxis(anglesRed, entRed.axis);
+			entRed.hModel = levelMenuInfo.redFlagModel;
+			VectorCopy(originRed, entRed.origin);
+			VectorCopy(originRed, entRed.lightingOrigin);
+			entRed.renderfx = RF_LIGHTING_ORIGIN | RF_NOSHADOW;
+			VectorCopy(entRed.origin, entRed.oldorigin);
+
+			//blue flag
+			VectorSet(anglesBlue, -15 + 30, 90, 0);
+			AnglesToAxis(anglesBlue, entBlue.axis);
+			entBlue.hModel = levelMenuInfo.blueFlagModel;
+			VectorCopy(originBlue, entBlue.origin);
+			VectorCopy(originBlue, entBlue.lightingOrigin);
+			entBlue.renderfx = RF_LIGHTING_ORIGIN | RF_NOSHADOW;
+			VectorCopy(entBlue.origin, entBlue.oldorigin);
+
+			trap_R_AddRefEntityToScene(&entRed);
+			trap_R_AddRefEntityToScene(&entBlue);
+		}
+
+		xOffset -= 505;
+	}
+
+	trap_R_RenderScene(&refdef);
+}
 
 /*
 =================
@@ -705,6 +816,10 @@ void UI_SPLevelMenu_Cache( void ) {
 	levelMenuInfo.levelCompletePic[2] = trap_R_RegisterShaderNoMip( ART_MAP_COMPLETE3 );
 	levelMenuInfo.levelCompletePic[3] = trap_R_RegisterShaderNoMip( ART_MAP_COMPLETE4 );
 	levelMenuInfo.levelCompletePic[4] = trap_R_RegisterShaderNoMip( ART_MAP_COMPLETE5 );
+
+	levelMenuInfo.blueFlagModel = trap_R_RegisterModel(BLUE_FLAG_MODEL);
+	levelMenuInfo.redFlagModel = trap_R_RegisterModel(RED_FLAG_MODEL);
+	
 }
 
 
