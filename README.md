@@ -12,6 +12,7 @@ QVM files will be writting to \quake3\baseq3\vm folder.
 - Single Player level select UI shows gametype for TDM and CTF maps.
 - Single Player level select UI slightly changed to allow display of new awards.
 - Alternative intermission screen in single player TDM and CTF.
+- Added example arenas.txt
 
 # note
 This project is still very much a work in progress and not suitable for actual use yet.
