@@ -187,6 +187,9 @@ void InGame_MenuInit( void ) {
 	s_ingame.team.string				= "START";
 	s_ingame.team.color					= color_red;
 	s_ingame.team.style					= UI_CENTER|UI_SMALLFONT;
+	if (trap_Cvar_VariableValue("g_gametype") == GT_SINGLE_PLAYER || trap_Cvar_VariableValue("g_gametype") == GT_SINGLE_PLAYER_TEAM || trap_Cvar_VariableValue("g_gametype") == GT_SINGLE_PLAYER_CTF) {
+		s_ingame.team.generic.flags |= QMF_GRAYED;
+	}
 
 	y += INGAME_MENU_VERTICAL_SPACING;
 	s_ingame.addbots.generic.type		= MTYPE_PTEXT;
