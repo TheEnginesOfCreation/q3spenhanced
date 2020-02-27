@@ -667,7 +667,7 @@ static void UI_SPLevelMenu_MenuDraw( void ) {
 	y = 192;
 	Q_strncpyz( buf, Info_ValueForKey( levelMenuInfo.selectedArenaInfo, "map" ), 20 );
 	Q_strupr( buf );
-	Com_sprintf( string, sizeof(string), "%s: %s", buf, Info_ValueForKey( levelMenuInfo.selectedArenaInfo, "longname" ) );
+	Com_sprintf( string, sizeof(string), "%s", Info_ValueForKey( levelMenuInfo.selectedArenaInfo, "longname" ) );
 	UI_DrawProportionalString( 320, y, string, UI_CENTER|UI_SMALLFONT, color_orange );
 
 //	fraglimit = atoi( Info_ValueForKey( levelMenuInfo.selectedArenaInfo, "fraglimit" ) );
