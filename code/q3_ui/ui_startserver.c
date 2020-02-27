@@ -268,7 +268,7 @@ static void StartServer_GametypeEvent( void* ptr, int event ) {
 	s_startserver.nummaps = 0;
 	matchbits = 1 << gametype_remap[s_startserver.gametype.curvalue];
 	if( gametype_remap[s_startserver.gametype.curvalue] == GT_FFA ) {
-		matchbits |= ( 1 << GT_SINGLE_PLAYER );	//ERAESR: What to do here?
+		matchbits |= ( 1 << GT_SINGLE_PLAYER );
 	}
 	for( i = 0; i < count; i++ ) {
 		info = UI_GetArenaInfoByNumber( i );

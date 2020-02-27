@@ -136,7 +136,7 @@ void UpdateTournamentInfo( void ) {
 			player->client->ps.persistant[PERS_DEFEND_COUNT],			//arg11
 			level.teamScores[TEAM_BLUE],								//arg12
 			level.teamScores[TEAM_RED],									//arg13
-			won,														//arg14
+			won,														//arg14 note: only used for team games
 			g_gametype.integer											//arg15
 			//adding more args here requires MAX_ARG in ui_sppostgame.c to be increased as well
 		);
