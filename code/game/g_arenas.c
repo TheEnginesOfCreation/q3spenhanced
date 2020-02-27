@@ -138,6 +138,7 @@ void UpdateTournamentInfo( void ) {
 			level.teamScores[TEAM_RED],									//arg13
 			won,														//arg14
 			g_gametype.integer											//arg15
+			//adding more args here requires MAX_ARG in ui_sppostgame.c to be increased as well
 		);
 #endif
 	}

@@ -993,7 +993,6 @@ void BeginIntermission( void ) {
 		SpawnModelsOnVictoryPads();
 	}
 	else if (g_gametype.integer == GT_SINGLE_PLAYER_TEAM || g_gametype.integer == GT_SINGLE_PLAYER_CTF) {
-		//ERAESR: How to deal with podium in team games?
 		UpdateTournamentInfo();
 	}
 #endif

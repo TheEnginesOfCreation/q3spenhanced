@@ -568,6 +568,7 @@ void UI_SPPostgameMenu_f( void ) {
 	char		map[MAX_QPATH];
 	char		info[MAX_INFO_STRING];
 	int			gametype;
+	int			MAX_ARG = 15; //was 8
 
 	memset( &postgameMenuInfo, 0, sizeof(postgameMenuInfo) );
 
@@ -596,9 +597,9 @@ void UI_SPPostgameMenu_f( void ) {
 	}
 
 	for ( n = 0; n < postgameMenuInfo.numClients; n++ ) {
-		postgameMenuInfo.clientNums[n] = atoi( UI_Argv( 8 + n * 3 + 1 ) );
-		postgameMenuInfo.ranks[n] = atoi( UI_Argv( 8 + n * 3 + 2 ) );
-		postgameMenuInfo.scores[n] = atoi( UI_Argv( 8 + n * 3 + 3 ) );
+		postgameMenuInfo.clientNums[n] = atoi( UI_Argv( MAX_ARG + n * 3 + 1 ) );
+		postgameMenuInfo.ranks[n] = atoi( UI_Argv( MAX_ARG + n * 3 + 2 ) );
+		postgameMenuInfo.scores[n] = atoi( UI_Argv( MAX_ARG + n * 3 + 3 ) );
 
 		if( gametype == GT_SINGLE_PLAYER && postgameMenuInfo.clientNums[n] == playerClientNum ) {
 			playerGameRank = (postgameMenuInfo.ranks[n] & ~RANK_TIED_FLAG) + 1;
