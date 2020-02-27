@@ -1,0 +1,85 @@
+{
+map			"q3ctf1"
+longname	"Dueling Keeps"
+bots		"orbb ranger sorlag"
+capturelimit	5
+type		"spc ctf"
+}
+
+{
+map			"q3dm4"
+bots		"orbb bitterman grunt"
+longname	"The Place Of Many Deaths"
+fraglimit	20
+type		"spf ffa"
+}
+
+{
+map			"q3dm17"
+bots		"major sorlag doom"
+longname	"The Longest Yard"
+fraglimit	30
+type		"spt ffa"
+}
+
+{
+map			"q3ctf2"
+longname	"Troubled Waters"
+bots		"visor bones uriel sarge angel"
+capturelimit	5
+type		"spc ctf"
+}
+
+
+{
+map			"q3dm7"
+bots		"daemia wrack grunt slash bones sarge sorlag"
+longname	"Temple of Retribution"
+fraglimit	30
+type		"spt ffa team"
+}
+
+
+{
+map			"q3ctf3"
+longname	"The Stronghold"
+bots		"anarki biker major ranger doom sarge gorre"
+capturelimit	5
+type		"spc ctf"
+}
+
+{
+map			"q3ctf4"
+longname	"Space CTF"
+bots		"daemia slash uriel sorlag orbb bones visor"
+capturelimit	5
+type		"spc ctf"
+}
+
+{
+map			"q3dm2"
+bots		"phobos doom"
+longname	"House Of Pain"
+fraglimit	10
+type		"spf ffa tourney"
+}
+
+
+
+{
+map			"q3dm0"
+bots		"crash"
+longname	"Introduction"
+special		"Training"
+fraglimit	5
+type		"spf"
+}
+
+{
+map			"q3tourney6"
+bots		"xaero"
+longname	"The Very End Of You"
+special		"Final"
+fraglimit	10
+type		"spf ffa tourney"
+}
