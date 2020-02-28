@@ -11,7 +11,7 @@ map			"q3dm4"
 bots		"orbb bitterman grunt"
 longname	"The Place Of Many Deaths"
 fraglimit	20
-type		"single ffa"
+type		"spf ffa"
 }
 
 {
@@ -61,7 +61,7 @@ map			"q3dm2"
 bots		"phobos doom"
 longname	"House Of Pain"
 fraglimit	10
-type		"single ffa tourney"
+type		"spf ffa tourney"
 }
 
 
@@ -72,7 +72,7 @@ bots		"crash"
 longname	"Introduction"
 special		"Training"
 fraglimit	5
-type		"single"
+type		"spf"
 }
 
 {
@@ -81,5 +81,5 @@ bots		"xaero"
 longname	"The Very End Of You"
 special		"Final"
 fraglimit	10
-type		"single ffa tourney"
+type		"spf ffa tourney"
 }
