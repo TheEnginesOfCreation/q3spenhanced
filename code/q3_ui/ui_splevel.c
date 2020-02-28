@@ -734,7 +734,7 @@ static void UI_SPLevelMenu_DrawCaptureTheFlagIcons() {
 	trap_R_ClearScene();
 
 	// add the models
-	xOffset = 940;
+	xOffset = levelMenuInfo.numMaps == 1 ? 195 : 940;
 
 	for (num = 0; num < levelMenuInfo.numMaps; num++) {
 		if (levelMenuInfo.levelGametypes[num] == GT_SINGLE_PLAYER_CTF) {
