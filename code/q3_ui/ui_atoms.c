@@ -1048,6 +1048,11 @@ qboolean UI_ConsoleCommand( int realTime ) {
 		return qtrue;
 	}
 
+	if (Q_stricmp(cmd, "q3spenhanced") == 0) {
+		trap_Print(va("^5q3spenhanced version: %s^7\n", Q3SPENHANCED_VERSION));
+		return qtrue;
+	}
+
 	return qfalse;
 }
 

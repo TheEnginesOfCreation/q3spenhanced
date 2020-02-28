@@ -13,6 +13,9 @@ QVM files will be writting to \quake3\baseq3\vm folder.
 - Single Player level select UI slightly changed to allow display of new awards.
 - Alternative intermission screen in single player TDM and CTF.
 - Added example arenas.txt
+- Having only a single tier won't put game into demo mode.
+- Console command "q3spenhanced" echoes out the version of the q3spenhanced mod that's running.
+- When clicking the "next" button after finishing a single player arena, the game kicks all bots and loads the next level. The g_spNextLevelDelay cvar (default 500) determines the amount of time (in ms) between kicking the bots and loading the next level. If you are experiencing problems with loading bots for the next level (they don't properly join the game or become invisible) increase the value for this setting.
 
 # note
 This project is still very much a work in progress and not suitable for actual use yet.
