@@ -216,7 +216,7 @@ static void UI_LoadArenas( void ) {
 			continue;
 		}
 
-		if( strstr( type, "spf" ) || strstr( type, "spc" ) || strstr( type, "spt" ) ) {
+		if( strstr( type, "single" ) || strstr( type, "spc" ) || strstr( type, "spt" ) ) {
 			// check for special single player arenas (training, final)
 			tag = Info_ValueForKey( ui_arenaInfos[n], "special" );
 			if( *tag ) {
@@ -244,7 +244,7 @@ static void UI_LoadArenas( void ) {
 
 		// if no type specified, it will be treated as "ffa"
 		if( *type ) {
-			if( strstr( type, "spf" ) || strstr( type, "spc" ) || strstr( type, "spt" ) ) {
+			if( strstr( type, "single" ) || strstr( type, "spc" ) || strstr( type, "spt" ) ) {
 				// check for special single player arenas (training, final)
 				tag = Info_ValueForKey( ui_arenaInfos[n], "special" );
 				if( *tag ) {

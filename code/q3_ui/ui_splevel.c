@@ -239,7 +239,7 @@ static void UI_SPLevelMenu_SetMenuArena( int n, int level, const char *arenaInfo
 	Q_strupr( levelMenuInfo.levelNames[n] );
 
 	Q_strncpyz(type, Info_ValueForKey(arenaInfo, "type"), sizeof(type));
-	if (strstr(type, "spf")) {
+	if (strstr(type, "single")) {
 		levelMenuInfo.levelGametypes[n] = GT_SINGLE_PLAYER;
 	} else if (strstr(type, "spt")) {
 		levelMenuInfo.levelGametypes[n] = GT_SINGLE_PLAYER_TEAM;

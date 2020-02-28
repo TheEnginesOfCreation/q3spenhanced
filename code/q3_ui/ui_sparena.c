@@ -90,7 +90,7 @@ void UI_SPArena_Start(const char* arenaInfo) {
 	trap_Cvar_SetValue("capturelimit", capturelimit);
 	trap_Cvar_SetValue("timelimit", timelimit);
 
-	if (strstr(type, "spf")) {
+	if (strstr(type, "single")) {
 		trap_Cvar_SetValue("g_gametype", GT_SINGLE_PLAYER);
 		trap_Cmd_ExecuteText(EXEC_APPEND, va("spmap %s\n", map));
 	} else if (strstr(type, "spt")) {
