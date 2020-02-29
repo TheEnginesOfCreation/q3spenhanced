@@ -1,3 +1,61 @@
+menu/art/tdm
+{
+	surfaceparm nomarks
+	cull none
+
+	{
+		map menu/art/tdm.tga
+		rgbGen identity
+	}
+	{
+		map menu/art/sepiaflagmap.tga
+		tcGen environment
+		tcmod scale .9 .3
+		tcmod scroll .01 .07
+		blendFunc GL_ONE GL_ONE
+		rgbGen identity
+	}
+	{
+		map menu/art/tdm.tga
+		blendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA
+		rgbGen identity
+	}
+	{
+		map textures/sfx/shadow.tga
+		blendFunc GL_DST_COLOR GL_ZERO
+		rgbGen identity
+	}
+}
+
+menu/art/ctf
+{
+	surfaceparm nomarks
+	cull none
+
+	{
+		map menu/art/ctf.tga
+		rgbGen identity
+	}
+	{
+		map menu/art/sepiaflagmap.tga
+		tcGen environment
+		tcmod scale .9 .3
+		tcmod scroll .01 .07
+		blendFunc GL_ONE GL_ONE
+		rgbGen identity
+	}
+	{
+		map menu/art/ctf.tga
+		blendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA
+		rgbGen identity
+	}
+	{
+		map textures/sfx/shadow.tga
+		blendFunc GL_DST_COLOR GL_ZERO
+		rgbGen identity
+	}
+}
+
 menu/art/blueteam
 {
 	surfaceparm nomarks

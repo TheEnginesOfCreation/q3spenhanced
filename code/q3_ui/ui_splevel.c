@@ -51,6 +51,8 @@ SINGLE PLAYER LEVEL SELECT MENU
 #define ART_CUSTOM1					"menu/art/skirmish_1"
 #define ART_BLUEFLAG				"menu/art/blueteam"
 #define ART_REDFLAG 				"menu/art/redteam"
+#define ART_TDM						"menu/art/tdm"
+#define ART_CTF						"menu/art/ctf"
 
 #define BLUE_FLAG_MODEL				"models/flags/b_flag.md3"
 #define RED_FLAG_MODEL				"models/flags/r_flag.md3"
@@ -658,10 +660,10 @@ static void UI_SPLevelMenu_MenuDraw( void ) {
 		}
 
 		//draw team deathmatch icons
-		UI_SPLevelMenu_DrawTeamDeathmatchIcons(n, x, y);
+		UI_SPLevelMenu_DrawGameplayIcons(n, x, y);
 	}
 
-	UI_SPLevelMenu_DrawCaptureTheFlagIcons();
+	//UI_SPLevelMenu_DrawCaptureTheFlagIcons();
 
 	// show map name and long name of selected level
 	y = 192;
@@ -689,14 +691,18 @@ static void UI_SPLevelMenu_MenuDraw( void ) {
 	}
 }
 
-static void UI_SPLevelMenu_DrawTeamDeathmatchIcons(int num, int x, int y) {
+static void UI_SPLevelMenu_DrawGameplayIcons(int num, int x, int y) {
 	char* type;
 	x += 2;
 	y -= 2;
 
 	if ( levelMenuInfo.levelGametypes[num] == GT_SINGLE_PLAYER_TEAM ) {
-		UI_DrawNamedPic(x, y, 16, 32, ART_REDFLAG);
-		UI_DrawNamedPic(x + 18, y, 16, 32, ART_BLUEFLAG);
+		//UI_DrawNamedPic(x, y, 16, 32, ART_REDFLAG);
+		//UI_DrawNamedPic(x + 18, y, 16, 32, ART_BLUEFLAG);
+		UI_DrawNamedPic(x, y, 24, 48, ART_TDM);
+	}
+	else if (levelMenuInfo.levelGametypes[num] == GT_SINGLE_PLAYER_CTF) {
+		UI_DrawNamedPic(x, y, 24, 48, ART_CTF);
 	}
 }
 
