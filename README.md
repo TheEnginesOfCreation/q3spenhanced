@@ -23,4 +23,5 @@ Once compiled, include the QVM files in a PK3 file together with the following:
 - A custom arenas.txt file. This file can be created in the same way as the arenas.txt found in baseq3\pak0.pk3. The only difference is that in the "type" attribute, include the strings "spf" for single player free for all, "spt" for single player team deathmatch or "spc" for single player CTF. The "single" type is ignored in q3spenhanced. In team game modes, bots are spawned in order but alternate between the teams, starting off with the opposing team. Additionally, capturelimit and timelimit can be set through arenas.txt as well.
 
 # Downloads
-When version 1.0 of the mod is done, a download link will be provided to a pk3 file with the compiled qvm's and required assets.
+The 1.0 release can be downloaded here: https://github.com/TheEnginesOfCreation/q3spenhanced/raw/master/RELEASE/q3spenhanced-1.0.zip
+To release your own mappack, download this release, customize the arenas.txt that is included and repackage the mod under a different name. It is advised to put the arenas.txt inside a pk3 file when repackaging for release.
