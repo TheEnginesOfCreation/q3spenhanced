@@ -19,8 +19,9 @@ QVM files will be writting to \quake3\baseq3\vm folder.
 
 # How to use
 Once compiled, include the QVM files in a PK3 file together with the following:
-- The q3spenhanced.shader file
+- All of the assets.
 - A custom arenas.txt file. This file can be created in the same way as the arenas.txt found in baseq3\pak0.pk3. The only difference is that in the "type" attribute, include the strings "spf" for single player free for all, "spt" for single player team deathmatch or "spc" for single player CTF. The "single" type is ignored in q3spenhanced. In team game modes, bots are spawned in order but alternate between the teams, starting off with the opposing team. Additionally, capturelimit and timelimit can be set through arenas.txt as well.
+- It's also possible to download the release package (see "Downloads" below), customize that and re-package it as a new mod.
 
 # Downloads
 The 1.0 release can be downloaded here: https://github.com/TheEnginesOfCreation/q3spenhanced/raw/master/RELEASE/q3spenhanced-1.0.zip
