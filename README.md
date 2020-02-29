@@ -1,6 +1,9 @@
 # q3spenhanced
 Enhance Quake III Arena single player mode to include Free For All, Team Deathmatch and Capture the Flag gametypes.
 
+# Looking for help
+Quake 3 has these tier introduction cinematics which introduce the characters that appear in a certain tier in the game. These videos are a bit out of place for custom mappacks, so I had the idea of supplying custom tier introduction videos that are generic in nature. Do you have the graphical design skill to make tier introduction videos and are you interested in helping this project out with that? Contact me at eraesr [at] gmail [dot] com.
+
 # Building the project
 After checking out, code can be compiled to qvm by running buildall.bat in the code folder.
 To build cgame, game or q3_ui projects individually, use the .bat files of the same names in their respective folders.
@@ -25,4 +28,4 @@ Once compiled, include the QVM files in a PK3 file together with the following:
 
 # Downloads
 The 1.0 release can be downloaded here: https://github.com/TheEnginesOfCreation/q3spenhanced/raw/master/RELEASE/q3spenhanced-1.0.zip
-To release your own mappack, download this release, customize the arenas.txt that is included and repackage the mod under a different name. It is advised to put the arenas.txt inside a pk3 file when repackaging for release.
+Because it contains an example arenas.txt, the mod can be played as is to get a taste for how things look. The idea is that people can use it to build their own mappacks with it though. To release your own mappack, download this release, customize the arenas.txt that is included and repackage the mod under a different name. It is advised to put the arenas.txt inside a pk3 file when repackaging for release.
