@@ -430,7 +430,7 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 
 	level.snd_fry = G_SoundIndex("sound/player/fry.wav");	// FIXME standing in lava / slime
 
-	if ( g_gametype.integer != GT_SINGLE_PLAYER && g_gametype.integer != GT_SINGLE_PLAYER_TEAM && g_gametype.integer != GT_SINGLE_PLAYER_CTF && g_log.string[0] ) {
+	if (!GT_IsSinglePlayer(g_gametype.integer) && g_log.string[0] ) {
 		if ( g_logSync.integer ) {
 			trap_FS_FOpenFile( g_log.string, &level.logFile, FS_APPEND_SYNC );
 		} else {
@@ -487,7 +487,7 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	G_FindTeams();
 
 	// make sure we have flags for CTF, etc
-	if( g_gametype.integer >= GT_TEAM ) {
+	if(GT_IsTeam(g_gametype.integer)) {
 		G_CheckTeamItems();
 	}
 
@@ -495,7 +495,7 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 
 	G_Printf ("-----------------------------------\n");
 
-	if( g_gametype.integer == GT_SINGLE_PLAYER || g_gametype.integer == GT_SINGLE_PLAYER_TEAM || g_gametype.integer == GT_SINGLE_PLAYER_CTF || trap_Cvar_VariableIntegerValue( "com_buildScript" ) ) {
+	if(GT_IsSinglePlayer(g_gametype.integer) || trap_Cvar_VariableIntegerValue( "com_buildScript" ) ) {
 		G_ModelIndex( SP_PODIUM_MODEL );
 		G_SoundIndex( "sound/player/gurp1.wav" );
 		G_SoundIndex( "sound/player/gurp2.wav" );
@@ -810,7 +810,7 @@ void CalculateRanks( void ) {
 		sizeof(level.sortedClients[0]), SortRanks );
 
 	// set the rank value for all clients that are connected and not spectators
-	if ( g_gametype.integer >= GT_TEAM ) {
+	if (GT_IsTeam(g_gametype.integer)) {
 		// in team games, rank is just the order of the teams, 0=red, 1=blue, 2=tied
 		for ( i = 0;  i < level.numConnectedClients; i++ ) {
 			cl = &level.clients[ level.sortedClients[i] ];
@@ -845,7 +845,7 @@ void CalculateRanks( void ) {
 	}
 
 	// set the CS_SCORES1/2 configstrings, which will be visible to everyone
-	if ( g_gametype.integer >= GT_TEAM ) {
+	if (GT_IsTeam(g_gametype.integer)) {
 		trap_SetConfigstring( CS_SCORES1, va("%i", level.teamScores[TEAM_RED] ) );
 		trap_SetConfigstring( CS_SCORES2, va("%i", level.teamScores[TEAM_BLUE] ) );
 	} else {
@@ -987,12 +987,11 @@ void BeginIntermission( void ) {
 		UpdateTournamentInfo();
 	}
 #else
-	// if single player game
+	// if single player ffa game
 	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
 		UpdateTournamentInfo();
 		SpawnModelsOnVictoryPads();
-	}
-	else if (g_gametype.integer == GT_SINGLE_PLAYER_TEAM || g_gametype.integer == GT_SINGLE_PLAYER_CTF) {
+	} else if (GT_IsTeam(g_gametype.integer) && GT_IsSinglePlayer(g_gametype.integer)) {
 		UpdateTournamentInfo();
 	}
 #endif
@@ -1136,7 +1135,7 @@ void LogExit( const char *string ) {
 		numSorted = 32;
 	}
 
-	if ( g_gametype.integer >= GT_TEAM ) {
+	if (GT_IsTeam(g_gametype.integer)) {
 		G_LogPrintf( "red:%i  blue:%i\n",
 			level.teamScores[TEAM_RED], level.teamScores[TEAM_BLUE] );
 	}
@@ -1195,7 +1194,7 @@ void CheckIntermissionExit( void ) {
 	gclient_t	*cl;
 	int			readyMask;
 
-	if ( g_gametype.integer == GT_SINGLE_PLAYER || g_gametype.integer == GT_SINGLE_PLAYER_TEAM || g_gametype.integer == GT_SINGLE_PLAYER_CTF) {
+	if (GT_IsSinglePlayer(g_gametype.integer)) {
 		return;
 	}
 
@@ -1276,7 +1275,7 @@ qboolean ScoreIsTied( void ) {
 		return qfalse;
 	}
 	
-	if ( g_gametype.integer >= GT_TEAM ) {
+	if (GT_IsTeam(g_gametype.integer)) {
 		return level.teamScores[TEAM_RED] == level.teamScores[TEAM_BLUE];
 	}
 
@@ -1339,7 +1338,7 @@ void CheckExitRules( void ) {
 		return;
 	}
 
-	if ( (g_gametype.integer < GT_CTF || g_gametype.integer == GT_SINGLE_PLAYER_TEAM) && g_fraglimit.integer ) {
+	if ( GT_IsFraglimit(g_gametype.integer) && g_fraglimit.integer ) {
 		if ( level.teamScores[TEAM_RED] >= g_fraglimit.integer ) {
 			trap_SendServerCommand( -1, "print \"Red hit the fraglimit.\n\"" );
 			LogExit( "Fraglimit hit." );
@@ -1370,7 +1369,7 @@ void CheckExitRules( void ) {
 		}
 	}
 
-	if ( g_gametype.integer >= GT_CTF && g_gametype.integer != GT_SINGLE_PLAYER_TEAM && g_capturelimit.integer ) {
+	if ( GT_IsCapturelimit(g_gametype.integer) && g_capturelimit.integer ) {
 
 		if ( level.teamScores[TEAM_RED] >= g_capturelimit.integer ) {
 			trap_SendServerCommand( -1, "print \"Red hit the capturelimit.\n\"" );
@@ -1456,11 +1455,11 @@ void CheckTournament( void ) {
 			level.restarted = qtrue;
 			return;
 		}
-	} else if ( g_gametype.integer != GT_SINGLE_PLAYER && g_gametype.integer != GT_SINGLE_PLAYER_TEAM && g_gametype.integer != GT_SINGLE_PLAYER_CTF && level.warmupTime != 0 ) {
+	} else if ( !GT_IsSinglePlayer(g_gametype.integer) && level.warmupTime != 0 ) {
 		int		counts[TEAM_NUM_TEAMS];
 		qboolean	notEnough = qfalse;
 
-		if ( g_gametype.integer > GT_TEAM && g_gametype.integer != GT_SINGLE_PLAYER_TEAM ) {
+		if (GT_IsCapturelimit(g_gametype.integer)) {
 			counts[TEAM_BLUE] = TeamCount( -1, TEAM_BLUE );
 			counts[TEAM_RED] = TeamCount( -1, TEAM_RED );
 

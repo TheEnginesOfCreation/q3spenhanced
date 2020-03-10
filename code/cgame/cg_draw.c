@@ -1020,7 +1020,7 @@ static void CG_DrawUpperRight( void ) {
 
 	y = 0;
 
-	if ( cgs.gametype >= GT_TEAM && cg_drawTeamOverlay.integer == 1 ) {
+	if ( GT_IsTeam(cgs.gametype) && cg_drawTeamOverlay.integer == 1 ) {
 		y = CG_DrawTeamOverlay( y, qtrue, qtrue );
 	} 
 	if ( cg_drawSnapshot.integer ) {
@@ -1071,7 +1071,7 @@ static float CG_DrawScores( float y ) {
 	y1 = y;
 
 	// draw from the right side to left
-	if ( cgs.gametype >= GT_TEAM ) {
+	if ( GT_IsTeam(cgs.gametype) ) {
 		x = 640;
 		color[0] = 0.0f;
 		color[1] = 0.0f;
@@ -1135,7 +1135,7 @@ static float CG_DrawScores( float y ) {
 			}
 		}
 #endif
-		if ( cgs.gametype >= GT_CTF && cgs.gametype != GT_SINGLE_PLAYER_TEAM ) {
+		if ( GT_IsCapturelimit(cgs.gametype) ) {
 			v = cgs.capturelimit;
 		} else {
 			v = cgs.fraglimit;
@@ -1327,7 +1327,7 @@ static void CG_DrawLowerRight( void ) {
 
 	y = 480 - ICON_SIZE;
 
-	if ( cgs.gametype >= GT_TEAM && cg_drawTeamOverlay.integer == 2 ) {
+	if ( GT_IsTeam(cgs.gametype) && cg_drawTeamOverlay.integer == 2 ) {
 		y = CG_DrawTeamOverlay( y, qtrue, qfalse );
 	} 
 
@@ -1380,7 +1380,7 @@ static void CG_DrawLowerLeft( void ) {
 
 	y = 480 - ICON_SIZE;
 
-	if ( cgs.gametype >= GT_TEAM && cg_drawTeamOverlay.integer == 3 ) {
+	if ( GT_IsTeam(cgs.gametype) && cg_drawTeamOverlay.integer == 3 ) {
 		y = CG_DrawTeamOverlay( y, qfalse, qfalse );
 	} 
 
@@ -2060,7 +2060,7 @@ static void CG_DrawSpectator(void) {
 	if ( cgs.gametype == GT_TOURNAMENT ) {
 		CG_DrawBigString(320 - 15 * 8, 460, "waiting to play", 1.0F);
 	}
-	else if ( cgs.gametype >= GT_TEAM ) {
+	else if ( GT_IsTeam(cgs.gametype) ) {
 		CG_DrawBigString(320 - 39 * 8, 460, "press ESC and use the JOIN menu to play", 1.0F);
 	}
 }
@@ -2217,7 +2217,7 @@ static void CG_DrawIntermission( void ) {
 	//	return;
 	//}
 #else
-	if ( cgs.gametype == GT_SINGLE_PLAYER || cgs.gametype == GT_SINGLE_PLAYER_TEAM || cgs.gametype == GT_SINGLE_PLAYER_CTF ) {
+	if ( GT_IsSinglePlayer( cgs.gametype )) {
 		CG_DrawCenterString();
 		return;
 	}
@@ -2550,7 +2550,7 @@ static void CG_Draw2D( void ) {
 			CG_DrawReward();
 		}
     
-		if ( cgs.gametype >= GT_TEAM ) {
+		if ( GT_IsTeam(cgs.gametype) ) {
 #ifndef MISSIONPACK
 			CG_DrawTeamInfo();
 #endif

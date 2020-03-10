@@ -707,6 +707,11 @@ void	BG_PlayerStateToEntityStateExtraPolate( playerState_t *ps, entityState_t *s
 
 qboolean	BG_PlayerTouchesItem( playerState_t *ps, entityState_t *item, int atTime );
 
+qboolean GT_IsSinglePlayer(gametype_t gametype);
+qboolean GT_IsTeam(gametype_t gametype);
+qboolean GT_IsCapturelimit(gametype_t gametype);
+qboolean GT_IsFraglimit(gametype_t gametype);
+qboolean GT_IsFlag(gametype_t gametype);
 
 #define ARENAS_PER_TIER		4
 #define MAX_ARENAS			1024

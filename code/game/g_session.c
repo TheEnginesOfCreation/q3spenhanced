@@ -109,8 +109,8 @@ void G_InitSessionData( gclient_t *client, char *userinfo ) {
 	sess = &client->sess;
 
 	// initial team determination
-	if ( g_gametype.integer >= GT_TEAM ) {
-		if ( g_teamAutoJoin.integer || g_gametype.integer == GT_SINGLE_PLAYER_TEAM || g_gametype.integer == GT_SINGLE_PLAYER_CTF) {
+	if (GT_IsTeam(g_gametype.integer)) {
+		if ( g_teamAutoJoin.integer || (GT_IsTeam(g_gametype.integer) && GT_IsSinglePlayer(g_gametype.integer)) ) {
 			sess->sessionTeam = PickTeam( -1 );
 			BroadcastTeamChange( client, -1 );
 		} else {

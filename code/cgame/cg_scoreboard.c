@@ -187,8 +187,7 @@ static void CG_DrawClientScore( int y, score_t *score, float *color, float fade,
 
 		localClient = qtrue;
 
-		if ( cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR 
-			|| cgs.gametype >= GT_TEAM ) {
+		if ( cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR || GT_IsTeam(cgs.gametype)) {
 			rank = -1;
 		} else {
 			rank = cg.snap->ps.persistant[PERS_RANK] & ~RANK_TIED_FLAG;
@@ -278,7 +277,7 @@ qboolean CG_DrawOldScoreboard( void ) {
 		return qfalse;
 	}
 
-	if ( ( cgs.gametype == GT_SINGLE_PLAYER || cgs.gametype == GT_SINGLE_PLAYER_TEAM || cgs.gametype == GT_SINGLE_PLAYER_CTF ) && cg.predictedPlayerState.pm_type == PM_INTERMISSION ) {
+	if ( GT_IsSinglePlayer(cgs.gametype) && cg.predictedPlayerState.pm_type == PM_INTERMISSION ) {
 		cg.deferredPlayerLoading = 0;
 		return qfalse;
 	}
@@ -315,7 +314,7 @@ qboolean CG_DrawOldScoreboard( void ) {
 	}
 
 	// current rank
-	if ( cgs.gametype < GT_TEAM) {
+	if ( !GT_IsTeam(cgs.gametype)) {
 		if (cg.snap->ps.persistant[PERS_TEAM] != TEAM_SPECTATOR ) {
 			s = va("%s place with %i",
 				CG_PlaceString( cg.snap->ps.persistant[PERS_RANK] + 1 ),
@@ -365,7 +364,7 @@ qboolean CG_DrawOldScoreboard( void ) {
 
 	localClient = qfalse;
 
-	if ( cgs.gametype >= GT_TEAM ) {
+	if (GT_IsTeam(cgs.gametype)) {
 		//
 		// teamplay scoreboard
 		//
@@ -496,7 +495,7 @@ void CG_DrawOldTourneyScoreboard( void ) {
 	// print the two scores
 
 	y = 160;
-	if ( cgs.gametype >= GT_TEAM ) {
+	if (GT_IsTeam(cgs.gametype)) {
 		//
 		// teamplay scoreboard
 		//

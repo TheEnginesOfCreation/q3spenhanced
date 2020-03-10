@@ -1028,11 +1028,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 	}
 
 	// See if it's the player hurting the emeny flag carrier
-#ifdef MISSIONPACK
-	if( g_gametype.integer == GT_CTF || g_gametype.integer == GT_1FCTF ) {
-#else	
-	if( g_gametype.integer == GT_CTF || g_gametype.integer == GT_SINGLE_PLAYER_CTF) {
-#endif
+	if( GT_IsFlag( g_gametype.integer ) ) {
 		Team_CheckHurtCarrier(targ, attacker);
 	}
 

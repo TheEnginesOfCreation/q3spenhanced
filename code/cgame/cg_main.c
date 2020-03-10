@@ -563,7 +563,7 @@ static void CG_RegisterSounds( void ) {
 	cgs.media.countPrepareTeamSound = trap_S_RegisterSound( "sound/feedback/prepare_team.wav", qtrue );
 #endif
 
-	if ( cgs.gametype >= GT_TEAM || cg_buildScript.integer ) {
+	if (GT_IsTeam(cgs.gametype) || cg_buildScript.integer ) {
 
 		cgs.media.captureAwardSound = trap_S_RegisterSound( "sound/teamplay/flagcapture_yourteam.wav", qtrue );
 		cgs.media.redLeadsSound = trap_S_RegisterSound( "sound/feedback/redleads.wav", qtrue );
@@ -951,7 +951,7 @@ static void CG_RegisterGraphics(void) {
 	cgs.media.dustPuffShader = trap_R_RegisterShader("hasteSmokePuff" );
 #endif
 
-	if ( cgs.gametype >= GT_TEAM || cg_buildScript.integer ) {
+	if (GT_IsTeam(cgs.gametype) || cg_buildScript.integer ) {
 		cgs.media.friendShader = trap_R_RegisterShader( "sprites/foe" );
 		cgs.media.redQuadShader = trap_R_RegisterShader("powerups/blueflag" );
 		cgs.media.teamStatusBar = trap_R_RegisterShader( "gfx/2d/colorbar.tga" );

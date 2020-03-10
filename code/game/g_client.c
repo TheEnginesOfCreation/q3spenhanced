@@ -570,7 +570,7 @@ team_t PickTeam( int ignoreClientNum ) {
 	counts[TEAM_RED] = TeamCount( ignoreClientNum, TEAM_RED );
 
 	//in SP team games, first client in is the player and always put him on the red team
-	if ((g_gametype.integer == GT_SINGLE_PLAYER_TEAM || g_gametype.integer == GT_SINGLE_PLAYER_CTF) && counts[TEAM_BLUE] + counts[TEAM_RED] == 0) {
+	if (GT_IsTeam(g_gametype.integer) && GT_IsSinglePlayer(g_gametype.integer) && counts[TEAM_BLUE] + counts[TEAM_RED] == 0) {
 		return TEAM_RED;
 	}
 
@@ -778,7 +778,7 @@ void ClientUserinfoChanged( int clientNum ) {
 	client->ps.stats[STAT_MAX_HEALTH] = client->pers.maxHealth;
 
 	// set model
-	if( g_gametype.integer >= GT_TEAM ) {
+	if(GT_IsTeam(g_gametype.integer)) {
 		Q_strncpyz( model, Info_ValueForKey (userinfo, "team_model"), sizeof( model ) );
 		Q_strncpyz( headModel, Info_ValueForKey (userinfo, "team_headmodel"), sizeof( headModel ) );
 	} else {
@@ -787,7 +787,7 @@ void ClientUserinfoChanged( int clientNum ) {
 	}
 
 	// bots set their team a few frames later
-	if (g_gametype.integer >= GT_TEAM && g_entities[clientNum].r.svFlags & SVF_BOT) {
+	if (GT_IsTeam(g_gametype.integer) && g_entities[clientNum].r.svFlags & SVF_BOT) {
 		s = Info_ValueForKey(userinfo, "team");
 		if (!Q_stricmp(s, "red") || !Q_stricmp(s, "r")) {
 			team = TEAM_RED;
@@ -799,7 +799,7 @@ void ClientUserinfoChanged( int clientNum ) {
 			// pick the team with the least number of players
 			team = PickTeam(clientNum);
 		}
-	} else if ((g_gametype.integer == GT_SINGLE_PLAYER_TEAM || g_gametype.integer == GT_SINGLE_PLAYER_CTF)) {
+	} else if (GT_IsTeam(g_gametype.integer) && GT_IsSinglePlayer(g_gametype.integer)) {
 		team = TEAM_RED;
 	} else {
 		team = client->sess.sessionTeam;
@@ -973,7 +973,7 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 		trap_SendServerCommand( -1, va("print \"%s" S_COLOR_WHITE " connected\n\"", client->pers.netname) );
 	}
 
-	if ( g_gametype.integer >= GT_TEAM &&
+	if (GT_IsTeam(g_gametype.integer) &&
 		client->sess.sessionTeam != TEAM_SPECTATOR ) {
 		BroadcastTeamChange( client, -1 );
 	}
@@ -1081,7 +1081,7 @@ void ClientSpawn(gentity_t *ent) {
 	if ( client->sess.sessionTeam == TEAM_SPECTATOR ) {
 		spawnPoint = SelectSpectatorSpawnPoint ( 
 						spawn_origin, spawn_angles);
-	} else if (g_gametype.integer >= GT_CTF && g_gametype.integer != GT_SINGLE_PLAYER_TEAM) {
+	} else if (GT_IsCapturelimit(g_gametype.integer)) {
 		// all base oriented team games use the CTF spawn points
 		spawnPoint = SelectCTFSpawnPoint ( 
 						client->sess.sessionTeam, 

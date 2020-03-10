@@ -344,7 +344,7 @@ static void UI_SPPostgameMenu_MenuDraw( void ) {
 
 
 	//draw flags and team scores
-	if (postgameMenuInfo.gametype == GT_SINGLE_PLAYER_TEAM || postgameMenuInfo.gametype == GT_SINGLE_PLAYER_CTF) {
+	if (GT_IsTeam(postgameMenuInfo.gametype) && GT_IsSinglePlayer(postgameMenuInfo.gametype)) {
 		UI_DrawNamedPic(64, 64, 128, 256, ART_REDFLAG);
 		UI_DrawNamedPic(640 - 64 - 128, 64, 128, 256, ART_BLUEFLAG);
 		UI_DrawString(128, 328, va("%i", postgameMenuInfo.redScore), UI_CENTER | UI_GIANTFONT, colorYellow);
@@ -606,7 +606,7 @@ void UI_SPPostgameMenu_f( void ) {
 		}
 	}
 
-	if (gametype == GT_SINGLE_PLAYER_TEAM || gametype == GT_SINGLE_PLAYER_CTF) {
+	if (GT_IsTeam(gametype) && GT_IsSinglePlayer(gametype)) {
 		playerGameRank = (atoi(UI_Argv(14)) == 1 ? 1 : 2);
 	}
 

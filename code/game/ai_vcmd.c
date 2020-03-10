@@ -114,11 +114,7 @@ BotVoiceChat_Offense
 ==================
 */
 void BotVoiceChat_Offense(bot_state_t *bs, int client, int mode) {
-	if ( gametype == GT_CTF || gametype == GT_SINGLE_PLAYER_CTF
-#ifdef MISSIONPACK
-		|| gametype == GT_1FCTF
-#endif
-		) {
+	if ( GT_IsFlag(gametype) ) {
 		BotVoiceChat_GetFlag(bs, client, mode);
 		return;
 	}
@@ -382,12 +378,7 @@ BotVoiceChat_ReturnFlag
 */
 void BotVoiceChat_ReturnFlag(bot_state_t *bs, int client, int mode) {
 	//if not in CTF mode
-	if (
-		gametype != GT_CTF && gametype != GT_SINGLE_PLAYER_CTF
-#ifdef MISSIONPACK
-		&& gametype != GT_1FCTF
-#endif
-		) {
+	if (!GT_IsFlag(gametype)) {
 		return;
 	}
 	//

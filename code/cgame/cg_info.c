@@ -130,7 +130,7 @@ void CG_LoadingClient( int clientNum ) {
 	Q_strncpyz( personality, Info_ValueForKey( info, "n" ), sizeof(personality) );
 	Q_CleanStr( personality );
 
-	if( cgs.gametype == GT_SINGLE_PLAYER || cgs.gametype == GT_SINGLE_PLAYER_TEAM || cgs.gametype == GT_SINGLE_PLAYER_CTF) {
+	if(GT_IsSinglePlayer(cgs.gametype)) {
 		trap_S_RegisterSound( va( "sound/player/announce/%s.wav", personality ), qtrue );
 	}
 
@@ -282,7 +282,7 @@ void CG_DrawInformation( void ) {
 		y += PROP_HEIGHT;
 	}
 
-	if (cgs.gametype < GT_CTF || cgs.gametype == GT_SINGLE_PLAYER_TEAM ) {
+	if (GT_IsFraglimit(cgs.gametype)) {
 		value = atoi( Info_ValueForKey( info, "fraglimit" ) );
 		if ( value ) {
 			UI_DrawProportionalString( 320, y, va( "fraglimit %i", value ),
@@ -291,7 +291,7 @@ void CG_DrawInformation( void ) {
 		}
 	}
 
-	if (cgs.gametype >= GT_CTF && cgs.gametype != GT_SINGLE_PLAYER_TEAM ) {
+	if (GT_IsCapturelimit(cgs.gametype)) {
 		value = atoi( Info_ValueForKey( info, "capturelimit" ) );
 		if ( value ) {
 			UI_DrawProportionalString( 320, y, va( "capturelimit %i", value ),

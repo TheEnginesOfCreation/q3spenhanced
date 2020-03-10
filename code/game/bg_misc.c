@@ -1602,3 +1602,63 @@ void BG_PlayerStateToEntityStateExtraPolate( playerState_t *ps, entityState_t *s
 	s->loopSound = ps->loopSound;
 	s->generic1 = ps->generic1;
 }
+
+//checks if gametype is a single player gametype
+qboolean GT_IsSinglePlayer(gametype_t gametype) {
+	switch (gametype) {
+		case GT_SINGLE_PLAYER:
+		case GT_SINGLE_PLAYER_CTF:
+		case GT_SINGLE_PLAYER_TEAM:
+			return qtrue;
+		default:
+			return qfalse;
+	}
+}
+
+//checks if gametype is a team-based gametype
+qboolean GT_IsTeam(gametype_t gametype) {
+	switch (gametype) {
+		case GT_TEAM:
+		case GT_CTF:
+		case GT_1FCTF:
+		case GT_HARVESTER:
+		case GT_OBELISK:
+		case GT_SINGLE_PLAYER_TEAM:
+		case GT_SINGLE_PLAYER_CTF:
+			return qtrue;
+		default:
+			return qfalse;
+	}
+}
+
+//checks if gametype keeps score through captures
+qboolean GT_IsCapturelimit(gametype_t gametype) {
+	switch (gametype) {
+		case GT_CTF:
+		case GT_1FCTF:
+		case GT_HARVESTER:
+		case GT_OBELISK:
+		case GT_SINGLE_PLAYER_CTF:
+			return qtrue;
+		default:
+			return qfalse;
+	}
+}
+
+//checks if gametype keeps score through frags
+qboolean GT_IsFraglimit(gametype_t gametype) {
+	return !GT_IsCapturelimit(gametype);
+}
+
+//checks if gametype involves flags
+qboolean GT_IsFlag(gametype_t gametype) {
+	switch (gametype) {
+		case GT_CTF:
+		case GT_1FCTF:
+		case GT_SINGLE_PLAYER_CTF:
+			return qtrue;
+		default:
+			return qfalse;
+	}
+}
+
