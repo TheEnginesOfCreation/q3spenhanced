@@ -1332,7 +1332,7 @@ void ClientDisconnect( int clientNum ) {
 		ClientUserinfoChanged( level.sortedClients[0] );
 	}
 
-	//ERAERS: SHOULD WE HANDLE PLAYER DEATH HERE?
+	//ERAESR: SHOULD WE HANDLE PLAYER DEATH HERE?
 
 	trap_UnlinkEntity (ent);
 	ent->s.modelindex = 0;
@@ -1351,4 +1351,32 @@ void ClientDisconnect( int clientNum ) {
 	}
 }
 
+qboolean IsBotClient(gclient_t* client) {
+	return IsBotClientNum(client->ps.clientNum);
+}
+
+qboolean IsBotClientNum(int clientNum) {
+	return IsBotEntity(&g_entities[clientNum]);
+}
+
+qboolean IsBotEntity(gentity_t *ent) {
+	return ent->r.svFlags & SVF_BOT;
+}
+
+gentity_t *FindPlayer() {
+	int i;
+	gentity_t *player;
+	
+	player = NULL;
+	for (i = 0; i < level.maxclients; i++) {
+		player = &g_entities[i];
+		if (!player->inuse) {
+			continue;
+		}
+		if (!IsBotEntity(player)) {
+			break;
+		}
+	}
+	return player;
+}
 

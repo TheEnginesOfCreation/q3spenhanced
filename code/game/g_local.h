@@ -636,6 +636,10 @@ void ClientUserinfoChanged( int clientNum );
 void ClientDisconnect( int clientNum );
 void ClientBegin( int clientNum );
 void ClientCommand( int clientNum );
+qboolean IsBotClient(gclient_t* client);
+qboolean IsBotClientNum(int clientNum);
+qboolean IsBotEntity(gentity_t* ent);
+gentity_t *FindPlayer();
 
 //
 // g_active.c
