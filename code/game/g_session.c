@@ -135,6 +135,7 @@ void G_InitSessionData( gclient_t *client, char *userinfo ) {
 				}
 				break;
 			case GT_TOURNAMENT:
+			case GT_SINGLE_PLAYER_TOURNAMENT:
 				// if the game is full, go into a waiting mode
 				if ( level.numNonSpectatorClients >= 2 ) {
 					sess->sessionTeam = TEAM_SPECTATOR;

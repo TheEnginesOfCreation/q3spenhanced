@@ -247,6 +247,8 @@ static void UI_SPLevelMenu_SetMenuArena( int n, int level, const char *arenaInfo
 		levelMenuInfo.levelGametypes[n] = GT_SINGLE_PLAYER_TEAM;
 	} else if (strstr(type, "spc")) {
 		levelMenuInfo.levelGametypes[n] = GT_SINGLE_PLAYER_CTF;
+	} else if (strstr(type, "sp1v1")) {
+		levelMenuInfo.levelGametypes[n] = GT_SINGLE_PLAYER_TOURNAMENT;
 	}
 
 	UI_GetBestScore( level, &levelMenuInfo.levelScores[n], &levelMenuInfo.levelScoresSkill[n] );

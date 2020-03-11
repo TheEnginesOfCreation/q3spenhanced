@@ -106,6 +106,7 @@ typedef enum {
 	GT_1FCTF,
 	GT_OBELISK,
 	GT_HARVESTER,
+	GT_SINGLE_PLAYER_TOURNAMENT, // sp one on one tournament
 	GT_SINGLE_PLAYER_TEAM, // sp team deathmatch
 	GT_SINGLE_PLAYER_CTF, // sp capture the flag
 	GT_MAX_GAME_TYPE

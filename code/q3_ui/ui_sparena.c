@@ -99,6 +99,9 @@ void UI_SPArena_Start(const char* arenaInfo) {
 	} else if (strstr(type, "spc")) {
 		trap_Cvar_SetValue("g_friendlyFire", 0);
 		UI_Emulate_SPMap(GT_SINGLE_PLAYER_CTF, map);
+	} else if (strstr(type, "sp1v1")) {
+		trap_Cvar_SetValue("g_warmup", 5);
+		UI_Emulate_SPMap(GT_SINGLE_PLAYER_TOURNAMENT, map);
 	} else {
 		trap_Print("^1No SP gametype found in arenaInfo!\n");
 		return;

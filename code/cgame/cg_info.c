@@ -241,6 +241,9 @@ void CG_DrawInformation( void ) {
 	case GT_SINGLE_PLAYER:
 		s = "Single Player";
 		break;
+	case GT_SINGLE_PLAYER_TOURNAMENT:
+		s = "Single Player Tournament";
+		break;
 	case GT_SINGLE_PLAYER_TEAM:
 		s = "Single Player TDM";
 		break;

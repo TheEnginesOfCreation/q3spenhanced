@@ -1607,6 +1607,7 @@ void BG_PlayerStateToEntityStateExtraPolate( playerState_t *ps, entityState_t *s
 qboolean GT_IsSinglePlayer(gametype_t gametype) {
 	switch (gametype) {
 		case GT_SINGLE_PLAYER:
+		case GT_SINGLE_PLAYER_TOURNAMENT:
 		case GT_SINGLE_PLAYER_CTF:
 		case GT_SINGLE_PLAYER_TEAM:
 			return qtrue;

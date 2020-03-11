@@ -153,6 +153,11 @@ static int GametypeBits( char *string ) {
 			continue;
 		}
 
+		if (Q_stricmp(token, "sp1v1") == 0) {
+			bits |= 1 << GT_SINGLE_PLAYER_TOURNAMENT;
+			continue;
+		}
+
 		if( Q_stricmp( token, "team" ) == 0 ) {
 			bits |= 1 << GT_TEAM;
 			continue;
