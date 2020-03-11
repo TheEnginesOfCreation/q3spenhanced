@@ -102,7 +102,7 @@ G_InitSessionData
 Called on a first-time connect
 ================
 */
-void G_InitSessionData( gclient_t *client, char *userinfo ) {
+void G_InitSessionData( gclient_t *client, char *userinfo, qboolean isBot ) {
 	clientSession_t	*sess;
 	const char		*value;
 
@@ -135,11 +135,19 @@ void G_InitSessionData( gclient_t *client, char *userinfo ) {
 				}
 				break;
 			case GT_TOURNAMENT:
-			case GT_SINGLE_PLAYER_TOURNAMENT:
 				// if the game is full, go into a waiting mode
 				if ( level.numNonSpectatorClients >= 2 ) {
 					sess->sessionTeam = TEAM_SPECTATOR;
 				} else {
+					sess->sessionTeam = TEAM_FREE;
+				}
+				break;
+			case GT_SINGLE_PLAYER_TOURNAMENT:
+				if (isBot) {
+					G_Printf("^4Setting bot to spectators\n");
+					sess->sessionTeam = TEAM_SPECTATOR;
+				} else {
+					G_Printf("^4Setting player to FREE\n");
 					sess->sessionTeam = TEAM_FREE;
 				}
 				break;

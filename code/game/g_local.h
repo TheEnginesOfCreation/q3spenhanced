@@ -662,7 +662,7 @@ void Svcmd_GameMem_f( void );
 // g_session.c
 //
 void G_ReadSessionData( gclient_t *client );
-void G_InitSessionData( gclient_t *client, char *userinfo );
+void G_InitSessionData( gclient_t *client, char *userinfo, qboolean isBot );
 
 void G_InitWorldSession( void );
 void G_WriteSessionData( void );
