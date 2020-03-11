@@ -1194,7 +1194,7 @@ void CheckIntermissionExit( void ) {
 	gclient_t	*cl;
 	int			readyMask;
 
-	if (GT_IsSinglePlayer(g_gametype.integer)) {
+	if (GT_IsSinglePlayer(g_gametype.integer) && g_gametype.integer != GT_SINGLE_PLAYER_TOURNAMENT) {
 		return;
 	}
 
