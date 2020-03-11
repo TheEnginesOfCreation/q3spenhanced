@@ -277,7 +277,7 @@ qboolean CG_DrawOldScoreboard( void ) {
 		return qfalse;
 	}
 
-	if ( GT_IsSinglePlayer(cgs.gametype) && cg.predictedPlayerState.pm_type == PM_INTERMISSION ) {
+	if ( GT_IsSinglePlayer(cgs.gametype) && cgs.gametype != GT_SINGLE_PLAYER_TOURNAMENT && cg.predictedPlayerState.pm_type == PM_INTERMISSION ) {
 		cg.deferredPlayerLoading = 0;
 		return qfalse;
 	}

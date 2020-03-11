@@ -2217,7 +2217,7 @@ static void CG_DrawIntermission( void ) {
 	//	return;
 	//}
 #else
-	if ( GT_IsSinglePlayer( cgs.gametype )) {
+	if ( GT_IsSinglePlayer( cgs.gametype ) && cgs.gametype != GT_SINGLE_PLAYER_TOURNAMENT) {
 		CG_DrawCenterString();
 		return;
 	}

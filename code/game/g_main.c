@@ -974,7 +974,7 @@ void BeginIntermission( void ) {
 	}
 
 	// if in tournement mode, change the wins / losses
-	if ( g_gametype.integer == GT_TOURNAMENT ) {		//ERAESR: SP Tournament intermission
+	if ( g_gametype.integer == GT_TOURNAMENT || g_gametype.integer == GT_SINGLE_PLAYER_TOURNAMENT ) {		//ERAESR: SP Tournament intermission
 		AdjustTournamentScores();
 	}
 
@@ -1032,7 +1032,7 @@ void ExitLevel (void) {
 
 	// if we are running a tournement map, kick the loser to spectator status,
 	// which will automatically grab the next spectator and restart
-	if ( g_gametype.integer == GT_TOURNAMENT || GT_SINGLE_PLAYER_TOURNAMENT ) {
+	if ( g_gametype.integer == GT_TOURNAMENT || g_gametype.integer == GT_SINGLE_PLAYER_TOURNAMENT ) {
 		if ( !level.restarted ) {
 			RemoveTournamentLoser();
 			trap_SendConsoleCommand( EXEC_APPEND, "map_restart 0\n" );
