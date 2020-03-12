@@ -69,7 +69,7 @@ void UpdateTournamentInfo( void ) {
 	
 	CalculateRanks();
 	
-	if ( level.clients[playerClientNum].sess.sessionTeam == TEAM_SPECTATOR ) {
+	if ( g_gametype.integer != GT_SINGLE_PLAYER_TOURNAMENT && level.clients[playerClientNum].sess.sessionTeam == TEAM_SPECTATOR ) {
 #ifdef MISSIONPACK
 		Com_sprintf( msg, sizeof(msg), "postgame %i %i 0 0 0 0 0 0 0 0 0 0 0", level.numNonSpectatorClients, playerClientNum );
 #else
@@ -121,7 +121,11 @@ void UpdateTournamentInfo( void ) {
 			won = (level.teamScores[TEAM_BLUE] > level.teamScores[TEAM_RED]);
 		}
 
-		perfect = (level.clients[playerClientNum].ps.persistant[PERS_RANK] == 0 && player->client->ps.persistant[PERS_KILLED] == 0) ? 1 : 0;
+		if (level.clients[playerClientNum].sess.sessionTeam == TEAM_SPECTATOR) {
+			perfect = 0;
+		} else {
+			perfect = (level.clients[playerClientNum].ps.persistant[PERS_RANK] == 0 && player->client->ps.persistant[PERS_KILLED] == 0) ? 1 : 0;
+		}
 		Com_sprintf( msg, sizeof(msg), "postgame %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i", 
 			level.numNonSpectatorClients,								//arg1
 			playerClientNum,											//arg2
