@@ -627,6 +627,15 @@ void AddTournamentPlayer( void ) {
 	SetTeam( &g_entities[ nextInLine - level.clients ], "f" );
 }
 
+void ResetClientWinsLosses(void) {
+	int i;
+
+	for (i = 0; i < sizeof(level.clients); i++) {
+		level.clients[i].sess.wins = 0;
+		level.clients[i].sess.losses = 0;
+	}
+}
+
 /*
 =======================
 RemoveTournamentLoser
@@ -636,6 +645,7 @@ Make the loser a spectator at the back of the line
 */
 void RemoveTournamentLoser( void ) {
 	int			clientNum;
+	gentity_t	*ent;
 
 	if ( level.numPlayingClients != 2 ) {
 		return;
@@ -648,7 +658,30 @@ void RemoveTournamentLoser( void ) {
 	}
 
 	// make them a spectator
-	SetTeam( &g_entities[ clientNum ], "s" );
+	ent = &g_entities[clientNum];
+	if (g_gametype.integer == GT_TOURNAMENT) {
+		SetTeam(ent, "s");
+	}
+	if (g_gametype.integer == GT_SINGLE_PLAYER_TOURNAMENT) {
+		if (IsBotEntity(ent)) {
+			SetTeam(ent, "s");
+			if (FindPlayer()->client->sess.wins == level.numConnectedClients - 1) {
+				//ERAESR: PLAYER WINS. GAME ENDS.
+				UpdateTournamentInfo();
+				SpawnModelsOnVictoryPads();
+				ResetClientWinsLosses();
+				level.singlePlayerTourneyNextOpponent = qfalse;
+			} else {
+				level.singlePlayerTourneyNextOpponent = qtrue;
+			}
+		} else {
+			SetTeam(ent, "s");
+			UpdateTournamentInfo();
+			SpawnModelsOnVictoryPads();
+			ResetClientWinsLosses();
+			level.singlePlayerTourneyNextOpponent = qfalse;
+		}
+	}
 }
 
 /*
@@ -860,7 +893,7 @@ void CalculateRanks( void ) {
 			trap_SetConfigstring( CS_SCORES2, va("%i", level.clients[ level.sortedClients[1] ].ps.persistant[PERS_SCORE] ) );
 		}
 	}
-
+	
 	// see if it is time to end the level
 	CheckExitRules();
 
@@ -974,7 +1007,7 @@ void BeginIntermission( void ) {
 	}
 
 	// if in tournement mode, change the wins / losses
-	if ( g_gametype.integer == GT_TOURNAMENT || g_gametype.integer == GT_SINGLE_PLAYER_TOURNAMENT ) {		//ERAESR: SP Tournament intermission
+	if ( g_gametype.integer == GT_TOURNAMENT || g_gametype.integer == GT_SINGLE_PLAYER_TOURNAMENT ) {
 		AdjustTournamentScores();
 	}
 
@@ -1035,14 +1068,15 @@ void ExitLevel (void) {
 	if ( g_gametype.integer == GT_TOURNAMENT || g_gametype.integer == GT_SINGLE_PLAYER_TOURNAMENT ) {
 		if ( !level.restarted ) {
 			RemoveTournamentLoser();
-			trap_SendConsoleCommand( EXEC_APPEND, "map_restart 0\n" );
-			level.restarted = qtrue;
-			level.changemap = NULL;
-			level.intermissiontime = 0;
+			if (g_gametype.integer == GT_TOURNAMENT || level.singlePlayerTourneyNextOpponent) {
+				trap_SendConsoleCommand(EXEC_APPEND, "map_restart 0\n");
+				level.restarted = qtrue;
+				level.changemap = NULL;
+				level.intermissiontime = 0;
+			}
 		}
 		return;	
 	}
-
 
 	trap_SendConsoleCommand( EXEC_APPEND, "vstr nextmap\n" );
 	level.changemap = NULL;
@@ -1069,7 +1103,6 @@ void ExitLevel (void) {
 			level.clients[i].pers.connected = CON_CONNECTING;
 		}
 	}
-
 }
 
 /*

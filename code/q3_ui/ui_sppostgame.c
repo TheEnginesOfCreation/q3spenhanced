@@ -78,6 +78,7 @@ typedef struct {
 	int				blueScore;
 	int				redScore;
 	int				nextLevelStartTime;
+	qboolean		reloadCurrentArena;
 } postgameMenuInfo_t;
 
 static postgameMenuInfo_t	postgameMenuInfo;
@@ -108,6 +109,12 @@ char	*ui_medalSounds[] = {
 };
 
 
+static void UI_SPPostgameMenu_TriggerNextEvent( qboolean reloadCurrentArena ) {
+	trap_Cmd_ExecuteText(EXEC_APPEND, "kick allbots\n");
+	postgameMenuInfo.reloadCurrentArena = reloadCurrentArena;
+	postgameMenuInfo.nextLevelStartTime = uis.realtime;
+}
+
 /*
 =================
 UI_SPPostgameMenu_AgainEvent
@@ -118,8 +125,15 @@ static void UI_SPPostgameMenu_AgainEvent( void* ptr, int event )
 	if (event != QM_ACTIVATED) {
 		return;
 	}
-	UI_PopMenu();
-	trap_Cmd_ExecuteText( EXEC_APPEND, "map_restart 0\n" );
+	
+	if (postgameMenuInfo.gametype == GT_SINGLE_PLAYER_TOURNAMENT) {
+		//Reloading the current map instead of issueing a restart is a heavy-handed way of 
+		//resetting bot order in SP tourney mode in case of a lost game.
+		UI_SPPostgameMenu_TriggerNextEvent( qtrue );
+	} else {
+		UI_PopMenu();
+		trap_Cmd_ExecuteText(EXEC_APPEND, "map_restart 0\n");
+	}
 }
 
 
@@ -133,8 +147,7 @@ static void UI_SPPostgameMenu_NextEvent( void* ptr, int event ) {
 		return;
 	}
 
-	trap_Cmd_ExecuteText(EXEC_APPEND, "kick allbots\n");
-	postgameMenuInfo.nextLevelStartTime = uis.realtime;
+	UI_SPPostgameMenu_TriggerNextEvent( qfalse );
 }
 
 static void UI_SPPostgameMenu_GotoNextLevel() {
@@ -150,7 +163,9 @@ static void UI_SPPostgameMenu_GotoNextLevel() {
 	if (postgameMenuInfo.won == 0) {
 		level = 0;
 	}
-	else {
+	else if (postgameMenuInfo.reloadCurrentArena) {
+		level = postgameMenuInfo.level;
+	} else {
 		level = postgameMenuInfo.level + 1;
 	}
 	levelSet = level / ARENAS_PER_TIER;

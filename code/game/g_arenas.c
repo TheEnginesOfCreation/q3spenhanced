@@ -66,9 +66,9 @@ void UpdateTournamentInfo( void ) {
 		return;
 	}
 	playerClientNum = i;
-
+	
 	CalculateRanks();
-
+	
 	if ( level.clients[playerClientNum].sess.sessionTeam == TEAM_SPECTATOR ) {
 #ifdef MISSIONPACK
 		Com_sprintf( msg, sizeof(msg), "postgame %i %i 0 0 0 0 0 0 0 0 0 0 0", level.numNonSpectatorClients, playerClientNum );
@@ -121,7 +121,7 @@ void UpdateTournamentInfo( void ) {
 			won = (level.teamScores[TEAM_BLUE] > level.teamScores[TEAM_RED]);
 		}
 
-		perfect = ( level.clients[playerClientNum].ps.persistant[PERS_RANK] == 0 && player->client->ps.persistant[PERS_KILLED] == 0 ) ? 1 : 0;
+		perfect = (level.clients[playerClientNum].ps.persistant[PERS_RANK] == 0 && player->client->ps.persistant[PERS_KILLED] == 0) ? 1 : 0;
 		Com_sprintf( msg, sizeof(msg), "postgame %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i", 
 			level.numNonSpectatorClients,								//arg1
 			playerClientNum,											//arg2
@@ -364,17 +364,20 @@ void SpawnModelsOnVictoryPads( void ) {
 		podium1 = player;
 	}
 
-	player = SpawnModelOnVictoryPad( podium, offsetSecond, &g_entities[level.sortedClients[1]],
-				level.clients[ level.sortedClients[1] ].ps.persistant[PERS_RANK] &~ RANK_TIED_FLAG );
-	if ( player ) {
-		podium2 = player;
-	}
+	if (g_gametype.integer != GT_SINGLE_PLAYER_TOURNAMENT) {
+		player = SpawnModelOnVictoryPad(podium, offsetSecond, &g_entities[level.sortedClients[1]],
+			level.clients[level.sortedClients[1]].ps.persistant[PERS_RANK] & ~RANK_TIED_FLAG);
+		if (player) {
+			podium2 = player;
+		}
 
-	if ( level.numNonSpectatorClients > 2 ) {
-		player = SpawnModelOnVictoryPad( podium, offsetThird, &g_entities[level.sortedClients[2]],
-				level.clients[ level.sortedClients[2] ].ps.persistant[PERS_RANK] &~ RANK_TIED_FLAG );
-		if ( player ) {
-			podium3 = player;
+
+		if (level.numNonSpectatorClients > 2) {
+			player = SpawnModelOnVictoryPad(podium, offsetThird, &g_entities[level.sortedClients[2]],
+				level.clients[level.sortedClients[2]].ps.persistant[PERS_RANK] & ~RANK_TIED_FLAG);
+			if (player) {
+				podium3 = player;
+			}
 		}
 	}
 }

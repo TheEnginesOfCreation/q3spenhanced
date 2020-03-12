@@ -135,13 +135,30 @@ static void CG_DrawClientScore( int y, score_t *score, float *color, float fade,
 		}
 
 		// draw the wins / losses
-		if ( cgs.gametype == GT_TOURNAMENT ) {	//don't draw this in SP tournament
-			Com_sprintf( string, sizeof( string ), "%i/%i", ci->wins, ci->losses );
-			if( ci->handicap < 100 && !ci->botSkill ) {
-				CG_DrawSmallStringColor( iconx, y + SMALLCHAR_HEIGHT/2, string, color );
+		if ( cgs.gametype == GT_TOURNAMENT || cgs.gametype == GT_SINGLE_PLAYER_TOURNAMENT ) {	//don't draw this in SP tournament
+			if (cgs.gametype == GT_TOURNAMENT) {
+				Com_sprintf(string, sizeof(string), "%i/%i", ci->wins, ci->losses);
 			}
 			else {
-				CG_DrawSmallStringColor( iconx, y, string, color );
+				if (ci->botSkill > 0 && ci->botSkill <= 5) {
+					if (ci->losses > 0) {
+						Com_sprintf(string, sizeof(string), "BEATEN");
+					} else {
+						Com_sprintf(string, sizeof(string), "");
+					}
+				} else {
+					if (ci->wins != 1) {
+						Com_sprintf(string, sizeof(string), "%i WINS", ci->wins);
+					} else {
+						Com_sprintf(string, sizeof(string), "%i WIN", ci->wins);
+					}
+				}
+			}
+			if( ci->handicap < 100 && !ci->botSkill ) {
+				CG_DrawSmallStringColor( cgs.gametype == GT_SINGLE_PLAYER_TOURNAMENT ? iconx - 8 : iconx, y + SMALLCHAR_HEIGHT/2, string, color );
+			}
+			else {
+				CG_DrawSmallStringColor(cgs.gametype == GT_SINGLE_PLAYER_TOURNAMENT ? iconx - 8 : iconx, y, string, color );
 			}
 		}
 	}
