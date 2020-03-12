@@ -1,5 +1,5 @@
-Q3SPENHANCED
-------------
+Q3SPENHANCED v2.0
+-----------------
 
 A mod by THE ENGINES OF CREATION for QUAKE III ARENA.
 
@@ -7,19 +7,21 @@ This mod allows you to set up an arenas.txt file that includes TDM and CTF maps 
 It allows you to create your own map packs with single player arena support that include TDM and CTF maps.
 
 Features:
-- Team Deathmatch and Capture the Flag modes possible in single player mode.
+- Tournament, Team Deathmatch and Capture the Flag modes possible in single player mode.
 - Tracking Capture, Assist and Defense awards in single player mode.
-- Single Player level select UI shows gametype for TDM and CTF maps.
+- Single Player level select UI shows gametype for Tournament, TDM and CTF maps.
 - Single Player level select UI slightly changed to allow display of new awards.
 - Alternative intermission screen in single player TDM and CTF.
 - Having only a single tier won't put game into demo mode.
 - Console command "q3spenhanced" echoes out the version of the q3spenhanced mod that's running.
 - When clicking the "next" button after finishing a single player arena, the game kicks all bots and loads the next level. The g_spNextLevelDelay cvar (default 500) determines the amount of time (in ms) between kicking the bots and loading the next level. If you are experiencing problems with loading bots for the next level (they don't properly join the game or become invisible) increase the value for this setting.
 
+In the single player tournament (1v1) gametype, the player needs to beat each bot in the game in a 1v1 match to complete the arena. Losing a single 1v1 fight automatically results in a complete loss for the player.
+
 This mod can be freely distributed and used as basis for a custom single player arena listing.
 
 A custom arena file should be built using the following syntax:
-'
+
 {
 map		"q3ctf1"
 longname	"Dueling Keeps"
@@ -37,6 +39,7 @@ CAPTURELIMIT : the capturelimit for CTF games.
 TIMELIMIT    : the timelimit for FFA, TDM or CTF games.
 TYPE         : the gametype(s) for this map. For single player arenas, use:
                 - "spf" for Free For All
+		- "sp1v1" for Tournament
                 - "spt" for Team Deathmatch
                 - "spc" for Capture the Flag
 	       note that the "single" gametype is ignored. Use the old "ffa", "tourney", "team" and "ctf" types for multiplayer.
