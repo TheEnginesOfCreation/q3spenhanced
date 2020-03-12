@@ -56,6 +56,24 @@ menu/art/ctf
 	}
 }
 
+menu/art/1v1
+{
+     cull disable
+     surfaceparm alphashadow
+     surfaceparm trans	
+     surfaceparm nomarks
+     //tessSize 64
+     //deformVertexes wave 30 sin 0 3 0 .2
+     //deformVertexes wave 100 sin 0 3 0 .7
+     
+	{
+		map menu/art/1v1.tga
+		alphaFunc GE128
+		depthWrite
+		rgbGen vertex
+	}
+}
+
 menu/art/blueteam
 {
 	surfaceparm nomarks

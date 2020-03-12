@@ -1,9 +1,9 @@
 {
 map		"q3tourney1"
 bots		"wrack hossman"
-longname	"Arena Gate"
-fraglimit	20
-type		"spf ffa"
+longname	"Powerstation 0218"
+fraglimit	5
+type		"sp1v1 ffa"
 }
 
 {

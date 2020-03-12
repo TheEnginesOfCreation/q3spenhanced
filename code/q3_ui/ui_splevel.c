@@ -53,6 +53,7 @@ SINGLE PLAYER LEVEL SELECT MENU
 #define ART_REDFLAG 				"menu/art/redteam"
 #define ART_TDM						"menu/art/tdm"
 #define ART_CTF						"menu/art/ctf"
+#define ART_1V1						"menu/art/1v1"
 
 #define BLUE_FLAG_MODEL				"models/flags/b_flag.md3"
 #define RED_FLAG_MODEL				"models/flags/r_flag.md3"
@@ -705,6 +706,9 @@ static void UI_SPLevelMenu_DrawGameplayIcons(int num, int x, int y) {
 	}
 	else if (levelMenuInfo.levelGametypes[num] == GT_SINGLE_PLAYER_CTF) {
 		UI_DrawNamedPic(x, y, 24, 48, ART_CTF);
+	}
+	else if (levelMenuInfo.levelGametypes[num] == GT_SINGLE_PLAYER_TOURNAMENT) {
+		UI_DrawNamedPic(x, y, 24, 48, ART_1V1);
 	}
 }
 
