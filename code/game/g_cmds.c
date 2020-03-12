@@ -571,7 +571,7 @@ void SetTeam( gentity_t *ent, char *s ) {
 	}
 
 	// override decision if limiting the players
-	if ( (g_gametype.integer == GT_TOURNAMENT || g_gametype.integer == GT_SINGLE_PLAYER_TOURNAMENT)		//ERAESR: is this ok?
+	if ( (g_gametype.integer == GT_TOURNAMENT || g_gametype.integer == GT_SINGLE_PLAYER_TOURNAMENT)
 		&& level.numNonSpectatorClients >= 2 ) {
 		team = TEAM_SPECTATOR;
 	} else if ( g_maxGameClients.integer > 0 && 
@@ -686,7 +686,7 @@ void Cmd_Team_f( gentity_t *ent ) {
 	}
 
 	// if they are playing a tournement game, count as a loss
-	if ( (g_gametype.integer == GT_TOURNAMENT || g_gametype.integer == GT_SINGLE_PLAYER_TOURNAMENT)	//ERAESR: Should we handle player death here as well?
+	if ( (g_gametype.integer == GT_TOURNAMENT || g_gametype.integer == GT_SINGLE_PLAYER_TOURNAMENT)
 		&& ent->client->sess.sessionTeam == TEAM_FREE ) {
 		ent->client->sess.losses++;
 	}
@@ -732,7 +732,7 @@ void Cmd_Follow_f( gentity_t *ent ) {
 	}
 
 	// if they are playing a tournement game, count as a loss
-	if ( (g_gametype.integer == GT_TOURNAMENT || g_gametype.integer == GT_SINGLE_PLAYER_TOURNAMENT )	//ERAESR: player death?
+	if ( (g_gametype.integer == GT_TOURNAMENT || g_gametype.integer == GT_SINGLE_PLAYER_TOURNAMENT )
 		&& ent->client->sess.sessionTeam == TEAM_FREE ) {
 		ent->client->sess.losses++;
 	}
@@ -756,7 +756,7 @@ void Cmd_FollowCycle_f( gentity_t *ent, int dir ) {
 	int		original;
 
 	// if they are playing a tournement game, count as a loss
-	if ( (g_gametype.integer == GT_TOURNAMENT || g_gametype.integer == GT_SINGLE_PLAYER_TOURNAMENT) //ERAESR: player death?
+	if ( (g_gametype.integer == GT_TOURNAMENT || g_gametype.integer == GT_SINGLE_PLAYER_TOURNAMENT)
 		&& ent->client->sess.sessionTeam == TEAM_FREE ) {
 		ent->client->sess.losses++;
 	}

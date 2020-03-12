@@ -666,7 +666,6 @@ void RemoveTournamentLoser( void ) {
 		if (IsBotEntity(ent)) {
 			SetTeam(ent, "s");
 			if (FindPlayer()->client->sess.wins == level.numConnectedClients - 1) {
-				//ERAESR: PLAYER WINS. GAME ENDS.
 				UpdateTournamentInfo();
 				SpawnModelsOnVictoryPads();
 				ResetClientWinsLosses();
@@ -1443,7 +1442,7 @@ void CheckTournament( void ) {
 		return;
 	}
 
-	if ( g_gametype.integer == GT_TOURNAMENT || g_gametype.integer == GT_SINGLE_PLAYER_TOURNAMENT ) {	//ERAESR: What to do for SP implementation here?
+	if ( g_gametype.integer == GT_TOURNAMENT || g_gametype.integer == GT_SINGLE_PLAYER_TOURNAMENT ) {
 
 		// pull in a spectator if needed
 		if ( level.numPlayingClients < 2 ) {

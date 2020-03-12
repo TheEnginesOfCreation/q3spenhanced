@@ -1332,8 +1332,6 @@ void ClientDisconnect( int clientNum ) {
 		ClientUserinfoChanged( level.sortedClients[0] );
 	}
 
-	//ERAESR: SHOULD WE HANDLE PLAYER DEATH HERE?
-
 	trap_UnlinkEntity (ent);
 	ent->s.modelindex = 0;
 	ent->inuse = qfalse;
