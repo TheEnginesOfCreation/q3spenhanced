@@ -55,3 +55,18 @@ the game doesn't find four maps to fill up another tier.
 
 
 Go to https://github.com/TheEnginesOfCreation/q3spenhanced for more information.
+
+
+Version history
+---------------
+
+v2.0 - March 13th, 2020
+- Added single player tournament (1v1) mode
+- "Perfect" award is now awarded in SP CTF mode when the enemy team has not scored any caps
+- Single player progress, awards and unlocked cinematics are stored in a different cvar so that progress from a baseq3 q3config.cfg isn't carried over.
+
+v1.0 - March 6th, 2020
+- Added single player CTF mode
+- Added single player TDM mode
+- Added Capture, Defense and Assist award tracking in SP mode
+- Redesigned single player level select screen
