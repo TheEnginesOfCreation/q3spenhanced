@@ -485,7 +485,7 @@ void G_CheckBotSpawn( void ) {
 		ClientBegin( botSpawnQueue[n].clientNum );
 		botSpawnQueue[n].spawnTime = 0;
 
-		if(GT_IsSinglePlayer(g_gametype.integer)) {
+		if(GT_IsSinglePlayer(g_gametype.integer) && g_gametype.integer != GT_SINGLE_PLAYER_TOURNAMENT) {
 			trap_GetUserinfo( botSpawnQueue[n].clientNum, userinfo, sizeof(userinfo) );
 			PlayerIntroSound( Info_ValueForKey (userinfo, "model") );
 		}
