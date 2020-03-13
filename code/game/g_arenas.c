@@ -121,8 +121,10 @@ void UpdateTournamentInfo( void ) {
 			won = (level.teamScores[TEAM_BLUE] > level.teamScores[TEAM_RED]);
 		}
 
-		if (level.clients[playerClientNum].sess.sessionTeam == TEAM_SPECTATOR) {
+		if (level.clients[playerClientNum].sess.sessionTeam == TEAM_SPECTATOR) {	//if player is spectator, they lost in SP tourney mode and had to get fragged at least once
 			perfect = 0;
+		} else if (g_gametype.integer == GT_SINGLE_PLAYER_CTF) {	//in SP CTF mode, score a perfect if enemy team didn't score a single cap
+			perfect = (level.teamScores[TEAM_BLUE] == 0) ? 1 : 0;
 		} else {
 			perfect = (level.clients[playerClientNum].ps.persistant[PERS_RANK] == 0 && player->client->ps.persistant[PERS_KILLED] == 0) ? 1 : 0;
 		}
