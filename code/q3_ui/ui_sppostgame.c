@@ -618,7 +618,7 @@ void UI_SPPostgameMenu_f( void ) {
 		postgameMenuInfo.ranks[n] = atoi( UI_Argv( MAX_ARG + n * 3 + 2 ) );
 		postgameMenuInfo.scores[n] = atoi( UI_Argv( MAX_ARG + n * 3 + 3 ) );
 
-		if( gametype == GT_SINGLE_PLAYER || gametype == GT_SINGLE_PLAYER_TOURNAMENT && postgameMenuInfo.clientNums[n] == playerClientNum ) {
+		if ( (gametype == GT_SINGLE_PLAYER || gametype == GT_SINGLE_PLAYER_TOURNAMENT) && postgameMenuInfo.clientNums[n] == playerClientNum ) {
 			playerGameRank = (postgameMenuInfo.ranks[n] & ~RANK_TIED_FLAG) + 1;
 		}
 	}
