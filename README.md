@@ -14,6 +14,7 @@ QVM files will be writting to \quake3\baseq3\vm folder.
 - Tracking Capture, Assist and Defense awards in single player mode.
 - Single Player level select UI shows gametype for Tournament, TDM and CTF maps.
 - Single Player level select UI slightly changed to allow display of new awards.
+- In Single Player CTF gametype, the "perfect" award is awarded when the enemy team scores no caps.
 - Alternative intermission screen in single player TDM and CTF.
 - Added example arenas.txt
 - Having only a single tier won't put game into demo mode.
