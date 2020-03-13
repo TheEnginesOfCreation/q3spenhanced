@@ -17,6 +17,7 @@ QVM files will be writting to \quake3\baseq3\vm folder.
 - Alternative intermission screen in single player TDM and CTF.
 - Added example arenas.txt
 - Having only a single tier won't put game into demo mode.
+- Single player progress, scores and unlocked videos are stored under different cvar to make sure progress isn't carried over from baseq3 q3config.cfg files.
 - Console command "q3spenhanced" echoes out the version of the q3spenhanced mod that's running.
 - When clicking the "next" button after finishing a single player arena, the game kicks all bots and loads the next level. The g_spNextLevelDelay cvar (default 500) determines the amount of time (in ms) between kicking the bots and loading the next level. If you are experiencing problems with loading bots for the next level (they don't properly join the game or become invisible) increase the value for this setting.
 
