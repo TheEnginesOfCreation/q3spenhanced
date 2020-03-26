@@ -1,4 +1,4 @@
-Q3SPENHANCED v2.0
+Q3SPENHANCED v2.1
 -----------------
 
 A mod by THE ENGINES OF CREATION for QUAKE III ARENA.
@@ -25,11 +25,11 @@ This mod can be freely distributed and used as basis for a custom single player 
 A custom arena file should be built using the following syntax:
 
 {
-map		"q3ctf1"
-longname	"Dueling Keeps"
-bots		"mynx ranger sorlag stripe sarge"
+map				"q3ctf1"
+longname		"Dueling Keeps"
+bots			"mynx ranger sorlag stripe sarge"
 capturelimit	3
-type		"spc ctf"
+type			"spc ctf"
 }
 
 
@@ -41,10 +41,10 @@ CAPTURELIMIT : the capturelimit for CTF games.
 TIMELIMIT    : the timelimit for FFA, TDM or CTF games.
 TYPE         : the gametype(s) for this map. For single player arenas, use:
                 - "spf" for Free For All
-		- "sp1v1" for Tournament
+				- "sp1v1" for Tournament
                 - "spt" for Team Deathmatch
                 - "spc" for Capture the Flag
-	       note that the "single" gametype is ignored. Use the old "ffa", "tourney", "team" and "ctf" types for multiplayer.
+				note that the "single" gametype is ignored. Use the old "ffa", "tourney", "team" and "ctf" types for multiplayer.
 SPECIAL      : use "training" to specify this map is a tier 0 introduction map.
                use "final" to specify this map is a final tier boss map.
                maps with either special indications will be the only map in their respective tiers (like q3dm0 and q3tourney6 in standard Quake 3)
@@ -59,6 +59,9 @@ Go to https://github.com/TheEnginesOfCreation/q3spenhanced for more information.
 
 Version history
 ---------------
+
+v2.1 - ?
+- Cinematics menu only shows videos for available tiers
 
 v2.0 - March 13th, 2020
 - Added single player tournament (1v1) mode
