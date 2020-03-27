@@ -303,7 +303,7 @@ static void UI_CinematicsMenu_Init( void ) {
 	cinematicsMenuInfo.cin_end.string				= "END";
 	cinematicsMenuInfo.cin_end.color				= color_red;
 	cinematicsMenuInfo.cin_end.style				= UI_CENTER;
-	if( !UI_CanShowTierVideo( numTierVideos ) ) {
+	if( !UI_CanShowTierVideo( numTierVideos + 1 ) ) {
 		cinematicsMenuInfo.cin_end.generic.flags |= QMF_GRAYED;
 	}
 
