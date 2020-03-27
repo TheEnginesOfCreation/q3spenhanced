@@ -1,3 +1,17 @@
+gfx/2d/timelimit
+{
+	{
+		map gfx/2d/timelimit1.tga
+		blendfunc blend
+	}
+	{
+		map gfx/2d/timelimit2.tga
+		tcmod rotate 36
+		blendfunc blend
+	}
+	
+}
+
 menu/art/tdm
 {
 	surfaceparm nomarks

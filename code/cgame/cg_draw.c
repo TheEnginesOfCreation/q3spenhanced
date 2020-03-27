@@ -1086,6 +1086,8 @@ static float CG_DrawScores( float y ) {
 		}
 		CG_DrawBigString( x + 4, y, s, 1.0F);
 
+		CG_DrawTimelimit(640, y+BIGCHAR_HEIGHT+8);
+
 		if ( cgs.gametype == GT_CTF || cgs.gametype == GT_SINGLE_PLAYER_CTF ) {
 			// Display flag status
 			item = BG_FindItemForPowerup( PW_BLUEFLAG );
@@ -1207,12 +1209,36 @@ static float CG_DrawScores( float y ) {
 			x -= w;
 			CG_DrawBigString( x + 4, y, s, 1.0F);
 		}
-
+		CG_DrawTimelimit(640, y1+BIGCHAR_HEIGHT + 8);
 	}
 
 	return y1 - 8;
 }
 #endif // MISSIONPACK
+
+static void CG_DrawTimelimit(int x, float y) {
+	int			mins, seconds, tens;
+	int			msec;
+	char		*s;
+	int			iconSize = 16;
+
+	if (!cgs.timelimit || !cg_drawTimelimit.integer ) {
+		return;
+	}
+
+	msec = (cgs.timelimit * 60 * 1000) - (cg.time - cgs.levelStartTime);
+
+	seconds = msec / 1000;
+	mins = seconds / 60;
+	seconds -= mins * 60;
+	tens = seconds / 10;
+	seconds -= tens * 10;
+	s = va("%i:%i%i", mins, tens, seconds);
+	
+	x -= (SMALLCHAR_WIDTH * strlen(s)) + 4;
+	CG_DrawSmallString(x, floor(y), s, 1.0);
+	CG_DrawPic(x-(iconSize+2), y, iconSize, iconSize, cgs.media.timelimitShader);
+}
 
 /*
 ================
