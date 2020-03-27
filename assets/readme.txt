@@ -62,7 +62,7 @@ Go to https://github.com/TheEnginesOfCreation/q3spenhanced for more information.
 Version history
 ---------------
 
-v2.1 - ?
+v2.1 - March 27th, 2020
 - Cinematics menu only shows videos for available tiers
 - Fixed entities with a "ctf", "team" or "tournament" value for gametype key not spawning in single player modes.
 - Added cg_drawTimelimit cvar.
