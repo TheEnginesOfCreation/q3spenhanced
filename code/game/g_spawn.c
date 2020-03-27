@@ -408,7 +408,7 @@ level.spawnVars[], then call the class specfic spawn function
 void G_SpawnGEntityFromSpawnVars( void ) {
 	int			i;
 	gentity_t	*ent;
-	char		*s, *value, *gametypeName;
+	char		*s, *value, *gametypeName, *spGametypeName;
 	static char *gametypeNames[] = {"ffa", "tournament", "spf", "team", "ctf", "oneflag", "obelisk", "harvester", "teamtournament", "spt", "spc"};
 
 	// get the next free entity
@@ -458,8 +458,23 @@ void G_SpawnGEntityFromSpawnVars( void ) {
 	if( G_SpawnString( "gametype", NULL, &value ) ) {
 		if( g_gametype.integer >= GT_FFA && g_gametype.integer < GT_MAX_GAME_TYPE ) {
 			gametypeName = gametypeNames[g_gametype.integer];
+			switch (g_gametype.integer) {
+				case GT_CTF:
+					spGametypeName = gametypeNames[GT_SINGLE_PLAYER_CTF];
+					break;
+				case GT_TEAM:
+					spGametypeName = gametypeNames[GT_SINGLE_PLAYER_TEAM];
+					break;
+				case GT_TOURNAMENT:
+					spGametypeName = gametypeNames[GT_SINGLE_PLAYER_TOURNAMENT];
+					break;
+			}
 
 			s = strstr( value, gametypeName );
+			if ( !s ) {
+				s = strstr( value, spGametypeName );
+			}
+
 			if( !s ) {
 				G_FreeEntity( ent );
 				return;
