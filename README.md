@@ -21,6 +21,8 @@ QVM files will be writting to \quake3\baseq3\vm folder.
 - Single player progress, scores and unlocked videos are stored under different cvar to make sure progress isn't carried over from baseq3 q3config.cfg files.
 - Console command "q3spenhanced" echoes out the version of the q3spenhanced mod that's running.
 - When clicking the "next" button after finishing a single player arena, the game kicks all bots and loads the next level. The g_spNextLevelDelay cvar (default 500) determines the amount of time (in ms) between kicking the bots and loading the next level. If you are experiencing problems with loading bots for the next level (they don't properly join the game or become invisible) increase the value for this setting.
+- New cvar setting cg_drawTimelimit. When set to 1, the time remaining in the match will be displayed in the lower right corner of the screen.
+- The cg_drawTimer cvar can now be set to 2 to display the time remaining in the match. When set to 1, or when no timelimit is set, it will display the old timer.
 
 In the single player tournament (1v1) gametype, the player needs to beat each bot in the game in a 1v1 match to complete the arena. Losing a single 1v1 fight automatically results in a complete loss for the player.
 
