@@ -812,13 +812,17 @@ static float CG_DrawFPS( float y ) {
 CG_DrawTimer
 =================
 */
-static float CG_DrawTimer( float y ) {
-	char		*s;
+static float CG_DrawTimer(float y) {
+	char* s;
 	int			w;
 	int			mins, seconds, tens;
 	int			msec;
 
-	msec = cg.time - cgs.levelStartTime;
+	if (cg_drawTimer.integer == 2 && cgs.timelimit) {
+		msec = (cgs.timelimit * 60 * 1000) - (cg.time - cgs.levelStartTime);
+	} else {
+		msec = cg.time - cgs.levelStartTime;
+	}
 
 	seconds = msec / 1000;
 	mins = seconds / 60;
