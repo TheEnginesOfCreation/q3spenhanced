@@ -459,6 +459,9 @@ void G_SpawnGEntityFromSpawnVars( void ) {
 		if( g_gametype.integer >= GT_FFA && g_gametype.integer < GT_MAX_GAME_TYPE ) {
 			gametypeName = gametypeNames[g_gametype.integer];
 			switch (g_gametype.integer) {
+				case GT_SINGLE_PLAYER:
+					altGametypeName = "single";							//in "spf", do spawn "single" items
+					break;
 				case GT_SINGLE_PLAYER_CTF:
 					altGametypeName = gametypeNames[GT_CTF];			//in "spc", do spawn "ctf" items
 					break;
