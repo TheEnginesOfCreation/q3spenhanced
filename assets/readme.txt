@@ -1,4 +1,4 @@
-Q3SPENHANCED v2.1
+Q3SPENHANCED v2.2
 -----------------
 
 A mod by THE ENGINES OF CREATION for QUAKE III ARENA.
@@ -61,6 +61,10 @@ Go to https://github.com/TheEnginesOfCreation/q3spenhanced for more information.
 
 Version history
 ---------------
+
+v2.2 - ???
+- Really fixed entities with a "ctf", "team" or "tournament" value for gametype key not spawning in single player modes.
+- Fixed entities with a "single" value for gametype not spawning in single player Free For All (spf) gametype.
 
 v2.1 - March 27th, 2020
 - Cinematics menu only shows videos for available tiers
