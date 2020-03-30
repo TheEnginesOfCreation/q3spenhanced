@@ -408,7 +408,7 @@ level.spawnVars[], then call the class specfic spawn function
 void G_SpawnGEntityFromSpawnVars( void ) {
 	int			i;
 	gentity_t	*ent;
-	char		*s, *value, *gametypeName, *spGametypeName;
+	char		*s, *value, *gametypeName, *altGametypeName;
 	static char *gametypeNames[] = {"ffa", "tournament", "spf", "team", "ctf", "oneflag", "obelisk", "harvester", "teamtournament", "spt", "spc"};
 
 	// get the next free entity
@@ -459,20 +459,23 @@ void G_SpawnGEntityFromSpawnVars( void ) {
 		if( g_gametype.integer >= GT_FFA && g_gametype.integer < GT_MAX_GAME_TYPE ) {
 			gametypeName = gametypeNames[g_gametype.integer];
 			switch (g_gametype.integer) {
-				case GT_CTF:
-					spGametypeName = gametypeNames[GT_SINGLE_PLAYER_CTF];
+				case GT_SINGLE_PLAYER_CTF:
+					altGametypeName = gametypeNames[GT_CTF];			//in "spc", do spawn "ctf" items
 					break;
-				case GT_TEAM:
-					spGametypeName = gametypeNames[GT_SINGLE_PLAYER_TEAM];
+				case GT_SINGLE_PLAYER_TEAM:
+					altGametypeName = gametypeNames[GT_TEAM];			//in "spt", do spawn "team" items
 					break;
-				case GT_TOURNAMENT:
-					spGametypeName = gametypeNames[GT_SINGLE_PLAYER_TOURNAMENT];
+				case GT_SINGLE_PLAYER_TOURNAMENT:
+					altGametypeName = gametypeNames[GT_TOURNAMENT];		//in "sp1v1", do spawn "tournament"items
+					break;
+				default:
+					altGametypeName = NULL;
 					break;
 			}
 
 			s = strstr( value, gametypeName );
-			if ( !s ) {
-				s = strstr( value, spGametypeName );
+			if ( !s && altGametypeName != NULL) {
+				s = strstr( value, altGametypeName );
 			}
 
 			if( !s ) {
