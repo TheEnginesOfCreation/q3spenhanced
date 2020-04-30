@@ -1225,6 +1225,7 @@ static void CG_DrawTimelimit(int x, float y) {
 	int			msec;
 	char		*s;
 	int			iconSize = 16;
+	char		*minusSign = "";
 
 	if (!cgs.timelimit || !cg_drawTimelimit.integer ) {
 		return;
@@ -1232,12 +1233,16 @@ static void CG_DrawTimelimit(int x, float y) {
 
 	msec = (cgs.timelimit * 60 * 1000) - (cg.time - cgs.levelStartTime);
 
+	if (msec < 0) {
+		msec = 0 - msec;
+		minusSign = "-";
+	}
 	seconds = msec / 1000;
 	mins = seconds / 60;
 	seconds -= mins * 60;
 	tens = seconds / 10;
 	seconds -= tens * 10;
-	s = va("%i:%i%i", mins, tens, seconds);
+	s = va("%s%i:%i%i", minusSign, mins, tens, seconds);
 	
 	x -= (SMALLCHAR_WIDTH * strlen(s)) + 4;
 	CG_DrawSmallString(x, floor(y), s, 1.0);

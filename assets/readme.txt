@@ -65,6 +65,7 @@ Version history
 v2.2 - ???
 - Really fixed entities with a "ctf", "team" or "tournament" value for gametype key not spawning in single player modes.
 - Fixed entities with a "single" value for gametype not spawning in single player Free For All (spf) gametype.
+- Fixed timelimit timer (cg_drawtimelimit) going all wonky in sudden death overtime.
 
 v2.1 - March 27th, 2020
 - Cinematics menu only shows videos for available tiers
