@@ -452,7 +452,8 @@ void UI_GetBestScore( int level, int *score, int *skill ) {
 	bestScoreSkill = 0;
 
 	for( n = 1; n <= 5; n++ ) {
-		trap_Cvar_VariableStringBuffer( va( "g_spNewScores%i", n ), scores, MAX_INFO_VALUE );
+		//> trap_Cvar_VariableStringBuffer( va( "g_spNewScores%i", n ), scores, MAX_INFO_VALUE );
+		COM_LoadLevelProgress(n, scores);
 
 		Com_sprintf( arenaKey, sizeof( arenaKey ), "l%i", level );
 		skillScore = atoi( Info_ValueForKey( scores, arenaKey ) );
@@ -497,7 +498,8 @@ void UI_SetBestScore( int level, int score ) {
 	}
 
 	// get scores
-	trap_Cvar_VariableStringBuffer( va( "g_spNewScores%i", skill ), scores, MAX_INFO_VALUE );
+	//> trap_Cvar_VariableStringBuffer( va( "g_spNewScores%i", skill ), scores, MAX_INFO_VALUE );
+	COM_LoadLevelProgress(skill, scores);
 
 	// see if this is better
 	Com_sprintf( arenaKey, sizeof( arenaKey ), "l%i", level );
@@ -508,7 +510,8 @@ void UI_SetBestScore( int level, int score ) {
 
 	// update scores
 	Info_SetValueForKey( scores, arenaKey, va( "%i", score ) );
-	trap_Cvar_Set( va( "g_spNewScores%i", skill ), scores );
+	//> trap_Cvar_Set( va( "g_spNewScores%i", skill ), scores );
+	COM_WriteLevelProgress(skill, scores);
 }
 
 
@@ -695,11 +698,16 @@ Clears the scores and sets the difficutly level
 ===============
 */
 void UI_NewGame( void ) {
-	trap_Cvar_Set( "g_spNewScores1", "" );
-	trap_Cvar_Set( "g_spNewScores2", "" );
-	trap_Cvar_Set( "g_spNewScores3", "" );
-	trap_Cvar_Set( "g_spNewScores4", "" );
-	trap_Cvar_Set( "g_spNewScores5", "" );
+	//> trap_Cvar_Set( "g_spNewScores1", "" );
+	//> trap_Cvar_Set( "g_spNewScores2", "" );
+	//> trap_Cvar_Set( "g_spNewScores3", "" );
+	//> trap_Cvar_Set( "g_spNewScores4", "" );
+	//> trap_Cvar_Set( "g_spNewScores5", "" );
+	COM_WriteLevelProgress(1, "");
+	COM_WriteLevelProgress(2, "");
+	COM_WriteLevelProgress(3, "");
+	COM_WriteLevelProgress(4, "");
+	COM_WriteLevelProgress(5, "");
 	trap_Cvar_Set( "g_spNewAwards", "" );
 	trap_Cvar_Set( "g_spNewVideos", "" );
 }
@@ -757,14 +765,15 @@ void UI_SPUnlock_f( void ) {
 	int		tier;
 
 	// get scores for skill 1
-	trap_Cvar_VariableStringBuffer( "g_spNewScores1", scores, MAX_INFO_VALUE );
+	//> trap_Cvar_VariableStringBuffer( "g_spNewScores1", scores, MAX_INFO_VALUE );
 
 	// update scores
 	for( level = 0; level < ui_numSinglePlayerArenas + ui_numSpecialSinglePlayerArenas; level++ ) {
 		Com_sprintf( arenaKey, sizeof( arenaKey ), "l%i", level );
 		Info_SetValueForKey( scores, arenaKey, "1" );
 	}
-	trap_Cvar_Set( "g_spNewScores1", scores );
+	//> trap_Cvar_Set( "g_spNewScores1", scores );
+	COM_WriteLevelProgress(1, scores);
 
 	// unlock cinematics
 	for( tier = 1; tier <= 8; tier++ ) {

@@ -1256,3 +1256,34 @@ void Info_SetValueForKey_Big( char *s, const char *key, const char *value ) {
 //====================================================================
 
 
+void COM_WriteLevelProgress(int skill, char *data) {
+	char filename[64];
+
+	fileHandle_t	f;
+	Com_sprintf(filename, sizeof(filename), "spprogress%i.txt", skill);
+
+	trap_FS_FOpenFile(filename, &f, FS_WRITE);
+	trap_FS_Write(data, strlen(data), f);
+	trap_FS_FCloseFile(f);
+}
+
+void COM_LoadLevelProgress(int skill, char *out) {
+	char* filename;
+	fileHandle_t f;
+	int len;
+	int i;
+	
+	filename = va("spprogress%i.txt", skill);
+	len = trap_FS_FOpenFile(filename, &f, FS_READ);
+	
+	//Com_Printf("SKILL %i has length %i\n", skill, len);
+	
+	for (i = 0; i < MAX_INFO_STRING; i++) {
+		out[i] = '\0';
+	}
+	if (len > 0) {
+		trap_FS_Read(out, len, f);
+	}
+
+	trap_FS_FCloseFile(f);
+}

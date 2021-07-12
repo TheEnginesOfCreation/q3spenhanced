@@ -89,6 +89,7 @@ void UI_SPArena_Start(const char* arenaInfo) {
 	trap_Cvar_SetValue("fraglimit", fraglimit);
 	trap_Cvar_SetValue("capturelimit", capturelimit);
 	trap_Cvar_SetValue("timelimit", timelimit);
+	trap_Cvar_SetValue("sv_pure", 0);
 
 	if (strstr(type, "spf")) {
 		trap_Cvar_SetValue("g_gametype", GT_SINGLE_PLAYER);

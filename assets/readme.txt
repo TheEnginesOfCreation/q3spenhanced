@@ -1,4 +1,4 @@
-Q3SPENHANCED v2.3
+Q3SPENHANCED v3.0
 -----------------
 
 A mod by THE ENGINES OF CREATION for QUAKE III ARENA.
@@ -19,6 +19,7 @@ Features:
 - When clicking the "next" button after finishing a single player arena, the game kicks all bots and loads the next level. The g_spNextLevelDelay cvar (default 500) determines the amount of time (in ms) between kicking the bots and loading the next level. If you are experiencing problems with loading bots for the next level (they don't properly join the game or become invisible) increase the value for this setting.
 - New cvar setting cg_drawTimelimit. When set to 1, the time remaining in the match will be displayed in the lower right corner of the screen.
 - The cg_drawTimer cvar can now be set to 2 to display the time remaining in the match. When set to 1, or when no timelimit is set, it will display the old timer.
+- In the case of a large number of tiers, the q3config cvar system cannot contain all of the progress data required to keep track of which levels are completed at what skill setting. To accomodate for large numbers of tiers, progress is stored in spprogress*.txt files, where each file represents a specific skill level.
 
 In the single player tournament (1v1) gametype, the player needs to beat each bot in the game in a 1v1 match to complete the arena. Losing a single 1v1 fight automatically results in a complete loss for the player.
 
@@ -62,8 +63,9 @@ Go to https://github.com/TheEnginesOfCreation/q3spenhanced for more information.
 Version history
 ---------------
 
-v2.3 - 2021
+v3.0 - 2021
 - Increased maximum size of arenas.txt to 16384 bytes.
+- Single player level progress is stored outside of q3config.cfg now.
 
 v2.2 - May 1st, 2020
 - Really fixed entities with a "ctf", "team" or "tournament" value for gametype key not spawning in single player modes.
