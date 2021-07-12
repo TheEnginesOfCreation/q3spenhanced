@@ -1,4 +1,4 @@
-Q3SPENHANCED v2.2
+Q3SPENHANCED v2.3
 -----------------
 
 A mod by THE ENGINES OF CREATION for QUAKE III ARENA.
@@ -62,7 +62,10 @@ Go to https://github.com/TheEnginesOfCreation/q3spenhanced for more information.
 Version history
 ---------------
 
-v2.2 - ???
+v2.3 - 2021
+- Increased maximum size of arenas.txt to 16384 bytes.
+
+v2.2 - May 1st, 2020
 - Really fixed entities with a "ctf", "team" or "tournament" value for gametype key not spawning in single player modes.
 - Fixed entities with a "single" value for gametype not spawning in single player Free For All (spf) gametype.
 - Fixed timelimit timer (cg_drawtimelimit) going all wonky in sudden death overtime.

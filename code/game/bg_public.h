@@ -716,7 +716,7 @@ qboolean GT_IsFlag(gametype_t gametype);
 
 #define ARENAS_PER_TIER		4
 #define MAX_ARENAS			1024
-#define	MAX_ARENAS_TEXT		8192
+#define	MAX_ARENAS_TEXT		16384//8192
 
 #define MAX_BOTS			1024
 #define MAX_BOTS_TEXT		8192

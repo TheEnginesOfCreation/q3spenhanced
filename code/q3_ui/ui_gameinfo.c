@@ -757,7 +757,7 @@ void UI_SPUnlock_f( void ) {
 	int		tier;
 
 	// get scores for skill 1
-	trap_Cvar_VariableStringBuffer( "g_spScoresNew1", scores, MAX_INFO_VALUE );
+	trap_Cvar_VariableStringBuffer( "g_spNewScores1", scores, MAX_INFO_VALUE );
 
 	// update scores
 	for( level = 0; level < ui_numSinglePlayerArenas + ui_numSpecialSinglePlayerArenas; level++ ) {
