@@ -1260,7 +1260,7 @@ void COM_WriteLevelProgress(int skill, char *data) {
 	char filename[64];
 
 	fileHandle_t	f;
-	Com_sprintf(filename, sizeof(filename), "spprogress%i.txt", skill);
+	Com_sprintf(filename, sizeof(filename), "spprogress%i.dat", skill);
 
 	trap_FS_FOpenFile(filename, &f, FS_WRITE);
 	trap_FS_Write(data, strlen(data), f);
@@ -1273,7 +1273,7 @@ void COM_LoadLevelProgress(int skill, char *out) {
 	int len;
 	int i;
 	
-	filename = va("spprogress%i.txt", skill);
+	filename = va("spprogress%i.dat", skill);
 	len = trap_FS_FOpenFile(filename, &f, FS_READ);
 	
 	//Com_Printf("SKILL %i has length %i\n", skill, len);
