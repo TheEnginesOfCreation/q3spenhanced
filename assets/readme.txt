@@ -66,6 +66,7 @@ Version history
 v3.0 - 2021
 - Increased maximum size of arenas.txt to 16384 bytes.
 - Single player level progress is stored outside of q3config.cfg now.
+- Items with "nosingle" attribute now do spawn in spt, spc and sp1v1 gametypes. Only not in spf gametype.
 
 v2.2 - May 1st, 2020
 - Really fixed entities with a "ctf", "team" or "tournament" value for gametype key not spawning in single player modes.

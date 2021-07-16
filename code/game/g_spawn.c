@@ -419,7 +419,7 @@ void G_SpawnGEntityFromSpawnVars( void ) {
 	}
 
 	// check for "notsingle" flag
-	if (GT_IsSinglePlayer(g_gametype.integer)) {
+	if (g_gametype.integer == GT_SINGLE_PLAYER) {
 		G_SpawnInt( "notsingle", "0", &i );
 		if ( i ) {
 			G_FreeEntity( ent );
