@@ -1,9 +1,6 @@
 # q3spenhanced
 Enhance Quake III Arena single player mode to include Free For All, Tournament, Team Deathmatch and Capture the Flag gametypes.
 
-# Looking for help
-Quake 3 has these tier introduction cinematics which introduce the characters that appear in a certain tier in the game. These videos are a bit out of place for custom mappacks, so I had the idea of supplying custom tier introduction videos that are generic in nature. Do you have the graphical design skill to make tier introduction videos and are you interested in helping this project out with that? Contact me at eraesr [at] gmail [dot] com.
-
 # Building the project
 After checking out, code can be compiled to qvm by running buildall.bat in the code folder.
 To build cgame, game or q3_ui projects individually, use the .bat files of the same names in their respective folders.
