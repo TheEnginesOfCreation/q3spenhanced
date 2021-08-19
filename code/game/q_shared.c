@@ -1391,8 +1391,6 @@ void COM_SetSkillLevel(char arenaKey[ARENA_KEY_SIZE], int skill) {
 	}
 
 	if (!found) {
-		//progress.scores[arenaCount].arenaKey[0] = '1';
-		//progress.scores[arenaCount].arenaKey[1] = '\0';
 		Q_strncpyz(progress.scores[arenaCount].arenaKey, arenaKey, ARENA_KEY_SIZE);
 		progress.scores[arenaCount].skill = skill;
 	}

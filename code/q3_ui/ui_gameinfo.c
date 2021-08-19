@@ -511,24 +511,6 @@ void UI_SetBestScore( int level, int score ) {
 
 	Com_sprintf(arenaKey, sizeof(arenaKey), "%i", level);
 	COM_SetSkillLevel(arenaKey, skill);
-
-	/*
-	// get scores
-	//> trap_Cvar_VariableStringBuffer( va( "g_spNewScores%i", skill ), scores, MAX_INFO_VALUE );
-	COM_LoadLevelProgress(skill, scores);
-
-	// see if this is better
-	Com_sprintf( arenaKey, sizeof( arenaKey ), "l%i", level );
-	oldScore = atoi( Info_ValueForKey( scores, arenaKey ) );
-	if( oldScore && oldScore <= score ) {
-		return;
-	}
-
-	// update scores
-	Info_SetValueForKey( scores, arenaKey, va( "%i", score ) );
-	//> trap_Cvar_Set( va( "g_spNewScores%i", skill ), scores );
-	COM_WriteLevelProgress(skill, scores);
-	*/
 }
 
 
