@@ -1,4 +1,4 @@
-# q3spenhanced
+# Q3SPEnhanced
 Enhance Quake III Arena single player mode to include Free For All, Tournament, Team Deathmatch and Capture the Flag gametypes.
 
 # Building the project
