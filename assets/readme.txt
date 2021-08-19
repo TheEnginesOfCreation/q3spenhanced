@@ -1,4 +1,4 @@
-Q3SPENHANCED v3.0
+Q3SPENHANCED v3.1
 -----------------
 
 A mod by THE ENGINES OF CREATION for QUAKE III ARENA.
@@ -61,7 +61,7 @@ Go to https://github.com/TheEnginesOfCreation/q3spenhanced for more information.
 Version history
 ---------------
 
-v3.1 - 2021
+v3.1 - August 19th, 2021
 - Increased maximum size of arenas.txt to 16384 bytes.
 - Single player level progress is stored outside of q3config.cfg now.
 - Items with "nosingle" attribute now do spawn in spt, spc and sp1v1 gametypes. Only not in spf gametype.
