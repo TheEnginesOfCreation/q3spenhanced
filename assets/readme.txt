@@ -3,23 +3,23 @@ Q3SPENHANCED v3.0
 
 A mod by THE ENGINES OF CREATION for QUAKE III ARENA.
 
-This mod allows you to set up an arenas.txt file that includes TDM and CTF maps as part of the list of single player arenas.
-It allows you to create your own map packs with single player arena support that include TDM and CTF maps.
+This mod allows you to set up an arenas.txt file that includes TDM, CTF and 1v1 maps as part of the list of single player arenas.
+This means you can create your own map packs with single player arena support that include not just FFA maps, but also TDM, CTF and 1v1 maps.
 
 Features:
 - Tournament, Team Deathmatch and Capture the Flag modes possible in single player mode.
-- Tracking Capture, Assist and Defense awards in single player mode.
+- Tracking of Capture, Assist and Defense awards in single player mode.
 - Single Player level select UI shows gametype for Tournament, TDM and CTF maps.
 - Single Player level select UI slightly changed to allow display of new awards.
 - In Single Player CTF gametype, the "perfect" award is awarded when the enemy team scores no caps.
-- Alternative intermission screen in single player TDM and CTF.
+- Alternative intermission scoreboard screen in single player TDM and CTF.
 - Having only a single tier won't put game into demo mode.
-- Single player progress, scores and unlocked videos are stored under different cvar to make sure progress isn't carried over from baseq3 q3config.cfg files.
+- Unlocked videos and awards are stored under different cvars to make sure progress isn't carried over from baseq3 q3config.cfg files.
 - Console command "q3spenhanced" echoes out the version of the q3spenhanced mod that's running.
-- When clicking the "next" button after finishing a single player arena, the game kicks all bots and loads the next level. The g_spNextLevelDelay cvar (default 500) determines the amount of time (in ms) between kicking the bots and loading the next level. If you are experiencing problems with loading bots for the next level (they don't properly join the game or become invisible) increase the value for this setting.
 - New cvar setting cg_drawTimelimit. When set to 1, the time remaining in the match will be displayed in the lower right corner of the screen.
 - The cg_drawTimer cvar can now be set to 2 to display the time remaining in the match. When set to 1, or when no timelimit is set, it will display the old timer.
-- In the case of a large number of tiers, the q3config cvar system cannot contain all of the progress data required to keep track of which levels are completed at what skill setting. To accomodate for large numbers of tiers, progress is stored in spprogress*.txt files, where each file represents a specific skill level.
+- When clicking the "next" button after finishing a single player arena, the game kicks all bots and loads the next level. The g_spNextLevelDelay cvar (default 500) determines the amount of time (in ms) between kicking the bots and loading the next level. If you are experiencing problems with loading bots for the next level (they don't properly join the game or become invisible) increase the value for this setting.
+- Single player progress is stored in a progress.dat file to accomodate large numbers of tiers.
 
 In the single player tournament (1v1) gametype, the player needs to beat each bot in the game in a 1v1 match to complete the arena. Losing a single 1v1 fight automatically results in a complete loss for the player.
 
@@ -54,8 +54,6 @@ SPECIAL      : use "training" to specify this map is a tier 0 introduction map.
 
 Note that the game will only display tiers that consist of a full 4 maps (other than the special tiers). If a tier does not show up, it means
 the game doesn't find four maps to fill up another tier.
-
-
 
 Go to https://github.com/TheEnginesOfCreation/q3spenhanced for more information.
 
