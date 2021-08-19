@@ -1255,29 +1255,77 @@ void Info_SetValueForKey_Big( char *s, const char *key, const char *value ) {
 
 //====================================================================
 
+/*
+	Loads progress data from file and parses it into a levelprogress_t struct
+*/
+levelprogress_t COM_FileToProgress() {
+	char data[MAX_INFO_VALUE];
+	int len, i, state, arenaIndex, arenaKeyIndex;
+	levelprogress_t output;
 
-void COM_WriteLevelProgress(int skill, char *data) {
-	char filename[64];
+	len = COM_ReadProgressData(data);
 
-	fileHandle_t	f;
-	Com_sprintf(filename, sizeof(filename), "spprogress%i.dat", skill);
+	state = 0;
+	arenaIndex = 0;
+	arenaKeyIndex = 0;
+	for (i = 0; i < len; i++) {
+		if (data[i] == '=') {
+			state = 1;
+		} else if (data[i] == ',') {
+			arenaKeyIndex = 0;
+			arenaIndex++;
+			state = 0;
+		} else {
+			if (state == 0) {
+				output.scores[arenaIndex].arenaKey[arenaKeyIndex] = data[i];
+				if (arenaKeyIndex < ARENA_KEY_SIZE - 1) {
+					output.scores[arenaIndex].arenaKey[arenaKeyIndex + 1] = '\0';
+				}
+				arenaKeyIndex++;
+			} else if (state == 1) {
+				output.scores[arenaIndex].skill = COM_CharToSkill(data[i]);
+			}
+		}
+	}
 
-	trap_FS_FOpenFile(filename, &f, FS_WRITE);
-	trap_FS_Write(data, strlen(data), f);
-	trap_FS_FCloseFile(f);
+	for (i = arenaIndex; i < MAX_SP_ARENAS; i++) {
+		output.scores[i].arenaKey[0] = '\0';
+		output.scores[i].skill = 0;
+	}
+	
+	return output;
 }
 
-void COM_LoadLevelProgress(int skill, char *out) {
-	char* filename;
+
+/*
+	Write a levelprogress_t struct to file
+*/
+void COM_ProgressToFile(levelprogress_t progress) {
+	char data[MAX_INFO_STRING];
+	int i;
+	
+	for (i = 0; i < MAX_SP_ARENAS; i++) {
+		if (progress.scores[i].arenaKey[0] != '\0') {
+			Q_strcat(data, MAX_INFO_VALUE, progress.scores[i].arenaKey);
+			Q_strcat(data, MAX_INFO_VALUE, "=");
+			Q_strcat(data, MAX_INFO_VALUE, COM_SkillToChar(progress.scores[i].skill));
+			Q_strcat(data, MAX_INFO_VALUE, ",");
+		}
+	}
+
+	COM_WriteProgressData(data);
+}
+
+/*
+	Reads data from the progress storage file
+*/
+int COM_ReadProgressData(char* out) {
 	fileHandle_t f;
 	int len;
 	int i;
 	
-	filename = va("spprogress%i.dat", skill);
-	len = trap_FS_FOpenFile(filename, &f, FS_READ);
-	
-	//Com_Printf("SKILL %i has length %i\n", skill, len);
-	
+	len = trap_FS_FOpenFile("progress.dat", &f, FS_READ);
+
 	for (i = 0; i < MAX_INFO_STRING; i++) {
 		out[i] = '\0';
 	}
@@ -1286,4 +1334,99 @@ void COM_LoadLevelProgress(int skill, char *out) {
 	}
 
 	trap_FS_FCloseFile(f);
+
+	return len;
+}
+
+/*
+	writes a levelprogress_t struct to file
+*/
+void COM_WriteProgressData(char *data) {
+	fileHandle_t	f;
+
+	//Com_Printf("data to write to file: %s\n", data);
+	trap_FS_FOpenFile("progress.dat", &f, FS_WRITE);
+	trap_FS_Write(data, strlen(data), f);
+	trap_FS_FCloseFile(f);
+}
+
+/*
+	Returns best skill achieved for a certain level
+*/
+int COM_GetSkillLevel(char arenaKey[ARENA_KEY_SIZE]) {
+	levelprogress_t progress;
+	int i;
+
+	progress = COM_FileToProgress();
+
+	for (i = 0; i < MAX_SP_ARENAS; i++) {
+		if (!strcmp(arenaKey, progress.scores[i].arenaKey)) {
+			return progress.scores[i].skill;
+		}
+	}
+	
+	return 0;
+}
+
+void COM_SetSkillLevel(char arenaKey[ARENA_KEY_SIZE], int skill) {
+	int i, found, arenaCount;
+	levelprogress_t progress;
+
+	progress = COM_FileToProgress();
+
+	found = 0;
+	arenaCount = 0;
+	for (i = 0; i < MAX_SP_ARENAS; i++) {
+		if (!strcmp(arenaKey, progress.scores[i].arenaKey)) {
+			if (progress.scores[i].skill >= skill) {
+				return;		//already completed at higher skill level so skip setting the new skill level
+			}
+			progress.scores[i].skill = skill;
+			found = 1;
+		}
+		
+		if (progress.scores[i].arenaKey[0] != '\0') {
+			arenaCount++;
+		}
+	}
+
+	if (!found) {
+		//progress.scores[arenaCount].arenaKey[0] = '1';
+		//progress.scores[arenaCount].arenaKey[1] = '\0';
+		Q_strncpyz(progress.scores[arenaCount].arenaKey, arenaKey, ARENA_KEY_SIZE);
+		progress.scores[arenaCount].skill = skill;
+	}
+
+	COM_ProgressToFile(progress);
+}
+
+
+char* COM_SkillToChar(int skill) {
+	switch (skill) {
+		case 1:
+			return "1";
+		case 2:
+			return "2";
+		case 3:
+			return "3";
+		case 4:
+			return "4";
+		case 5:
+			return "5";
+	}
+}
+
+int COM_CharToSkill(char chr) {
+	switch (chr) {
+		case '1':
+			return 1;
+		case '2':
+			return 2;
+		case '3':
+			return 3;
+		case '4':
+			return 4;
+		case '5':
+			return 5;
+	}
 }

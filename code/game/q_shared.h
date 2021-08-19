@@ -1394,7 +1394,6 @@ typedef struct qtime_s {
 #define AS_GLOBAL			2
 #define AS_FAVORITES	3
 
-
 // cinematic states
 typedef enum {
 	FMV_IDLE,
@@ -1414,8 +1413,6 @@ typedef enum _flag_status {
 	FLAG_DROPPED
 } flagStatus_t;
 
-
-
 #define	MAX_GLOBAL_SERVERS				4096
 #define	MAX_OTHER_SERVERS					128
 #define MAX_PINGREQUESTS					32
@@ -1428,5 +1425,24 @@ typedef enum _flag_status {
 #define CDKEY_LEN 16
 #define CDCHKSUM_LEN 2
 
+
+#define MAX_SP_ARENAS 128
+#define ARENA_KEY_SIZE 16
+
+typedef struct levelscore_s {
+	char arenaKey[ARENA_KEY_SIZE];
+	int skill;
+} levelscore_t;
+
+typedef struct levelprogress_s {
+	levelscore_t	scores[MAX_SP_ARENAS];		//128 levels is 32 tiers. Should be enough.
+} levelprogress_t;
+
+char* COM_SkillToChar(int skill);
+levelprogress_t COM_FileToProgress();
+void COM_ProgressToFile(levelprogress_t progress);
+int COM_GetSkillLevel(char arenaKey[ARENA_KEY_SIZE]);
+void COM_SetSkillLevel(char arenaKey[ARENA_KEY_SIZE], int skill);
+void COM_WriteProgressData(char* data);
 
 #endif	// __Q_SHARED_H

@@ -439,6 +439,7 @@ void UI_GetBestScore( int level, int *score, int *skill ) {
 	int		bestScoreSkill;
 	char	arenaKey[16];
 	char	scores[MAX_INFO_VALUE];
+	levelprogress_t progress;
 
 	if( !score || !skill ) {
 		return;
@@ -451,6 +452,13 @@ void UI_GetBestScore( int level, int *score, int *skill ) {
 	bestScore = 0;
 	bestScoreSkill = 0;
 
+	Com_sprintf(arenaKey, sizeof(arenaKey), "%i", level);
+	bestScoreSkill = COM_GetSkillLevel(arenaKey);
+	
+	*score = bestScoreSkill > 0 ? 1 : 0;	//how manieth the player finished. In q3spenhanced we always force this to 1 (first) for a completed level or 0 (not played) for a not completed level
+	*skill = bestScoreSkill;				//the skill level (0 if not completed or 1 - 5 for skill levels)
+
+	/*
 	for( n = 1; n <= 5; n++ ) {
 		//> trap_Cvar_VariableStringBuffer( va( "g_spNewScores%i", n ), scores, MAX_INFO_VALUE );
 		COM_LoadLevelProgress(n, scores);
@@ -470,6 +478,9 @@ void UI_GetBestScore( int level, int *score, int *skill ) {
 
 	*score = bestScore;
 	*skill = bestScoreSkill;
+	Com_Printf("Skill for level %s is %i\n", arenaKey, bestScoreSkill);
+	*/
+	
 }
 
 
@@ -486,6 +497,7 @@ void UI_SetBestScore( int level, int score ) {
 	char	arenaKey[16];
 	char	scores[MAX_INFO_VALUE];
 
+
 	// validate score
 	if( score < 1 || score > 8 ) {
 		return;
@@ -497,6 +509,10 @@ void UI_SetBestScore( int level, int score ) {
 		return;
 	}
 
+	Com_sprintf(arenaKey, sizeof(arenaKey), "%i", level);
+	COM_SetSkillLevel(arenaKey, skill);
+
+	/*
 	// get scores
 	//> trap_Cvar_VariableStringBuffer( va( "g_spNewScores%i", skill ), scores, MAX_INFO_VALUE );
 	COM_LoadLevelProgress(skill, scores);
@@ -512,6 +528,7 @@ void UI_SetBestScore( int level, int score ) {
 	Info_SetValueForKey( scores, arenaKey, va( "%i", score ) );
 	//> trap_Cvar_Set( va( "g_spNewScores%i", skill ), scores );
 	COM_WriteLevelProgress(skill, scores);
+	*/
 }
 
 
@@ -698,16 +715,14 @@ Clears the scores and sets the difficutly level
 ===============
 */
 void UI_NewGame( void ) {
-	//> trap_Cvar_Set( "g_spNewScores1", "" );
-	//> trap_Cvar_Set( "g_spNewScores2", "" );
-	//> trap_Cvar_Set( "g_spNewScores3", "" );
-	//> trap_Cvar_Set( "g_spNewScores4", "" );
-	//> trap_Cvar_Set( "g_spNewScores5", "" );
+	COM_WriteProgressData("");
+	/*
 	COM_WriteLevelProgress(1, "");
 	COM_WriteLevelProgress(2, "");
 	COM_WriteLevelProgress(3, "");
 	COM_WriteLevelProgress(4, "");
 	COM_WriteLevelProgress(5, "");
+	*/
 	trap_Cvar_Set( "g_spNewAwards", "" );
 	trap_Cvar_Set( "g_spNewVideos", "" );
 }
@@ -764,16 +779,15 @@ void UI_SPUnlock_f( void ) {
 	int		level;
 	int		tier;
 
-	// get scores for skill 1
-	//> trap_Cvar_VariableStringBuffer( "g_spNewScores1", scores, MAX_INFO_VALUE );
+	// get skill levels
+	//progress = COM_FileToProgress();
 
 	// update scores
 	for( level = 0; level < ui_numSinglePlayerArenas + ui_numSpecialSinglePlayerArenas; level++ ) {
-		Com_sprintf( arenaKey, sizeof( arenaKey ), "l%i", level );
-		Info_SetValueForKey( scores, arenaKey, "1" );
+		Com_sprintf( arenaKey, sizeof( arenaKey ), "%i", level );
+		COM_SetSkillLevel(arenaKey, 1);
 	}
-	//> trap_Cvar_Set( "g_spNewScores1", scores );
-	COM_WriteLevelProgress(1, scores);
+
 
 	// unlock cinematics
 	for( tier = 1; tier <= 8; tier++ ) {

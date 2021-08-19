@@ -98,7 +98,7 @@ extern vmCvar_t	ui_cdkeychecked;
 // ui_qmenu.c
 //
 
-#define Q3SPENHANCED_VERSION	"3.0"
+#define Q3SPENHANCED_VERSION	"3.1"
 
 #define RCOLUMN_OFFSET			( BIGCHAR_WIDTH )
 #define LCOLUMN_OFFSET			(-BIGCHAR_WIDTH )
