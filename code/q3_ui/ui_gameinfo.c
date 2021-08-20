@@ -497,9 +497,10 @@ void UI_SetBestScore( int level, int score ) {
 	char	arenaKey[16];
 	char	scores[MAX_INFO_VALUE];
 
+	Com_Printf("SCORE: %i\n", score);
 
 	// validate score
-	if( score < 1 || score > 8 ) {
+	if( score < 1 || score > 1 ) {
 		return;
 	}
 
@@ -508,6 +509,8 @@ void UI_SetBestScore( int level, int score ) {
 	if( skill < 1 || skill > 5 ) {
 		return;
 	}
+
+
 
 	Com_sprintf(arenaKey, sizeof(arenaKey), "%i", level);
 	COM_SetSkillLevel(arenaKey, skill);

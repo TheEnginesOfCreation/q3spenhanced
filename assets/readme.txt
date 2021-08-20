@@ -60,6 +60,8 @@ Go to https://github.com/TheEnginesOfCreation/q3spenhanced for more information.
 
 Version history
 ---------------
+v3.2 - August 20th, 2021
+- Fixed issue causing a level to be marked as completed when losing the match.
 
 v3.1 - August 19th, 2021
 - Increased maximum size of arenas.txt to 16384 bytes.
