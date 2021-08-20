@@ -497,8 +497,6 @@ void UI_SetBestScore( int level, int score ) {
 	char	arenaKey[16];
 	char	scores[MAX_INFO_VALUE];
 
-	Com_Printf("SCORE: %i\n", score);
-
 	// validate score
 	if( score < 1 || score > 1 ) {
 		return;
