@@ -33,6 +33,6 @@ Once compiled, include the QVM files in a PK3 file together with the following:
 Version 3.1 and onwards are not compatible with older versions of the mod due to a change in the way the mod saves level progress. If you have released a mappack with a previous version of q3spenhanced, it is not possible to update the mappack to version 3.1 of the mod without players losing all their level progress.
 
 # Downloads
-The latest release (3.1) can be downloaded here: https://github.com/TheEnginesOfCreation/q3spenhanced/releases/tag/3.1
+The latest release (3.2) can be downloaded here: https://github.com/TheEnginesOfCreation/q3spenhanced/releases/tag/3.2
 Because it contains an example arenas.txt, the mod can be played as is to get a taste for how things look. The idea is that people can use it to build their own mappacks with it though. To release your own mappack, download this release, customize the arenas.txt that is included and repackage the mod under a different name. It is advised to put the arenas.txt inside a pk3 file when repackaging for release.
 Important: because arenas.txt is not inside a pk3 file in this release package, the game might refuse to load it after completing a map if the sv_pure cvar is set to 1. Either Set it to 0 or put arenas.txt inside a pk3 file.
